@@ -14,7 +14,7 @@
         /// </summary>
         public int? Balconies { get; set; }
 
-        /// Wielkość piwnicy w metrach. "0" w przypadku gdy oferta nie zawiera ogródka
+        /// Wielkość piwnicy w metrach. "0" w przypadku gdy oferta nie zawiera piwnicy.
         /// "null" w przypadku braku danych.
         /// Komórkę lokatorską można potraktować jak piwnicę.
         public decimal? BasementArea { get; set; }
