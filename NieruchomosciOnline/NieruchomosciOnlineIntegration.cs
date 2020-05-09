@@ -1,6 +1,5 @@
-﻿namespace Application.NieruchomosciOnline
+﻿namespace NieruchomosciOnline
 {
-    using Application.Utils;
     using HtmlAgilityPack;
     using Interfaces;
     using Models;
@@ -35,8 +34,8 @@
             EntriesComparer = equalityComparer;
             WebPage = new WebPage
             {
-                Url = "https://wnieruchomosci-online.pl/",
-                Name = "Nieruchomosci-online Warszawa",
+                Url = "https://nieruchomosci-online.pl/",
+                Name = "Nieruchomosci-online",
                 WebPageFeatures = new WebPageFeatures
                 {
                     HomeSale = true,

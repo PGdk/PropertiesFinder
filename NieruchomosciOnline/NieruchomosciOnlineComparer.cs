@@ -1,8 +1,7 @@
-﻿namespace Application.NieruchomosciOnline
+﻿namespace NieruchomosciOnline
 {
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
-    using Application.Utils;
     using F23.StringSimilarity;
     using Models;
 

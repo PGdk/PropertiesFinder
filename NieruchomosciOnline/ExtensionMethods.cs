@@ -1,4 +1,4 @@
-﻿namespace Application.Utils
+﻿namespace NieruchomosciOnline
 {
     /// <summary>
     /// Extension methods for easier string handling etc.
