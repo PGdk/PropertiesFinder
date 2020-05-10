@@ -15,10 +15,12 @@ namespace Application.Trovit.Enhance
         
         public Entry Enhance(Entry entry)
         {
-            entry.OfferDetails.SellerContact = new SellerContact{
-                Telephone = details.SellerTelephone,
-                Name = details.SellerName,
-            };
+
+            entry.OfferDetails = details.OfferDetails;
+            entry.PropertyAddress = details.PropertyAddress;
+            entry.PropertyPrice = details.PropertyPrice;
+            entry.PropertyDetails = details.PropertyDetails;
+
             return entry;
         }
 

@@ -26,48 +26,29 @@ namespace Application.Trovit
             content = content.Replace("\n", "").Replace("\r", "");
 
             foreach (var element in ExtractElements(content)) {
-                // var postalAddress = ExtractPostalAddress(element);
                 var description = ExtractDescription(element);
-                var price = ExtractPrice(element);
                 var domain = ExtractDomain(element);
                 var url = ExtractURL(element);
-                var floorSize = ExtractFloorSize(element);
 
-                entries.Add(new TrovitEntry { 
-                    ProviderDetails = new TrovitProviderDetails { 
+                var entry = new TrovitEntry
+                {
+                    ProviderDetails = new TrovitProviderDetails
+                    {
                         Domain = domain,
                         URL = url,
                     },
-                    PropertyDetails = new PropertyDetails { 
-                        Area = floorSize == "" ? 0 : Convert.ToDecimal(floorSize),
-                    },
-                    OfferDetails = new OfferDetails{ 
+                    OfferDetails = new OfferDetails
+                    {
                         IsStillValid = true,
                         Url = url,
                     },
-                    PropertyPrice = new PropertyPrice {
-                        PricePerMeter = CalculatePricePerMeter(price, floorSize),
-                        TotalGrossPrice = price == "" ? 0 : Convert.ToDecimal(price),
-                    },
                     RawDescription = description,
-                });
+                };
+
+                entries.Add(entry);
             }
 
             return entries;
-        }
-
-        private decimal CalculatePricePerMeter(string price, string floorSize) {
-            if (price == "" || floorSize == "")
-                return 0;
-
-            return Convert.ToDecimal(price.Replace(" ", "")) / Convert.ToDecimal(floorSize.Replace(" ", ""));
-        }
-
-        private string ExtractFloorSize(string s) {
-            return extract(s, "<meta itemprop=\"floorSize\" content=\"", "\"")
-                .TrimStart(' ')
-                .TrimEnd(' ')
-                .Replace(" ", "");
         }
 
         private string ExtractURL(string s)
@@ -80,23 +61,6 @@ namespace Application.Trovit
         private string ExtractDomain(string s)
         {
             return extract(s, "<small class=\"source\"><span>", "</span></small>")
-                .TrimStart(' ')
-                .TrimEnd(' ');
-        }
-
-        private string ExtractPrice(string s)
-        {
-            return extract(s, "<span class=\"amount\">", "</span>")
-                .Replace("PLN", "")
-                .TrimStart(' ')
-                .TrimEnd(' ')
-                .Replace(" ", "");
-        }
-
-        private string ExtractPostalAddress(string s) {
-            return extract(s, "<h5 itemscope itemprop=\"address\" itemtype=\"http://schema.org/PostalAddress\">", "</h5>")
-                .Replace("<span >", "")
-                .Replace("</span>", "")
                 .TrimStart(' ')
                 .TrimEnd(' ');
         }

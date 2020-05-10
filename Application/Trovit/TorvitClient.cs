@@ -1,6 +1,7 @@
 ﻿using Models.Trovit;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Utilities.Trovit;
 
 namespace Application.Trovit
@@ -32,7 +33,10 @@ namespace Application.Trovit
                 if (pageLimit > 0 && cursor.Page() == pageLimit + 1)
                     break;
 
-                entries.AddRange(new TorvitParser().Parse(content));
+                entries.AddRange(new TorvitParser().Parse(content).Select(entry => {
+                    entry.OfferDetails.OfferKind = filter.Kind;
+                    return entry;
+                }));
 
                 cursor.Next();
             }

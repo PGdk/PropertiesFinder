@@ -53,7 +53,7 @@ namespace Application.Trovit
 
         public Dump GenerateDump()
         {
-            var entries = new TorvitClient().Fetch(filters).Select(entry => {
+            var entries = new TorvitClient().Fetch(filters[0], 1).Select(entry => {
                 var extension = TrovitExtensionFactory.New(entry);
 
                 if (extension == null)
