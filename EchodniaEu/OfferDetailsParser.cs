@@ -85,16 +85,9 @@ namespace EchodniaEu
         {
             get
             {
-                var name = GetElementWithClassContent(HtmlElement.H3, "offerOwner__person")?
-                    .InnerText;
-
-                if (name == null)
-                {
-                    name = GetElementWithClassContent(HtmlElement.H3, "offerOwner__company")?
-                        .InnerText;
-                }
-
-                return name ?? "N/A";
+                return GetElementWithClassContent(HtmlElement.H3, "offerOwner__person")?.InnerText
+                    ?? GetElementWithClassContent(HtmlElement.H3, "offerOwner__company")?.InnerText
+                    ?? "N/A";
             }
         }
 

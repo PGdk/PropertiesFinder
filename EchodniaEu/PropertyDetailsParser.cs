@@ -33,9 +33,12 @@ namespace EchodniaEu
         {
             get
             {
-                return (int?)ParseToNullableDecimal(
-                    GetFieldValue(FieldLabel.FloorNumber)
-                );
+                var floorNumber = GetFieldValue(FieldLabel.FloorNumber);
+                if (floorNumber == "parter")
+                {
+                    return 0;
+                }
+                return (int?)ParseToNullableDecimal(floorNumber);
             }
         }
 

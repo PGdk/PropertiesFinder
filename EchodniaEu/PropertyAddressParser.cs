@@ -40,7 +40,7 @@ namespace EchodniaEu
             get
             {
                 var pattern = "ul[. ]+[^0-9.,]*";
-                return MatchRegex("[^0-9]*", LocalizationStreet)
+                return LocalizationStreet
                     ?? MatchRegex(pattern, FullStreetName)
                     ?? "N/A";
             }
@@ -61,11 +61,11 @@ namespace EchodniaEu
                 }
 
                 var pattern = $"{StreetName} *[0-9/]+";
-                var fullAddress = MatchRegex(pattern, LocalizationStreet)
-                    ?? MatchRegex(pattern, RawDescription)
-                    ?? "N/A";
+                return MatchRegex(pattern, RawDescription)
+                        ?.Replace(StreetName, "")
+                        .Trim()
+                        ?? "N/A";
 
-                return fullAddress.Replace(fullAddress, "").Trim();
             }
         }
 
