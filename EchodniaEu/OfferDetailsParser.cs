@@ -31,12 +31,26 @@ namespace EchodniaEu
                     .Descendants(HtmlElement.Time)
                     .ElementAtOrDefault(1)?
                     .InnerText;
-                return lastUpdateDateTime != null
-                    ? DateTime.Parse(lastUpdateDateTime)
-                    : new DateTime();
+
+                if (lastUpdateDateTime != null)
+                {
+                    return DateTime.Parse(lastUpdateDateTime);
+                }
+                return null;
             }
         }
 
+        private OfferKind OfferKind
+        {
+            get
+            {
+                return GetElementWithClassContent(HtmlElement.Span, "priceInfo__value")
+                    .Contains("miesiąc")
+                    ? OfferKind.RENTAL
+                    : OfferKind.SALE;
+            }
+        }
+ 
         private string Email
         {
             get
@@ -86,7 +100,7 @@ namespace EchodniaEu
                 Url = Url,
                 CreationDateTime = CreationDateTime,
                 LastUpdateDateTime = LastUpdateDateTime,
-                OfferKind = OfferKind.SALE,
+                OfferKind = OfferKind,
                 SellerContact = new SellerContact
                 {
                     Email = Email,

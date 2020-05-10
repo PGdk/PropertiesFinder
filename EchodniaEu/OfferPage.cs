@@ -62,5 +62,20 @@ namespace EchodniaEu
             };
         }
 
+        public bool Exists()
+        {
+            return GetElementWithClassContent(HtmlElement.Div, "offer-card") != null;
+        }
+
+
+
+        protected HtmlNode GetElementWithClassContent(string element, string elementId)
+        {
+            return HtmlDocument.DocumentNode
+                .Descendants(element)
+                .Where(span => span.Id == elementId)
+                .FirstOrDefault();
+        }
+
     }
 }
