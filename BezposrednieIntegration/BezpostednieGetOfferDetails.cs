@@ -118,7 +118,7 @@ namespace BezposrednieIntegration
             string Area = OfferPage.Substring(OfferPage.IndexOf("Powierzchnia mieszkalna"));
             Area = Area.Substring(Area.IndexOf("dd"), Area.IndexOf("/dd") - Area.IndexOf("dd"));
             Area = Area.Substring(Area.IndexOf("span"), Area.IndexOf("/span") - Area.IndexOf("span"));
-            Area = Area.Substring(Area.IndexOf(">") + 1, Area.IndexOf("<") - Area.IndexOf(">") - 1);
+            Area = Area.Substring(Area.IndexOf(">") + 1, Area.IndexOf("<") - Area.IndexOf(">") - 1);//.Replace(",", ".");
             PropertyDetails.Add("Area", Area);
             string NumberOfRooms = OfferPage.Substring(OfferPage.IndexOf("Liczba pokoi"));
             NumberOfRooms = NumberOfRooms.Substring(NumberOfRooms.IndexOf("dd"), NumberOfRooms.IndexOf("/dd") - NumberOfRooms.IndexOf("dd"));
@@ -186,6 +186,7 @@ namespace BezposrednieIntegration
                         District += AddressDataTable[i];
                         District += " ";
                     }
+                    District = District.Trim();
                 }
             }
             else

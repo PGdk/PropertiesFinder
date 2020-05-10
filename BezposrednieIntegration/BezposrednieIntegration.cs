@@ -2,6 +2,7 @@
 using Models;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
 using Utilities;
@@ -71,7 +72,7 @@ namespace BezposrednieIntegration
                 {
                     CurrentOfferDetails.LastUpdateDateTime = DateTime.ParseExact(CurrentOffer.OfferDetails["LastUpdateDateTime"], "yyyy-MM-dd hh:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
                 }
-                catch 
+                catch
                 {
                     CurrentOfferDetails.LastUpdateDateTime = null;
                 }
@@ -90,15 +91,17 @@ namespace BezposrednieIntegration
                 }
                 catch
                 {
-                   CurrentPropertyAddress.City = PolishCity.NIEZNANE;
+                    //CurrentPropertyAddress.City = PolishCity.NIEZNANE;
                 }
+
                 CurrentPropertyAddress.DetailedAddress = CurrentOffer.PropertyAddress["DetailedAddress"];
                 CurrentPropertyAddress.District = CurrentOffer.PropertyAddress["District"];
                 CurrentPropertyAddress.StreetName = CurrentOffer.PropertyAddress["StreetName"].TrimStart();
                 CurrentEntry.PropertyAddress = CurrentPropertyAddress;
 
                 PropertyDetails CurrentPropertyDetails = new PropertyDetails();
-                CurrentPropertyDetails.Area = Convert.ToDecimal(CurrentOffer.PropertyDetails["Area"].Substring(0, CurrentOffer.PropertyDetails["Area"].IndexOf(" ")));
+                var x = CurrentOffer.PropertyDetails["Area"].Substring(0, CurrentOffer.PropertyDetails["Area"].IndexOf(" "));
+                CurrentPropertyDetails.Area = Convert.ToDecimal(CurrentOffer.PropertyDetails["Area"].Substring(0, CurrentOffer.PropertyDetails["Area"].IndexOf(" ")), new CultureInfo("fr-FR"));
                 CurrentPropertyDetails.NumberOfRooms = int.Parse(CurrentOffer.PropertyDetails["NumberOfRooms"]);
                 switch (CurrentOffer.PropertyDetails["FloorNumber"])
                 {
@@ -120,16 +123,16 @@ namespace BezposrednieIntegration
                 CurrentEntry.PropertyDetails = CurrentPropertyDetails;
 
                 PropertyPrice CurrentPropertyPrice = new PropertyPrice();
-                CurrentPropertyPrice.PricePerMeter = Convert.ToDecimal(CurrentOffer.PropertyPrice["PricePerMeter"].Substring(0, CurrentOffer.PropertyPrice["PricePerMeter"].IndexOf(" ")));
-                CurrentPropertyPrice.TotalGrossPrice = Convert.ToDecimal(Regex.Replace(CurrentOffer.PropertyPrice["TotalGrossPrice"], "[^0-9]", ""));
-                if (CurrentOffer.PropertyPrice["ResidentalRent"] != null) CurrentPropertyPrice.ResidentalRent = Convert.ToDecimal(CurrentOffer.PropertyPrice["ResidentalRent"].Substring(0, CurrentOffer.PropertyPrice["ResidentalRent"].IndexOf(" ")));
+                CurrentPropertyPrice.PricePerMeter = Convert.ToDecimal(CurrentOffer.PropertyPrice["PricePerMeter"].Substring(0, CurrentOffer.PropertyPrice["PricePerMeter"].IndexOf(" ")), new CultureInfo("fr-FR"));
+                CurrentPropertyPrice.TotalGrossPrice = Convert.ToDecimal(Regex.Replace(CurrentOffer.PropertyPrice["TotalGrossPrice"], "[^0-9]", ""), new CultureInfo("fr-FR"));
+                if (CurrentOffer.PropertyPrice["ResidentalRent"] != null) CurrentPropertyPrice.ResidentalRent = Convert.ToDecimal(CurrentOffer.PropertyPrice["ResidentalRent"].Substring(0, CurrentOffer.PropertyPrice["ResidentalRent"].IndexOf(" ")), new CultureInfo("fr-FR"));
                 else CurrentPropertyPrice.ResidentalRent = null;
                 CurrentEntry.PropertyPrice = CurrentPropertyPrice;
 
                 PropertyFeatures CurrentPropertyFeatures = new PropertyFeatures();
                 if (CurrentOffer.PropertyFeatures["GardenArea"] != null)
                 {
-                    CurrentPropertyFeatures.GardenArea = Convert.ToDecimal(CurrentOffer.PropertyFeatures["GardenArea"].Substring(0, CurrentOffer.PropertyFeatures["GardenArea"].IndexOf(" ")));
+                    CurrentPropertyFeatures.GardenArea = Convert.ToDecimal(CurrentOffer.PropertyFeatures["GardenArea"].Substring(0, CurrentOffer.PropertyFeatures["GardenArea"].IndexOf(" ")), new CultureInfo("fr-FR"));
                 }
                 else CurrentPropertyFeatures.GardenArea = null;
                 switch (CurrentOffer.PropertyFeatures["Balconies"])
@@ -162,7 +165,7 @@ namespace BezposrednieIntegration
                 }
                 if (CurrentOffer.PropertyFeatures["BasementArea"] != null)
                 {
-                    CurrentPropertyFeatures.BasementArea = Convert.ToDecimal(CurrentOffer.PropertyFeatures["BasementArea"]);
+                    CurrentPropertyFeatures.BasementArea = Convert.ToDecimal(CurrentOffer.PropertyFeatures["BasementArea"], new CultureInfo("fr-FR"));
                 }
                 else
                 {
@@ -175,7 +178,7 @@ namespace BezposrednieIntegration
                 EntriesFromMainPage.Add(CurrentEntry);
             }
 
-            Dump currentDump = new Dump {DateTime=DateTime.Now, WebPage=WebPage, Entries = new List<Entry>(EntriesFromMainPage) };
+            Dump currentDump = new Dump { DateTime = DateTime.Now, WebPage = WebPage, Entries = new List<Entry>(EntriesFromMainPage) };
 
             return currentDump;
         }
