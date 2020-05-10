@@ -6,6 +6,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Sample\SampleComparer.cs" />
+    <Compile Remove="Sample\SampleIntegration.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Sample\SampleComparer.cs" />
+    <None Include="Sample\SampleIntegration.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.23" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Interfaces\Interfaces.csproj" />
     <ProjectReference Include="..\Models\Models.csproj" />
     <ProjectReference Include="..\Utilities\Utilities.csproj" />
