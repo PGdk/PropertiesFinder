@@ -45,7 +45,7 @@ namespace EchodniaEu
         {
             get
             {
-                return GetElementWithClassContent(HtmlElement.Span, "priceInfo__value")
+                return GetElementWithClassContent(HtmlElement.Span, "priceInfo__value").InnerText
                     .Contains("miesiąc")
                     ? OfferKind.RENTAL
                     : OfferKind.SALE;
@@ -56,6 +56,11 @@ namespace EchodniaEu
         {
             get
             {
+                if (RawDescription == null)
+                {
+                    return "N/A";
+                }
+
                 var emailMatch = "[A-Z0-9._-]+@[A-Z._-]+";
                 var regex = new Regex(emailMatch, RegexOptions.Compiled | RegexOptions.IgnoreCase);
                 var match = regex.Match(RawDescription);
@@ -96,6 +101,12 @@ namespace EchodniaEu
 
                 return name != null ? name : "N/A";
             }
+        }
+
+
+
+        public OfferDetailsParser(HtmlDocument htmlDocument) : base(htmlDocument)
+        {
         }
 
         public override OfferDetails Dump()

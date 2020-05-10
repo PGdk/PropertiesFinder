@@ -1,4 +1,5 @@
-﻿using Models;
+﻿using HtmlAgilityPack;
+using Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -38,7 +39,7 @@ namespace EchodniaEu
             }
         }
 
-        public int? YearOfConstruction
+        private int? YearOfConstruction
         {
             get
             {
@@ -46,6 +47,10 @@ namespace EchodniaEu
                     GetFieldValue(FieldLabel.YearOfConstruction)
                 );
             }
+        }
+
+        public PropertyDetailsParser(HtmlDocument htmlDocument): base(htmlDocument)
+        {
         }
 
         public override PropertyDetails Dump()

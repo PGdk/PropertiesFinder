@@ -1,4 +1,5 @@
-﻿using Models;
+﻿using HtmlAgilityPack;
+using Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace EchodniaEu
             get
             {
                 return ParseToDecimal(
-                    GetElementWithClassContent(HtmlElement.Span, "priceInfo__value")
+                    GetElementWithClassContent(HtmlElement.Span, "priceInfo__value")?.InnerText
                 );
             }
         }
@@ -22,7 +23,7 @@ namespace EchodniaEu
             get
             {
                 return ParseToDecimal(
-                    GetElementWithClassContent(HtmlElement.Span, "priceInfo__additional")
+                    GetElementWithClassContent(HtmlElement.Span, "priceInfo__additional")?.InnerText
                 );
             }
         }
@@ -35,6 +36,10 @@ namespace EchodniaEu
                     GetFieldValue(FieldLabel.ResidentalRent)
                 );
             }
+        }
+
+        public PropertyPriceParser(HtmlDocument htmlDocument) : base(htmlDocument)
+        {
         }
 
         public override PropertyPrice Dump()

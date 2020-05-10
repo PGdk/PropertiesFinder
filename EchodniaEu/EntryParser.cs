@@ -19,29 +19,21 @@ namespace EchodniaEu
 
         private OfferParser<PropertyAddress> PropertyAddressParser { get; }
 
+        private OfferParser<PropertyFeatures> PropertyFeaturesParser { get; }
 
-        public EntryParser(string url, HtmlNode offerHeaderNode)
+
+        public EntryParser(string url, HtmlNode offerHeaderNode): base(new HtmlWeb().Load(url))
         {
             Url = url;
-            HtmlDocument = new HtmlWeb().Load(url); ;
-            OfferDetailsParser = new OfferDetailsParser
+            OfferDetailsParser = new OfferDetailsParser(HtmlDocument)
             {
-                HtmlDocument = HtmlDocument,
                 OfferHeader = offerHeaderNode,
                 Url = Url
             };
-            PropertyPriceParser = new PropertyPriceParser
-            {
-                HtmlDocument = HtmlDocument
-            };
-            PropertyDetailsParser = new PropertyDetailsParser
-            {
-                HtmlDocument = HtmlDocument
-            };
-            PropertyAddressParser = new PropertyAddressParser
-            {
-                HtmlDocument = HtmlDocument
-            };
+            PropertyPriceParser = new PropertyPriceParser(HtmlDocument);
+            PropertyDetailsParser = new PropertyDetailsParser(HtmlDocument);
+            PropertyAddressParser = new PropertyAddressParser(HtmlDocument);
+            PropertyFeaturesParser = new PropertyFeaturesParser(HtmlDocument);
         }
 
         public override Entry Dump()
@@ -52,6 +44,7 @@ namespace EchodniaEu
                 PropertyPrice = PropertyPriceParser.Dump(),
                 PropertyDetails = PropertyDetailsParser.Dump(),
                 PropertyAddress = PropertyAddressParser.Dump(),
+                PropertyFeatures = PropertyFeaturesParser.Dump(),
                 RawDescription = RawDescription
             };
         }

@@ -11,5 +11,6 @@ namespace EchodniaEu
         public static string NumberOfRooms = "Liczba pokoi";
         public static string FloorNumber = "Piętro";
         public static string YearOfConstruction = "Rok budowy";
+        public static string Localization = "Lokalizacja";
     }
 }

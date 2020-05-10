@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace EchodniaEu
 {
@@ -11,15 +12,15 @@ namespace EchodniaEu
     {
         public HtmlDocument HtmlDocument { get; set; }
 
-        public abstract T Dump();
+        protected string RawDescription { get; set; }
 
-        protected string RawDescription
+        public OfferParser(HtmlDocument htmlDocument)
         {
-            get
-            {
-                return GetElementWithClassContent(HtmlElement.Div, "description__rolled");
-            }
+            HtmlDocument = htmlDocument;
+            RawDescription = GetElementWithClassContent(HtmlElement.Div, "description__rolled")?.InnerText;
         }
+
+        public abstract T Dump();
 
         protected string GetFieldValue(string label)
         {
@@ -33,13 +34,12 @@ namespace EchodniaEu
                 .InnerText;
         }
 
-        protected string GetElementWithClassContent(string element, string elementClass)
+        protected HtmlNode GetElementWithClassContent(string element, string elementClass)
         {
             return HtmlDocument.DocumentNode
                 .Descendants(element)
                 .Where(span => span.HasClass(elementClass))
-                .FirstOrDefault()?
-                .InnerText;
+                .FirstOrDefault();
         }
 
         protected HtmlNode GetElementWithId(string element, string elementId)
@@ -73,6 +73,32 @@ namespace EchodniaEu
                     .Replace(" ", ""),
                 out result
             );
+        }
+
+        protected string MatchRegex(string pattern, string value, bool log = false)
+        {
+            if (value == null)
+            {
+                return null;
+            }
+
+            var regex = new Regex(pattern, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            var match = regex.Match(value);
+
+            return match.Success ? match.Value : null;
+        }
+
+        protected string[] MatchesRegex(string pattern, string value, bool log = false)
+        {
+            if (value == null)
+            {
+                return new string[0];
+            }
+
+            var regex = new Regex(pattern, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            var match = regex.Matches(value);
+
+            return match.Count > 0 ? match.Select(a => a.Value).ToArray() : new string[0];
         }
     }
 }
