@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace EchodniaEu
 {
@@ -55,8 +56,11 @@ namespace EchodniaEu
         {
             get
             {
-                
-                return "N/A";
+                var emailMatch = "[A-Z0-9._-]+@[A-Z._-]+";
+                var regex = new Regex(emailMatch, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+                var match = regex.Match(RawDescription);
+
+                return match.Success ? match.Value : "N/A";
             }
         }
 
