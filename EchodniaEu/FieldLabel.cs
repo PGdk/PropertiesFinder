@@ -12,5 +12,7 @@ namespace EchodniaEu
         public static string FloorNumber = "Piętro";
         public static string YearOfConstruction = "Rok budowy";
         public static string Localization = "Lokalizacja";
+        public static string ParkingPlaceType = "Miejsce parkingowe";
+        public static string ParkingPlaceCount = "Liczba miejsc parkingowych";
     }
 }
