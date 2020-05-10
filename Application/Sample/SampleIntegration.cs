@@ -1,7 +1,9 @@
-﻿using Interfaces;
+﻿using HtmlAgilityPack;
+using Interfaces;
 using Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Application.Sample
 {
@@ -33,7 +35,11 @@ namespace Application.Sample
 
         public Dump GenerateDump()
         {
+            var url = "https://echodnia.eu/ogloszenia/22969,933,fm,pk.html";
+            var web = new HtmlWeb();
+            var doc = web.Load(url);
             var random = new Random();
+            Console.Write(doc.DocumentNode.SelectNodes("//*[@id=\"lista-ogloszen\"]").First().InnerHtml);
             var randomValue = random.Next() % 10;
             //Tutaj w normalnej sytuacji musimy ściągnąć dane z konkretnej strony, przeparsować je i dopiero wtedy zapisać do modelu Dump
             return new Dump
@@ -57,21 +63,6 @@ namespace Application.Sample
                         },
                         RawDescription = "Kup Teraz!",
                     },
-                    new Entry
-                    {
-                        OfferDetails = new OfferDetails
-                        {
-                            Url = $"{WebPage.Url}/{(randomValue+1)%10}",
-                            CreationDateTime = DateTime.Now,
-                            OfferKind = OfferKind.RENTAL,
-                            SellerContact = new SellerContact
-                            {
-                                Email = "przeceny@mieszkania.pl"
-                            },
-                            IsStillValid = true
-                        },
-                        RawDescription = "NAPRAWDĘ WARTO!!",
-                    }
                 }
             };
         }
