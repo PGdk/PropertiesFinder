@@ -33,6 +33,14 @@ namespace EchodniaEu
                 .InnerText;
         }
 
+        protected HtmlNode GetElementWithId(string element, string elementId)
+        {
+            return HtmlDocument.DocumentNode
+                .Descendants(element)
+                .Where(span => span.Id == elementId)
+                .FirstOrDefault();
+        }
+
         protected decimal ParseToDecimal(string value, string divider = "z")
         {
             decimal valueAsDecimal;

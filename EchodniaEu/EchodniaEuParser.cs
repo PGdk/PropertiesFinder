@@ -15,7 +15,7 @@ namespace EchodniaEu
             var offersPage = new OffersListPage(WebPage.Url).GetPropertyOffersPage();
             var offerUrls = new List<string>();
             var Entries = new List<Entry>();
-            var pageUrls = Enumerable.Range(1, 44).Select(i => $"https://echodnia.eu/ogloszenia/{i},22969,8433,n,fm,pk.html");
+            var pageUrls = Enumerable.Range(1, 1).Select(i => $"https://echodnia.eu/ogloszenia/{i},22969,8433,n,fm,pk.html");
 
 
             Entries = pageUrls
@@ -25,7 +25,7 @@ namespace EchodniaEu
                     .AsParallel()
                     .Select(url =>
                     {
-                        var page = new OfferPage(url.Item1, url.Item2);
+                        var page = new EntryParser(url.Item1, url.Item2);
                         var exists = page.Exists();
 
                         if (!exists)

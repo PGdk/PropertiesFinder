@@ -7,8 +7,10 @@ using System.Linq;
 
 namespace EchodniaEu
 {
-    class OfferPage : Page
+    class EntryParser : PageParser<Entry>
     {
+        public string Url { get; }
+
         private PageParser<OfferDetails> OfferDetailsParser { get; }
 
         private PageParser<PropertyPrice> PropertyPriceParser { get; }
@@ -17,19 +19,19 @@ namespace EchodniaEu
 
         private PageParser<PropertyAddress> PropertyAddressParser { get; }
 
-        private string RawDescription { get
-            {
-                return HtmlDocument.DocumentNode
-                    .Descendants(HtmlElement.Div)
-                    .Where(div => div.HasClass("description__rolled"))
-                    .FirstOrDefault()?
-                    .InnerText;
-            } 
+        private string RawDescription
+        {
+            get
+                {
+                    return GetElementWithClassContent(HtmlElement.Div, "description__rolled");
+                } 
         }
 
 
-        public OfferPage(string url, HtmlNode offerHeaderNode) : base(url)
+        public EntryParser(string url, HtmlNode offerHeaderNode)
         {
+            Url = url;
+            HtmlDocument = new HtmlWeb().Load(url); ;
             OfferDetailsParser = new OfferDetailsParser
             {
                 HtmlDocument = HtmlDocument,
@@ -50,7 +52,7 @@ namespace EchodniaEu
             };
         }
 
-        public Entry Dump()
+        public override Entry Dump()
         {
             return new Entry
             {
@@ -64,17 +66,7 @@ namespace EchodniaEu
 
         public bool Exists()
         {
-            return GetElementWithClassContent(HtmlElement.Div, "offer-card") != null;
-        }
-
-
-
-        protected HtmlNode GetElementWithClassContent(string element, string elementId)
-        {
-            return HtmlDocument.DocumentNode
-                .Descendants(element)
-                .Where(span => span.Id == elementId)
-                .FirstOrDefault();
+            return GetElementWithId(HtmlElement.Div, "offer-card") != null;
         }
 
     }
