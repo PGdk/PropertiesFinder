@@ -163,14 +163,20 @@ namespace BezposrednieIntegration
                 {
                     CurrentPropertyFeatures.IndoorParkingPlaces = null;
                 }
-                if (CurrentOffer.PropertyFeatures["BasementArea"] != null)
+
+                switch (CurrentOffer.PropertyFeatures["BasementArea"])
                 {
-                    CurrentPropertyFeatures.BasementArea = Convert.ToDecimal(CurrentOffer.PropertyFeatures["BasementArea"], new CultureInfo("fr-FR"));
+                    case "Tak":
+                        CurrentPropertyFeatures.BasementArea = Convert.ToDecimal(1, new CultureInfo("fr-FR"));
+                        break;
+                    case "Nie":
+                        CurrentPropertyFeatures.BasementArea = Convert.ToDecimal(0, new CultureInfo("fr-FR")); ;
+                        break;
+                    default:
+                        CurrentPropertyFeatures.BasementArea = null;
+                        break;
                 }
-                else
-                {
-                    CurrentPropertyFeatures.BasementArea = null;
-                }
+
                 CurrentEntry.PropertyFeatures = CurrentPropertyFeatures;
 
                 CurrentEntry.RawDescription = CurrentOffer.RawDescription;

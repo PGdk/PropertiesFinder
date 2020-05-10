@@ -225,9 +225,29 @@ namespace BezposrednieIntegration
                 Balconies = null;
             }
             PropertyFeatures.Add("Balconies", Balconies);
-            PropertyFeatures.Add("BasementArea", null);
-            PropertyFeatures.Add("OutdoorParkingPlaces", null);
-            PropertyFeatures.Add("IndoorParkingPlaces", null);
+            string BasementArea;
+            try 
+            {
+                BasementArea = OfferPage.Substring(OfferPage.IndexOf("Piwnica"));
+                BasementArea = BasementArea.Substring(BasementArea.IndexOf("dd"), BasementArea.IndexOf("/dd") - BasementArea.IndexOf("dd"));
+                BasementArea = BasementArea.Substring(BasementArea.IndexOf("span"), BasementArea.IndexOf("/span") - BasementArea.IndexOf("span"));
+                BasementArea = BasementArea.Substring(BasementArea.IndexOf(">") + 1, BasementArea.IndexOf("<") - BasementArea.IndexOf(">") - 1);
+            }
+            catch 
+            {
+                BasementArea = null;
+            }
+            PropertyFeatures.Add("BasementArea", BasementArea);
+
+            string OutdoorParkingPlaces;
+            if (RawDescription.Contains("miejsce parkingowe")) OutdoorParkingPlaces = "1";
+            else OutdoorParkingPlaces = null;
+            PropertyFeatures.Add("OutdoorParkingPlaces", OutdoorParkingPlaces);
+
+            string IndoorParkingPlaces;
+            if (RawDescription.Contains("hala garażowa")) IndoorParkingPlaces = "1";
+            else IndoorParkingPlaces = null;
+            PropertyFeatures.Add("IndoorParkingPlaces", IndoorParkingPlaces);
         }
 
         private void FillRawDescription(string OfferPage)
