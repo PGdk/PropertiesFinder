@@ -91,7 +91,7 @@ namespace EchodniaEu
 
         private string[] FindLocalization()
         {
-            return GetFieldValue(FieldLabel.Localization)?
+            return GetOfferProperty(OfferPropertyLabel.Localization)?
                 .Replace("\n", "")
                 .Trim()
                 .Split(',')

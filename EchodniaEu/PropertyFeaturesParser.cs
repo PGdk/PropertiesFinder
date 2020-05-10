@@ -15,8 +15,6 @@ namespace EchodniaEu
         {
         }
 
-
-
         public override PropertyFeatures Dump()
         {
             return new PropertyFeatures
@@ -40,7 +38,7 @@ namespace EchodniaEu
 
         private int? GetParkingPlaces(string pattern)
         {
-            var parkingPlaceType = GetFieldValue(FieldLabel.ParkingPlaceType);
+            var parkingPlaceType = GetOfferProperty(OfferPropertyLabel.ParkingPlaceType);
 
             if (parkingPlaceType == null)
             {
@@ -52,7 +50,7 @@ namespace EchodniaEu
                 return 0;
             }
 
-            var parkingPlaceCount = GetFieldValue(FieldLabel.ParkingPlaceCount);
+            var parkingPlaceCount = GetOfferProperty(OfferPropertyLabel.ParkingPlaceCount);
 
             if (MatchRegex(pattern, parkingPlaceType) != null)
             {

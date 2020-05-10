@@ -33,7 +33,7 @@ namespace EchodniaEu
             get
             {
                 return ParseToNullableDecimal(
-                    GetFieldValue(FieldLabel.ResidentalRent)
+                    GetOfferProperty(OfferPropertyLabel.ResidentalRent)
                 );
             }
         }

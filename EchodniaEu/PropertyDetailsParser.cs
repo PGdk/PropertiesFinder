@@ -13,7 +13,7 @@ namespace EchodniaEu
             get
             {
                 return ParseToDecimal(
-                    GetFieldValue(FieldLabel.Area),
+                    GetOfferProperty(OfferPropertyLabel.Area),
                     "m"
                 );
             }
@@ -24,7 +24,7 @@ namespace EchodniaEu
             get
             {
                 return (int) ParseToDecimal(
-                    GetFieldValue(FieldLabel.NumberOfRooms)
+                    GetOfferProperty(OfferPropertyLabel.NumberOfRooms)
                 );
             }
         }
@@ -33,7 +33,7 @@ namespace EchodniaEu
         {
             get
             {
-                var floorNumber = GetFieldValue(FieldLabel.FloorNumber);
+                var floorNumber = GetOfferProperty(OfferPropertyLabel.FloorNumber);
                 if (floorNumber == "parter")
                 {
                     return 0;
@@ -47,7 +47,7 @@ namespace EchodniaEu
             get
             {
                 return (int?)ParseToNullableDecimal(
-                    GetFieldValue(FieldLabel.YearOfConstruction)
+                    GetOfferProperty(OfferPropertyLabel.YearOfConstruction)
                 );
             }
         }

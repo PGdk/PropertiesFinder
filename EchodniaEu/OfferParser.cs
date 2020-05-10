@@ -22,7 +22,7 @@ namespace EchodniaEu
 
         public abstract T Dump();
 
-        protected string GetFieldValue(string label)
+        protected string GetOfferProperty(string label)
         {
             return HtmlDocument.DocumentNode
                 .Descendants(HtmlElement.Span)
