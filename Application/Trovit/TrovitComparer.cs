@@ -13,11 +13,12 @@ namespace Application.Trovit
 
         public int GetHashCode([DisallowNull] Entry obj)
         {
-            var url = obj.OfferDetails.Url == null ? 0 : obj.OfferDetails.Url.GetHashCode();
-            var grossPrice = obj.PropertyPrice == null ? 0 : obj.PropertyPrice.TotalGrossPrice.GetHashCode();
+            
             var area = obj.PropertyDetails == null ? 0 : obj.PropertyDetails.Area.GetHashCode();
-
-            return url + grossPrice + area;
+            var floor = obj.PropertyDetails == null ? 0 : obj.PropertyDetails.FloorNumber.GetHashCode();
+            var city = obj.PropertyAddress == null ? 0 : obj.PropertyAddress.City.GetHashCode();
+            var address = obj.PropertyAddress == null ? 0 : obj.PropertyAddress.DetailedAddress.GetHashCode();
+            return floor + city + area + address;
         }
     }
 }

@@ -22,8 +22,6 @@ namespace Application.Trovit.Provider
             if (content == null) 
                 return null;
 
-            Console.Write("Trying to parse extension");
-
             var details = new TabelaOfertParser().Parse(content);
 
             if (details == null) 
