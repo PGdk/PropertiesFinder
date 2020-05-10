@@ -7,7 +7,7 @@ using System.Text;
 
 namespace EchodniaEu
 {
-    class OfferDetailsParser : PageParser<OfferDetails>
+    class OfferDetailsParser : OfferParser<OfferDetails>
     {
         public string Url { get; set; }
 
@@ -55,6 +55,7 @@ namespace EchodniaEu
         {
             get
             {
+                
                 return "N/A";
             }
         }

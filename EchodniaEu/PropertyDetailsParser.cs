@@ -5,7 +5,7 @@ using System.Text;
 
 namespace EchodniaEu
 {
-    class PropertyDetailsParser : PageParser<PropertyDetails>
+    class PropertyDetailsParser : OfferParser<PropertyDetails>
     {
         private decimal Area
         {

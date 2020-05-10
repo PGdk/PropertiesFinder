@@ -5,7 +5,7 @@ using System.Text;
 
 namespace EchodniaEu
 {
-    class PropertyAddressParser : PageParser<PropertyAddress>
+    class PropertyAddressParser : OfferParser<PropertyAddress>
     {
         private string Aa
         {

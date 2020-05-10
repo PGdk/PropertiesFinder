@@ -1,16 +1,25 @@
 ﻿using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Text;
 
 namespace EchodniaEu
 {
-    abstract class PageParser<T>
+    abstract class OfferParser<T>
     {
         public HtmlDocument HtmlDocument { get; set; }
 
         public abstract T Dump();
+
+        protected string RawDescription
+        {
+            get
+            {
+                return GetElementWithClassContent(HtmlElement.Div, "description__rolled");
+            }
+        }
 
         protected string GetFieldValue(string label)
         {

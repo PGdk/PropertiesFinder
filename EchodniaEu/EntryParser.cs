@@ -7,25 +7,17 @@ using System.Linq;
 
 namespace EchodniaEu
 {
-    class EntryParser : PageParser<Entry>
+    class EntryParser : OfferParser<Entry>
     {
         public string Url { get; }
 
-        private PageParser<OfferDetails> OfferDetailsParser { get; }
+        private OfferParser<OfferDetails> OfferDetailsParser { get; }
 
-        private PageParser<PropertyPrice> PropertyPriceParser { get; }
+        private OfferParser<PropertyPrice> PropertyPriceParser { get; }
         
-        private PageParser<PropertyDetails> PropertyDetailsParser { get; }
+        private OfferParser<PropertyDetails> PropertyDetailsParser { get; }
 
-        private PageParser<PropertyAddress> PropertyAddressParser { get; }
-
-        private string RawDescription
-        {
-            get
-                {
-                    return GetElementWithClassContent(HtmlElement.Div, "description__rolled");
-                } 
-        }
+        private OfferParser<PropertyAddress> PropertyAddressParser { get; }
 
 
         public EntryParser(string url, HtmlNode offerHeaderNode)
