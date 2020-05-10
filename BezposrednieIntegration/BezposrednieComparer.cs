@@ -23,11 +23,11 @@ namespace BezposrednieIntegration
 
         private int PropertyFeaturesHash(Entry obj)
         {
-            return IfNull(obj.PropertyFeatures.Balconies) + IfNull(obj.PropertyFeatures.IndoorParkingPlaces) + IfNull(obj.PropertyFeatures.OutdoorParkingPlaces) + IfNull(obj.PropertyFeatures.BasementArea) + IfNull(obj.PropertyFeatures.GardenArea);
+            return IfNull(obj.PropertyFeatures.Balconies) + IfNull(obj.PropertyFeatures.GardenArea);
         }
         private int PropertyAddressHash(Entry obj)
         {
-            return IfNull(obj.PropertyAddress.DetailedAddress) + IfNull(obj.PropertyAddress.District) + IfNull(obj.PropertyAddress.StreetName) + IfNull(obj.PropertyAddress.City.ToString());
+            return IfNull(obj.PropertyAddress.District) + IfNull(obj.PropertyAddress.StreetName) + IfNull(obj.PropertyAddress.City.ToString());
         }
         private int PropertyDetailsHash(Entry obj)
         {
@@ -44,7 +44,7 @@ namespace BezposrednieIntegration
         private int OfferDetailsHash(Entry obj)
         {
             int output = SellerContactHash(obj);
-            return output + IfNull(obj.OfferDetails.Url) + obj.OfferDetails.CreationDateTime.GetHashCode() + IfNull(obj.OfferDetails.OfferKind.ToString());
+            return output + IfNull(obj.OfferDetails.OfferKind.ToString());
         }
 
         private int IfNull(int? input)
