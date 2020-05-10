@@ -20,7 +20,7 @@ namespace EchodniaEu
             return new PropertyFeatures
             {
                 GardenArea = null,
-                Balconies = null,
+                Balconies = GetBalconies(),
                 BasementArea = null,
                 IndoorParkingPlaces = GetIndoorParkingPlaces(),
                 OutdoorParkingPlaces = GetOutdoorParkingPlaces()
@@ -58,6 +58,18 @@ namespace EchodniaEu
             }
 
             return 0;
+        }
+
+        private int? GetBalconies()
+        {
+            var extraSpace = GetOfferProperty(OfferPropertyLabel.ExtraSpace);
+
+            if (extraSpace?.Contains("balkon") ?? false)
+            {
+                return 1;
+            }
+
+            return null;
         }
     }
 }

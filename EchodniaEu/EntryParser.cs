@@ -49,7 +49,7 @@ namespace EchodniaEu
             };
         }
 
-        public bool Exists()
+        public bool PageExists()
         {
             return GetElementWithId(HtmlElement.Div, "offer-card") != null;
         }

@@ -3,6 +3,8 @@ using Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using HtmlAgilityPack;
 
 namespace EchodniaEu
 {
@@ -23,11 +25,7 @@ namespace EchodniaEu
                 .SelectMany(url => new OffersListPage(url)
                     .GetOfferUrls()
                     .AsParallel()
-                    .Select(pageInfo =>
-                    {
-                        var page = new EntryParser(pageInfo.Item1, pageInfo.Item2);
-                        return page.Exists() ? page.Dump() : null;
-                    })
+                    .Select(pageInfo => ParseEntry(pageInfo.Item1, pageInfo.Item2))
                     .Where(p => p != null)
                     .ToArray()
                 ).ToList();
@@ -36,8 +34,20 @@ namespace EchodniaEu
             {
                 WebPage = WebPage,
                 DateTime = DateTime.Now,
-                Entries = entries
+                Entries = new List<Entry>()
             };
+        }
+
+        private Entry? ParseEntry(string url, HtmlNode header)
+        {
+            try
+            {
+                var parser = new EntryParser(url, header);
+                return parser.PageExists() ? parser.Dump() : null;
+            } catch (WebException ex)
+            {
+                return null;
+            }
         }
     }
 }

@@ -14,5 +14,6 @@ namespace EchodniaEu
         public static string Localization = "Lokalizacja";
         public static string ParkingPlaceType = "Miejsce parkingowe";
         public static string ParkingPlaceCount = "Liczba miejsc parkingowych";
+        public static string ExtraSpace = "Powierzchnia dodatkowa";
     }
 }
