@@ -4,15 +4,22 @@ using System.Linq;
 
 namespace EchodniaEu
 {
-    class OffersListPage: Page
+    class OffersListPage
     {
         private static string CategoriesSectionId = "ogloszenia-kategorie";
         private static string OffersSectionId = "lista-ogloszen";
         private static string PropertyLinkText = "Nieruchomości";
         private static string NextPageDataGtmAttribute = "nowa_karta/nawigator/nastepna";
+        private static string LastPageDataGtmAttribute = "nowa_karta/nawigator/ostatnia";
 
-        public OffersListPage(string url) : base(url)
+        protected string Url { get; set; }
+
+        protected HtmlDocument HtmlDocument { get; set; }
+
+        public OffersListPage(string url)
         {
+            Url = url;
+            HtmlDocument = new HtmlWeb().Load(url);
         }
 
         internal IEnumerable<(string, HtmlNode)> GetOfferUrls()
@@ -56,6 +63,22 @@ namespace EchodniaEu
             return nextPageUri != null 
                 ? new OffersListPage(Url.Split("/ogloszenia").First() + nextPageUri)
                 : null;
+        }
+
+        public int GetPagesCount()
+        {
+            var url = HtmlDocument.DocumentNode
+                .Descendants(HtmlElement.A)
+                .Where(a => a.Attributes[HtmlAttribute.DataGtm]?.Value == LastPageDataGtmAttribute)
+                .FirstOrDefault()?
+                .Attributes[HtmlAttribute.Href]
+                .Value;
+
+            return int.Parse(
+                url.Split(',')
+                    .First()
+                    .Replace("/ogloszenia/", "")
+            );
         }
     }
 

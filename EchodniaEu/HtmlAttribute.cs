@@ -12,5 +12,6 @@ namespace EchodniaEu
 
         // Custom Echodnia.eu attributes
         public static string DataGtm = "data-gtm";
+        public static string DataFullPhoneNumber = "data-full-phone-number";
     }
 }

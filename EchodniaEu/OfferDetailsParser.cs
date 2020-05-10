@@ -61,8 +61,8 @@ namespace EchodniaEu
                     return "N/A";
                 }
 
-                var emailMatch = "[A-Z0-9._-]+@[A-Z._-]+";
-                var regex = new Regex(emailMatch, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+                var emailPattern = "[A-Z0-9._-]+@[A-Z._-]+";
+                var regex = new Regex(emailPattern, RegexOptions.Compiled | RegexOptions.IgnoreCase);
                 var match = regex.Match(RawDescription);
 
                 return match.Success ? match.Value : "N/A";
@@ -73,12 +73,11 @@ namespace EchodniaEu
         {
             get
             {
-                var telephone = HtmlDocument.DocumentNode
-                    .Descendants(HtmlElement.A)
-                    .Where(a => a.Id == "pokaz-numer-dol")
-                    .FirstOrDefault()?.Attributes["data-full-phone-number"].Value;
+                var telephone = GetElementWithId(HtmlElement.A, "pokaz-numer-dol")?
+                    .Attributes[HtmlAttribute.DataFullPhoneNumber]
+                    .Value;
 
-                return telephone != null ? telephone : "N/A";
+                return telephone ?? "N/A";
             }
         }
 
@@ -86,20 +85,16 @@ namespace EchodniaEu
         {
             get
             {
-                var name = HtmlDocument.DocumentNode
-                    .Descendants(HtmlElement.H3)
-                    .Where(strong => strong.HasClass("offerOwner__person"))
-                    .FirstOrDefault()?.InnerText;
+                var name = GetElementWithClassContent(HtmlElement.H3, "offerOwner__person")?
+                    .InnerText;
 
                 if (name == null)
                 {
-                    name = HtmlDocument.DocumentNode
-                    .Descendants(HtmlElement.H3)
-                    .Where(strong => strong.HasClass("offerOwner__company"))
-                    .FirstOrDefault()?.InnerText;
+                    name = GetElementWithClassContent(HtmlElement.H3, "offerOwner__company")?
+                        .InnerText;
                 }
 
-                return name != null ? name : "N/A";
+                return name ?? "N/A";
             }
         }
 

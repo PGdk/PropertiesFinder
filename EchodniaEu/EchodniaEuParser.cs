@@ -13,21 +13,20 @@ namespace EchodniaEu
         public Dump Parse()
         {
             var offersPage = new OffersListPage(WebPage.Url).GetPropertyOffersPage();
-            var offerUrls = new List<string>();
-            var Entries = new List<Entry>();
-            var pageUrls = Enumerable.Range(1, 44).Select(i => $"https://echodnia.eu/ogloszenia/{i},22969,8433,n,fm,pk.html");
+            var pageUrls = Enumerable
+                .Range(1, offersPage.GetPagesCount())
+                .Select(i => $"https://echodnia.eu/ogloszenia/{i},22969,8433,n,fm,pk.html");
 
 
-            Entries = pageUrls
+            var entries = pageUrls
                 .AsParallel()
                 .SelectMany(url => new OffersListPage(url)
                     .GetOfferUrls()
                     .AsParallel()
-                    .Select(url =>
+                    .Select(pageInfo =>
                     {
-                        var page = new EntryParser(url.Item1, url.Item2);
-                        var exists = page.Exists();
-                        return exists ? page.Dump() : null;
+                        var page = new EntryParser(pageInfo.Item1, pageInfo.Item2);
+                        return page.Exists() ? page.Dump() : null;
                     })
                     .Where(p => p != null)
                     .ToArray()
@@ -36,8 +35,8 @@ namespace EchodniaEu
             return new Dump
             {
                 WebPage = WebPage,
-                DateTime = new DateTime(),
-                Entries = Entries
+                DateTime = DateTime.Now,
+                Entries = entries
             };
         }
     }
