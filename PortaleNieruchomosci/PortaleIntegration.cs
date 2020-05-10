@@ -172,6 +172,18 @@ namespace Application.Portalenieruchomosci
                     entry.PropertyFeatures.BasementArea = 0;
                 }
 
+                if (Regex.IsMatch(entry.RawDescription, @"(balkon|taras)"))
+                    entry.PropertyFeatures.Balconies = 1;
+
+                if (Regex.IsMatch(entry.RawDescription, @"ogr[óo]d"))
+                    entry.PropertyFeatures.GardenArea = 1;
+
+                if (Regex.IsMatch(entry.RawDescription, @"parking"))
+                    entry.PropertyFeatures.OutdoorParkingPlaces = 1;
+
+                if (Regex.IsMatch(entry.RawDescription, @"(gara[zż])"))
+                    entry.PropertyFeatures.IndoorParkingPlaces = 1;
+
                 entries.Add(entry);
             }
 
