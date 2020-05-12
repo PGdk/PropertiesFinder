@@ -73,9 +73,6 @@ namespace Application.DobryAdres
                         Entry entry = GenerateEntry(u);
                         if (!cancelEntry)
                             entries.Add(entry);
-
-                        // TEST
-                        //Console.WriteLine("Miasto:  " + entry.PropertyAddress.City);
                     }
                     offersUrls.Clear();
                     Console.WriteLine($"NUMER STRONY: {pageNumber}");
@@ -144,7 +141,6 @@ namespace Application.DobryAdres
             {
                 Email = finalMail,
                 Telephone = finalTel,
-                // Nie jestem w stanie wyroznic imienia i nazwiska z opisu
                 Name = name.GetAttribute("innerHTML")
             };
         }
@@ -170,7 +166,6 @@ namespace Application.DobryAdres
             else
             {
                 Regex emailRegex = new Regex(@"\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*", RegexOptions.IgnoreCase);
-                //find items that matches with our pattern
                 Match emailMatch = emailRegex.Match(mail.GetAttribute("innerHTML"));
                 if (emailMatch.Success)
                     result = emailMatch.Value;
@@ -266,11 +261,6 @@ namespace Application.DobryAdres
             }
             street ??= SearchDescriptionFor("street");
 
-            /*string district = (address.Length < 2) ? null : address[1].Trim().ToLower();
-            district ??= SearchDescriptionFor("district");
-            string street = (address.Length < 3) ? null : address[2].Trim().ToLower();
-            street ??= SearchDescriptionFor("street");*/
-
             string detailedAddress = SearchDescriptionFor("detailedAddress");
             return new PropertyAddress
             {
@@ -287,24 +277,6 @@ namespace Application.DobryAdres
             string clearedStr = (index < 0) ? address : address.Remove(index, substrToRemove.Length);
             return clearedStr;
         }
-
-        /*public string GenerateDistrict(string[] address)
-        {
-            string district = address[1].ToUpper();
-            string substrToRemove = "OSIEDLE ";
-            int index = district.IndexOf(substrToRemove);
-            string clearedStr = (index < 0) ? district : district.Remove(index, substrToRemove.Length);
-            return clearedStr;
-        }
-
-        public string GenerateStreet(string[] address)
-        {
-            string street = address[2].ToUpper();
-            string substrToRemove = "UL. ";
-            int index = street.IndexOf(substrToRemove);
-            string clearedStr = (index < 0) ? street : street.Remove(index, substrToRemove.Length);
-            return clearedStr;
-        }*/
 
         public string GenerateCity(string[] address)
         {
