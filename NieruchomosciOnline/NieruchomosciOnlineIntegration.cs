@@ -673,7 +673,7 @@
             if (match.Success)
             {
                 result = decimal.Parse(match.Groups[1].Value.Replace("&nbsp;", string.Empty));
-                if (match.Groups.Count > 3)
+                if (match.Groups.Count > 3 && !string.IsNullOrEmpty(match.Groups[3].Value))
                 {
                     result += decimal.Parse($"0.{match.Groups[3].Value.Trim(',')}");
                 }
