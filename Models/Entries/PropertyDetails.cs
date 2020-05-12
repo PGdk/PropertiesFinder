@@ -16,7 +16,7 @@
         /// <summary>
         /// Numer piętra. Nie wymagany w przypadku domów
         /// </summary>
-        public string? FloorNumber { get; set; }
+        public int? FloorNumber { get; set; }
 
         /// <summary>
         /// Rok zbudowania budynku.

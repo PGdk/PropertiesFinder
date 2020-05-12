@@ -13,7 +13,7 @@ namespace Application.Otodom
 {
         class OtodomIntegration : IWebSiteIntegration
         {
-            int maximumAds = 200; //maksymalna ilosc ofert do pobrania
+             int maximumAds = 200; //maksymalna ilosc ofert do pobrania;
             List<String> linksToAdvertisements;
             public WebPage WebPage { get; }
             public IDumpsRepository DumpsRepository { get; }
@@ -25,7 +25,6 @@ namespace Application.Otodom
                 EntriesComparer = equalityComparer;
                 WebPage = new WebPage
                 {
-  
                     Url = "https://www.otodom.pl/sprzedaz/mieszkanie/?nrAdsPerPage=72",
                     Name = "Otodom WebSite Integration",
                     WebPageFeatures = new WebPageFeatures
@@ -44,14 +43,13 @@ namespace Application.Otodom
                 var Entries = new List<Entry>();
                 var htmlWeb = new HtmlWeb();
                 int maxLoopCounter = maximumAds / 72;
-                for (int i = 1; i < maxLoopCounter + 1; i++)
+                for (int i = 1; i < maxLoopCounter + 2; i++)
                 {
                     if (linksToAdvertisements.Count() == maximumAds)
                     {
                         break;
                     }
-                    
-                    var document = htmlWeb.Load(WebPage.Url + "&page=" + i);
+                var document = htmlWeb.Load(WebPage.Url + "&page=" + i);
 
                     var nodes = document.DocumentNode.SelectNodes("//*[@class = 'offer-item-details']");
 
@@ -63,16 +61,17 @@ namespace Application.Otodom
                         }
                     }
                 }
-
                 foreach (var link in linksToAdvertisements)
                 {
 
                     var documentWithDetails = htmlWeb.Load(link);
-              
-                    var jsonObject = documentWithDetails.DocumentNode.Descendants().Where(n => n.Name == "script" && n.Id == "server-app-state").First();
-                    OtodomJsonParser otodomJsonParser = new OtodomJsonParser();
-             
-                    Entries.Add(otodomJsonParser.GetEntry(jsonObject.InnerText.ToString()));
+         
+                    var jsonObject = documentWithDetails.DocumentNode.Descendants().Where(n => n.Name == "script" && n.Id == "server-app-state").FirstOrDefault();
+                    if (jsonObject != null)
+                    {
+                        OtodomJsonParser otodomJsonParser = new OtodomJsonParser();
+                        Entries.Add(otodomJsonParser.GetEntry(jsonObject.InnerText.ToString()));
+                    }
                 }
 
                 Dump dump = new Dump();

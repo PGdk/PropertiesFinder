@@ -3,8 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
-//Klasa pozwalająca na podstawie JSONa ze strony otodom stworzyć obiekt Entry
+
 namespace Models
 {
     public class OtodomJsonParser
@@ -33,6 +34,9 @@ namespace Models
             OfferDetails offerDetails = new OfferDetails();
             offerDetails.IsStillValid = IsAdvertisementActive();
             offerDetails.Url = GetUrl();
+            offerDetails.LastUpdateDateTime = GetLastUpdatedDateTime();
+            offerDetails.CreationDateTime = GetCreationDateTime();
+            offerDetails.OfferKind = GetOfferKind();
 
 
             entry.PropertyDetails = propertyDetails;
@@ -77,13 +81,27 @@ namespace Models
         {
             return targetData.Price;
         }
-        String GetFloorNumber()
+        int GetFloorNumber()
         {
             if (characteristicsData.FirstOrDefault(data => data.key == "floor_no") != null)
             {
-                return characteristicsData.FirstOrDefault(data => data.key == "floor_no").value_translated;
+                switch(characteristicsData.FirstOrDefault(data => data.key == "floor_no").value_translated)
+                {
+                    case "poddasze":
+                        return -2;
+                    case "suterena":
+                        return -1;
+                    case "parter":
+                        return 0;
+                    default:
+                        {
+                            int floorNo = 0;
+                            int.TryParse(characteristicsData.FirstOrDefault(data => data.key == "floor_no").value_translated, out floorNo);
+                            return floorNo;
+                        }
+                }
             }
-            return "";
+            return 0;
         }
 
         String GetHeating()
@@ -93,6 +111,15 @@ namespace Models
                 return characteristicsData.FirstOrDefault(data => data.key == "heating").value_translated;
             }
             return "";
+        }
+
+        OfferKind GetOfferKind()
+        {
+            if(targetData.OfferType == "sprzedaz")
+            {
+                return OfferKind.SALE;
+            }
+            return OfferKind.RENTAL;
         }
 
         bool IsAdvertisementActive()
@@ -111,6 +138,29 @@ namespace Models
         {
             return advertData.url;
         }
-
+        DateTime GetLastUpdatedDateTime()
+        {
+            try
+            {
+                return Convert.ToDateTime(advertData.dateModified);
+            }
+            catch(FormatException)
+            {
+                Console.WriteLine("Nieprawidlowy format daty!");
+                return DateTime.Now;
+            }
+        }
+        DateTime GetCreationDateTime()
+        {
+            try
+            {
+                return Convert.ToDateTime(advertData.dateCreated);
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Nieprawidlowy format daty!");
+                return DateTime.Now;
+            }
+        }
     }
 }
