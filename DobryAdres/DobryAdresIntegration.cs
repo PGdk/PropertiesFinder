@@ -380,16 +380,29 @@ namespace Application.DobryAdres
                     break;
                 case "district":
                     keyWords.Add("dzielnica");
+                    result = FindNameInDescription(keyWords);
                     break;
                 case "street":
                     // Nie wiem jak odróżnić adres oferty od adresu firmy
                     keyWords.Add("mieszkanie znajduje się przy ul.");
                     keyWords.Add("mieszkanie znajduje się przy ulicy");
+                    result = FindNameInDescription(keyWords);
                     break;
                 case "detailedAddress":
                     keyWords.Add("adres:");
                     // Nie mam pojęcia jak i w żadnej sprawdzanej przeze mnie ofercie nie był podany nr mieszkania itp
                     break;
+            }
+            return result;
+        }
+
+        public string FindNameInDescription(List<string> keyWords)
+        {
+            string result = "NIEZNANE";
+            foreach (var word in keyWords)
+            {
+                string nextWord = GetNextWord(word);
+                result = nextWord;
             }
             return result;
         }
