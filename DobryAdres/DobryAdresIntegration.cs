@@ -58,7 +58,7 @@ namespace Application.DobryAdres
             chromeOptions.AddArguments("headless");
             chromeOptions.AddArguments("--log-level=3");
 
-            const int NUM_OF_PAGES = 3;
+            const int NUM_OF_PAGES = 2;
 
             using (driver = new ChromeDriver(chromeOptions))
             {
@@ -75,7 +75,6 @@ namespace Application.DobryAdres
                             entries.Add(entry);
                     }
                     offersUrls.Clear();
-                    Console.WriteLine($"NUMER STRONY: {pageNumber}");
                 }
             }
             Console.WriteLine($"Liczba ofert: {entries.Count()}");
@@ -379,7 +378,7 @@ namespace Application.DobryAdres
                     result = SearchBackwardsInDescription(keyWords, 1);
                     break;
                 case "district":
-                    keyWords.Add("dzielnica");
+                    keyWords.Add("dzielnicy");
                     result = FindNameInDescription(keyWords);
                     break;
                 case "street":
@@ -389,9 +388,27 @@ namespace Application.DobryAdres
                     result = FindNameInDescription(keyWords);
                     break;
                 case "detailedAddress":
-                    keyWords.Add("adres:");
+                    keyWords.Add("mieszkanie znajduje się przy ul.");
+                    keyWords.Add("mieszkanie znajduje się przy ulicy");
+                    result = FindDetailedAddress(keyWords);
                     // Nie mam pojęcia jak i w żadnej sprawdzanej przeze mnie ofercie nie był podany nr mieszkania itp
                     break;
+            }
+            return result;
+        }
+
+        public string FindDetailedAddress(List<string> keyWords)
+        {
+            string result = "NIEZNANE";
+            Regex emailRegex = new Regex(@"\d+/\d+", RegexOptions.IgnoreCase);
+            foreach (var word in keyWords)
+            {
+                string street = GetNextWord(word);
+                string houseNumber = GetNextWord(street);
+
+                Match addressMatch = emailRegex.Match(houseNumber);
+                if (addressMatch.Success)
+                    result = addressMatch.Value;
             }
             return result;
         }
