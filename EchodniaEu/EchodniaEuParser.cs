@@ -34,7 +34,7 @@ namespace EchodniaEu
             {
                 WebPage = WebPage,
                 DateTime = DateTime.Now,
-                Entries = new List<Entry>()
+                Entries = entries
             };
         }
 
