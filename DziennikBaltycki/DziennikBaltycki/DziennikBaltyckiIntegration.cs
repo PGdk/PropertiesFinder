@@ -11,7 +11,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace Application.DziennikBaltycki
+namespace DziennikBaltycki.DziennikBaltycki
 {
 
     public class DziennikBaltyckiIntegration : IWebSiteIntegration
@@ -114,7 +114,6 @@ namespace Application.DziennikBaltycki
         private List<string> PobierzLinkiDoMieszkan(List<string> linkiDoStron)
         {
             string url2 = @"https://dziennikbaltycki.pl/ogloszenia/";
-
             int ileMiast = 0;
 
             List<string> linkiDoMieszkan = new List<string>();
@@ -139,7 +138,7 @@ namespace Application.DziennikBaltycki
                         {
                             break;
                         }
-                        ileLinkow++;
+                        ileLinkow++; 
                     }
                     if (ileStronWDanymMiescie == 3)
                     {
@@ -169,8 +168,8 @@ namespace Application.DziennikBaltycki
                 return new PropertyAddress
                 {
                     City = ZwrocNazweMiasta(miastoPoKonversji),
-                    District = zbiorDanych["dzielnica"],
-                    StreetName = zbiorDanych["nazwaUlicy"],
+                    District = zbiorDanych["dzielnica"].Trim(),
+                    StreetName = zbiorDanych["nazwaUlicy"].Trim(),
                     //Brak danych na stronie
                     DetailedAddress = "Brak danych"
                 };
@@ -179,8 +178,8 @@ namespace Application.DziennikBaltycki
             {
                 return new PropertyAddress
                 {
-                    District = zbiorDanych["dzielnica"],
-                    StreetName = zbiorDanych["nazwaUlicy"],
+                    District = zbiorDanych["dzielnica"].Trim(),
+                    StreetName = zbiorDanych["nazwaUlicy"].Trim(),
                     //Brak danych na stronie
                     DetailedAddress = "Brak danych"
                 };
@@ -218,11 +217,8 @@ namespace Application.DziennikBaltycki
         private OfferDetails ZwrocSzczegolyOferty(HtmlNode htmlbody, string url)
         {
             var tel = htmlbody.SelectSingleNode("//a[@class='phoneButton__button']");
-
             var sprzedawca = htmlbody.SelectSingleNode("//div[@class='offerOwner__details']/h3[@class='offerOwner__person ']");
-
             var jakaCena = htmlbody.SelectSingleNode("//span[@class='priceInfo__value']");
-
             var cenaBrutto = jakaCena != null && jakaCena.InnerText.Any(x => char.IsDigit(x)) ? Convert.ToDecimal(jakaCena.InnerText.Split("zł")[0].Replace(" ", string.Empty)) : 0;
 
             OfferKind sprzedarz = cenaBrutto == 0 || cenaBrutto > 10000 ? OfferKind.SALE : OfferKind.RENTAL;
@@ -235,8 +231,8 @@ namespace Application.DziennikBaltycki
                 OfferKind = sprzedarz,
                 SellerContact = new SellerContact
                 {
-                    Telephone = tel != null ? tel.Attributes["data-full-phone-number"].Value : "brak informacji",
-                    Name = sprzedawca != null ? sprzedawca.InnerText : "brak informacji"
+                    Telephone = tel != null ? tel.Attributes["data-full-phone-number"].Value.Trim() : "brak informacji",
+                    Name = sprzedawca != null ? sprzedawca.InnerText.Trim() : "brak informacji"
                 },
                 IsStillValid = true
             };
@@ -244,7 +240,6 @@ namespace Application.DziennikBaltycki
         private PropertyPrice ZwrocDaneOWartosci(HtmlNode htmlbody, Dictionary<string, string> zbiorDanych)
         {
             var jakaCena = htmlbody.SelectSingleNode("//span[@class='priceInfo__value']");
-
             var jakaCenaZaMetr = htmlbody.SelectSingleNode("//span[@class='priceInfo__additional']");
 
             return new PropertyPrice
@@ -270,10 +265,10 @@ namespace Application.DziennikBaltycki
             return zbiorDanych.ContainsKey("miejsceParkingowe") ? !zbiorDanych["miejsceParkingowe"].Contains("podziemn") && !zbiorDanych["miejsceParkingowe"].Contains("garaż") && !zbiorDanych["miejsceParkingowe"].Contains("brak") ?
                 zbiorDanych.ContainsKey("liczbaMiejscParkingowych") ? Convert.ToInt32(zbiorDanych["liczbaMiejscParkingowych"]) : 1 : 0 : 0;
         }
-        private int? ZwrocParkingWewnetrzny(Dictionary<string, string> zbiorDanych)
+        private int? ZwrocParkingWewnetrzny(Dictionary<string, string> zbiorDanych, string opis)
         {
             return zbiorDanych.ContainsKey("miejsceParkingowe") ? zbiorDanych["miejsceParkingowe"].Contains("podziemn") || zbiorDanych["miejsceParkingowe"].Contains("garaż") ?
-                zbiorDanych.ContainsKey("liczbaMiejscParkingowych") ? Convert.ToInt32(zbiorDanych["liczbaMiejscParkingowych"]) : 1 : 0 : 0;
+                zbiorDanych.ContainsKey("liczbaMiejscParkingowych") ? Convert.ToInt32(zbiorDanych["liczbaMiejscParkingowych"]) : 1 : 0 : opis.ToLower().Contains("podziemn") || opis.ToLower().Contains("garaż") ? 1 : 0;
         }
         private PropertyFeatures ZwrocCechy(HtmlNode htmlbody, Dictionary<string, string> zbiorDanych)
         {
@@ -285,15 +280,13 @@ namespace Application.DziennikBaltycki
                 Balconies = opis.Contains("balkon") ? 1 : 0,
                 BasementArea = opis.Contains("piwnica") ? SprawdzIleMetrow("piwnica", ref opis) : opis.Contains("Komórka lokatorska") ? SprawdzIleMetrow("piwnica", ref opis) : null,
                 OutdoorParkingPlaces = ZwrocParkingZewnetrzny(zbiorDanych),
-                IndoorParkingPlaces = ZwrocParkingWewnetrzny(zbiorDanych)
+                IndoorParkingPlaces = ZwrocParkingWewnetrzny(zbiorDanych, opis)
             };
         }
         private Dictionary<string, string> ZwrocZbiorDanych(HtmlNode htmlbody)
         {
             var listaParametrow = htmlbody.SelectSingleNode("//ul[@class='parameters__rolled']");
-
             var Adres = htmlbody.SelectSingleNode("//h1[@class='sticker__title']");
-
             Dictionary<string, string> zbiorDanych = new Dictionary<string, string>();
 
             foreach (var parametr in listaParametrow.Descendants("li"))
@@ -307,7 +300,7 @@ namespace Application.DziennikBaltycki
                     {
                         var dane = parametr.Descendants("a").ToList();
 
-                        zbiorDanych.Add("nazwaUlicy", Adres.InnerText.Contains("ul") ? Adres.InnerText.Split("ul.")[1] : "Brak informacji");
+                        zbiorDanych.Add("nazwaUlicy", Adres.InnerText.Contains("ul.") ? Adres.InnerText.Split("ul.")[1] : "Brak informacji");
 
                         zbiorDanych.Add("miasto", dane[0].InnerHtml.Replace(" ", "_").ToUpper());
 
@@ -349,7 +342,7 @@ namespace Application.DziennikBaltycki
         private string ZwrocOpis(HtmlNode htmlbody)
         {
             var Opis = htmlbody.SelectSingleNode("//div[@class='description__rolled ql-container']");
-            return Opis != null ? Opis.InnerText : null;
+            return Opis != null ? Opis.InnerText.Trim() : null;
         }
         public Dump GenerateDump()
         {

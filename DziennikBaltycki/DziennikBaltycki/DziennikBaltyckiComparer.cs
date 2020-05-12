@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Application.DziennikBaltycki
+namespace DziennikBaltycki.DziennikBaltycki
 {
     public class DziennikBaltyckiComparer : IEqualityComparer<Entry>
     {

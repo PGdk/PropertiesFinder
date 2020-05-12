@@ -7,7 +7,7 @@ using System.Linq;
 using System.Reflection;
 using Utilities;
 
-namespace SampleApp
+namespace DziennikBaltycki
 {
     class Program
     {
