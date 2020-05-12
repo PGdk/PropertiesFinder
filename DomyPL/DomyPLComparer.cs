@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Application.DomyPL
+namespace DomyPL
 {
-    class DomyPLComparator : IEqualityComparer<Entry>
+    public class DomyPLComparer : IEqualityComparer<Entry>
     {
         //Porównujemy tylko niektóre dane 
         class CompareOfferDetails

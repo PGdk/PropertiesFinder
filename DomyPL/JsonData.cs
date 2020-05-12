@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace Application.DomyPL
+namespace DomyPL
 {
     class JsonData
     {
@@ -17,12 +17,21 @@ namespace Application.DomyPL
             entry.PropertyDetails = new PropertyDetails();
             entry.PropertyPrice = new PropertyPrice();
             entry.OfferDetails = new OfferDetails();
+            entry.PropertyFeatures = new PropertyFeatures();
 
             //Nie znalazłem na stronie informacji czy oferta jest aktualna
             entry.OfferDetails.IsStillValid = true;
             entry.OfferDetails.Url = property.url;
+            if (property.transaction.Equals("sprzedaz"))
+            {
+                entry.OfferDetails.OfferKind = OfferKind.SALE;
+            }
+            else
+            {
+                 entry.OfferDetails.OfferKind = OfferKind.RENTAL;
+            }
 
-            Dictionary<string, string> polishCharacters = new Dictionary<string, string> {
+    Dictionary<string, string> polishCharacters = new Dictionary<string, string> {
                     { "Ą", "A" },{ "Ć", "C" },{ "Ę", "E" },{ "Ł", "L" },{ "Ń", "N" },{ "Ó", "O" },{ "Ś", "S" },{ "Ź", "Z" },{ "Ż", "Z" },{" ", "_" }};
             string cityName = polishCharacters.Aggregate(property.city.ToUpper(), (current, value) =>
                     current.Replace(value.Key, value.Value));
@@ -33,13 +42,13 @@ namespace Application.DomyPL
 
 
             entry.PropertyAddress.DetailedAddress = property.location;
+            entry.PropertyAddress.District= property.district;
+
             entry.PropertyAddress.StreetName = property.street;
 
             entry.PropertyPrice.PricePerMeter = property.price_m2;
             entry.PropertyPrice.TotalGrossPrice = property.price;
             //jeśli cena to 0 oznacza to inf. u dewelopera
-
-            entry.PropertyDetails.Area = property.residence_area;
 
             entry.PropertyDetails.FloorNumber = property.floor;
             entry.PropertyDetails.NumberOfRooms = property.number_of_rooms;

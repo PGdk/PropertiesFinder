@@ -7,9 +7,9 @@ using HtmlAgilityPack;
 using System.Linq;
 using Newtonsoft.Json;
 
-namespace Application.DomyPL
+namespace DomyPL
 {
-    class DomyPLIntegration : IWebSiteIntegration
+    public class DomyPLIntegration : IWebSiteIntegration
     {
         public WebPage WebPage { get; }
         public IDumpsRepository DumpsRepository { get; }
@@ -64,7 +64,27 @@ namespace Application.DomyPL
 
             return links;
         }
+        void GetOtherDetails(HtmlNodeCollection nodes, ref Entry entry)
+        {
+         
+            foreach (var node in nodes)
+            {
+                int value = 0;
+                decimal decValue;
+                if (node.InnerHtml.Contains(" Rok budowy:"))
+                {
+                    int.TryParse(node.SelectNodes("strong").FirstOrDefault().InnerHtml, out value);
+                    entry.PropertyDetails.YearOfConstruction = value;
+                }
+                else if (node.InnerHtml.Contains(" Powierzchnia mieszkalna:"))
+                {
+                    decimal.TryParse(node.SelectNodes("strong").FirstOrDefault().InnerHtml.Split(" ").FirstOrDefault(), out decValue);
+                    entry.PropertyDetails.Area = decValue;
+                }
+            }
+        }
 
+        
         List<Entry> GenerateEntries(List<String> links)
         {
             var Entries = new List<Entry>();
@@ -88,8 +108,44 @@ namespace Application.DomyPL
 
                     index = jsonObject.IndexOf(jsonEndString);
                     var finalStr = jsonObject.Substring(0, index);
-
+                   
                     var entry = JsonConvert.DeserializeObject<JsonData>(finalStr).ToEntry();
+                   
+                    try
+                    {
+                        if (doc.DocumentNode.SelectSingleNode("//div[@id='description']") != null)
+                        {
+                            entry.RawDescription = doc.DocumentNode.SelectSingleNode("//div[@id='description']").InnerText;
+                        }
+                    }
+                    catch(Exception)
+                    {
+                        entry.RawDescription = "";
+                    }
+
+                    GetOtherDetails(doc.DocumentNode.SelectNodes("//div[@class='paramsItem paramsItemRight']"), ref entry);
+                    GetOtherDetails(doc.DocumentNode.SelectNodes("//div[@class='paramsItem paramsItemLeft']"), ref entry);
+
+                    foreach (HtmlNode node in doc.DocumentNode.SelectNodes("//*[@class = 'summaryDates']"))
+                    {
+                        foreach (HtmlNode node2 in node.SelectNodes(".//span"))
+                        {
+                            DateTime dateTime = new DateTime();
+                            if (node2.InnerText.Contains("Data dodania:"))
+                            {
+                                DateTime.TryParse(node2.LastChild.InnerText, out dateTime);
+                                entry.OfferDetails.CreationDateTime = dateTime;
+
+                            }
+                            else if (node2.InnerText.Contains("Data aktualizacji:"))
+                            {
+                                DateTime.TryParse(node2.LastChild.InnerText, out dateTime);
+                                entry.OfferDetails.LastUpdateDateTime = dateTime;
+
+                            }
+                        }
+                    }
+
 
                     Entries.Add(entry);
                 }
