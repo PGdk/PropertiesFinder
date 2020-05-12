@@ -6,6 +6,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="DobryAdres\**" />
+    <Compile Remove="Sample\**" />
+    <EmbeddedResource Remove="DobryAdres\**" />
+    <EmbeddedResource Remove="Sample\**" />
+    <None Remove="DobryAdres\**" />
+    <None Remove="Sample\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Selenium.WebDriver" Version="3.141.0" />
+    <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="81.0.4044.13800" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DobryAdres\DobryAdres.csproj" />
     <ProjectReference Include="..\Interfaces\Interfaces.csproj" />
     <ProjectReference Include="..\Models\Models.csproj" />
     <ProjectReference Include="..\Utilities\Utilities.csproj" />
