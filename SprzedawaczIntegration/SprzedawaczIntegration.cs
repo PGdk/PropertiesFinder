@@ -139,8 +139,8 @@ namespace SprzedawaczIntegration
                 {
                     City = Enum.TryParse(MatchOrNull(url, "m_(?<city>[a-z_]+)[-/]").Groups["city"]?.Value.ToUpper(), out city) ? city : default,
                     District = TryGetParagraphValueString(paragraphs, "Dzielnica:"),
-                    StreetName = MatchOrNull(description, "(ul.|Ul.|UL.) [A-Za-z]+")?.Value,
-                    DetailedAddress = MatchOrNull(description, "(ul. |Ul. |UL. )[A-Za-z]+ (?<detail>[0-9]{1,4}/?[0-9]{1,4})").Groups["detail"]?.Value
+                    StreetName = MatchOrNull(description, @"(ul.|Ul.|UL.) \p{L}+")?.Value,
+                    DetailedAddress = MatchOrNull(description, @"(ul.|Ul.|UL.) \p{L}+ (?<detail>[0-9]{1,4}/?[0-9]{1,4})").Groups["detail"]?.Value
                 },
                 PropertyDetails = new PropertyDetails
                 {
@@ -153,7 +153,7 @@ namespace SprzedawaczIntegration
                 PropertyFeatures = new PropertyFeatures
                 {
                     Balconies = Regex.IsMatch(description, "(B|b)alkony?") ? 1 : default,
-                    BasementArea = null,
+                    BasementArea = GetBasement(description),
                     GardenArea = TryGetParagraphValueDecimal(paragraphs, "Pow. działki:"),
                     //May cause false possitives
                     IndoorParkingPlaces = Regex.IsMatch(description, "(G|g)araż") ? 1 : default,
@@ -170,18 +170,26 @@ namespace SprzedawaczIntegration
             };
         }
 
+        private decimal? GetBasement(string desc)
+        {
+            var possiblyEmpty = Regex.Match(desc, @"(P|p)iwnica (?<barea>[0-9,\.]+) ?(mkw|m2|m\\^2|metrów)").Groups["barea"]?.Value;
+            if (String.IsNullOrWhiteSpace(possiblyEmpty))
+                return null;
+            return decimal.Parse(possiblyEmpty, style, CultureInfo.GetCultureInfo("pl-PL"));
+        }
+
         private decimal GetPrice(string str)
         {
             var possiblyEmpty = Regex.Matches(str, @"[0-9 \.]+").Select(m => m.Value).Aggregate((i, j) => i + j).Replace(" ", "");
-            if (possiblyEmpty == "")
+            if (String.IsNullOrWhiteSpace(possiblyEmpty))
                 return 0;
-            return decimal.Parse(possiblyEmpty, style);
+            return decimal.Parse(possiblyEmpty, style, CultureInfo.GetCultureInfo("pl-PL"));
         }
 
         private string TryGetParagraphValueString(IHtmlCollection<IElement> paragraphs, string small)
         {
             var possiblyEmpty = paragraphs.Where(e => e.GetElementsByTagName("small").FirstOrDefault() != null).FirstOrDefault(e => e.GetElementsByTagName("small").FirstOrDefault().Text() == small)?.Text();
-            if (possiblyEmpty == "")
+            if (String.IsNullOrWhiteSpace(possiblyEmpty))
                 return null;
             return possiblyEmpty;
         }
@@ -189,7 +197,7 @@ namespace SprzedawaczIntegration
         private int TryGetParagraphValueInt(IHtmlCollection<IElement> paragraphs, string small)
         {
             var str = MatchOrNull(TryGetParagraphValueString(paragraphs, small), "[0-9]+")?.Value;
-            if (str == null || str == "")
+            if (String.IsNullOrWhiteSpace(str))
                 return default;
             return int.Parse(str);
         }
@@ -197,9 +205,9 @@ namespace SprzedawaczIntegration
         private decimal TryGetParagraphValueDecimal(IHtmlCollection<IElement> paragraphs, string small)
         {
             var str = MatchOrNull(TryGetParagraphValueString(paragraphs, small), @"[0-9]+\.?[0-9]+")?.Value.Replace(".",",");
-            if (str == null || str == "")
+            if (String.IsNullOrWhiteSpace(str))
                 return default;
-            return decimal.Parse(str, style);
+            return decimal.Parse(str, style, CultureInfo.GetCultureInfo("pl-PL"));
         }
 
         private IDocument GetParsedHtmlFromUrl(string url)
