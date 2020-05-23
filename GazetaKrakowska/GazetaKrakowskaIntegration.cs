@@ -17,6 +17,8 @@ namespace GazetaKrakowska
 
         public IEqualityComparer<Entry> EntriesComparer { get; }
 
+        public string Address = "http://gazetakrakowska.pl/ogloszenia/28733,8437,fm,pk.html";
+
         public GazetaKrakowskaIntegration(IDumpsRepository dumpsRepository, IEqualityComparer<Entry> equalityComparer)
         {
             DumpsRepository = dumpsRepository;
@@ -35,14 +37,11 @@ namespace GazetaKrakowska
                     HouseRental = true
                 }
             };
-
-            // Domy
-            string address = "http://gazetakrakowska.pl/ogloszenia/28733,8437,fm,pk.html";
-            FetchAllOffers(address);
         }
 
         public Dump GenerateDump()
         {
+            FetchAllOffers(Address);
             return new Dump
             {
                 DateTime = DateTime.Now,
@@ -65,6 +64,59 @@ namespace GazetaKrakowska
                 count = singlePageOffers.Count;
             }
         }
+
+        public IEnumerable<Entry> FetchOfferFromGivenPage(int pageNumber)
+        {
+            HtmlDocument page;
+            try
+            {
+                page = Web.Load(Address);
+            }
+            catch (Exception)
+            {
+                return new List<Entry>();
+            }
+
+            if (page.DocumentNode.SelectSingleNode("//*[@id=\"ogloszenia-miasta\"]/div/ul/li[1]") != null)
+            {
+                var pagesNumber = CountPageNumber(page);
+
+                if (pagesNumber != 0 && pagesNumber < pageNumber)
+                {
+                    return new List<Entry>();
+                }
+            }
+
+            string address = this.Address;
+            if (pageNumber > 1)
+                address = ChangeAddressPage(pageNumber);
+
+            Offers = GetOffersFromSinglePage(address);
+
+            if (Offers.Count == 0)
+                return null;
+
+            return CreateEntries();
+        }
+
+        private int CountPageNumber(HtmlDocument page)
+        {
+            var offersNumberNode = page.DocumentNode.SelectSingleNode("//*[@id=\"ogloszenia-miasta\"]/div/ul/li[1]").InnerText;
+            if(offersNumberNode != null)
+            {
+                try
+                {
+                    var offersNumber = int.Parse(GetAllDigits(offersNumberNode));
+                    return offersNumber / 50;
+                } catch (Exception)
+                {
+                    return 0;
+                }
+                
+            }
+            return 0;
+        }
+
         private string ChangeAddressPage(int pageNumber)
         {
             return "http://gazetakrakowska.pl/ogloszenia/" + pageNumber + ",28733,8437,fm,pk.html";
@@ -283,7 +335,8 @@ namespace GazetaKrakowska
             if (!String.IsNullOrWhiteSpace(title))
             {
                 int index = title.IndexOf("pokoi");
-                return title.Substring(index - 2, 1);
+                if (index > 1)
+                    return title.Substring(index - 2, 1);
             }
 
             return null;
@@ -298,7 +351,13 @@ namespace GazetaKrakowska
         {
             if (floor == "parter")
                 return 0;
-            return int.Parse(floor);
+            try
+            {
+                return int.Parse(floor);
+            } catch(Exception)
+            {
+                return 0;
+            }
         }
 
         private PropertyAddress CreatePropertyAddress(Dictionary<String, String> offerParameters)

@@ -4,7 +4,7 @@ using Models;
 
 namespace GazetaKrakowska
 {
-    class GazetaKrakowskaComparer : IEqualityComparer<Entry>
+    public class GazetaKrakowskaComparer : IEqualityComparer<Entry>
     {
         public bool Equals(Entry x, Entry y)
         {
