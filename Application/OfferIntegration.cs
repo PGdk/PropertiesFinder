@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Text.Json;
 using System.Runtime.Loader;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -68,7 +69,6 @@ namespace Application
                     PagesQuantityExtractor(adres);
                 }
             }
-
             foreach (PomorskaCitySite site in CitiesList)
             {
                 getOffersLinksWithDates(site);
@@ -287,9 +287,9 @@ namespace Application
             {
                 return htmlDoc.DocumentNode
                                 .SelectNodes("//ul[@class='parameters__rolled']")
-                                .Where(node => node.InnerText == innerText)
-                                .FirstOrDefault().
-                                ParentNode.Descendants('b').ToList()[0].InnerText;
+                                .Select(node => node.SelectNodes(".//li/span")).ToList()[0]
+                                .Where(x => x.InnerText == innerText).ToList()[0]
+                                .ParentNode.ChildNodes.FirstOrDefault(node => node.Name == "b").InnerText;
             }
             catch
             {
@@ -363,13 +363,28 @@ namespace Application
 
             if (GetFromRightSideProps(htmlDoc, "Miejsce parkingowe").Equals("przynależne na ulicy"))
             {
-                pf.OutdoorParkingPlaces = Int32.Parse(GetFromRightSideProps(htmlDoc, "Liczba miejsc parkingowych"));
+                if (GetFromRightSideProps(htmlDoc, "Liczba miejsc parkingowych") == "")
+                {
+                    pf.OutdoorParkingPlaces += 1;
+                }
+                else
+                {
+                    pf.OutdoorParkingPlaces += Int32.Parse(GetFromRightSideProps(htmlDoc, "Liczba miejsc parkingowych"));
+                }
+                
             }
 
 
             if (GetFromRightSideProps(htmlDoc, "Miejsce parkingowe").Equals("w garażu"))
             {
-                pf.OutdoorParkingPlaces = Int32.Parse(GetFromRightSideProps(htmlDoc, "Liczba miejsc parkingowych"));
+                if (GetFromRightSideProps(htmlDoc, "Liczba miejsc parkingowych") == "")
+                {
+                    pf.OutdoorParkingPlaces += 1;
+                }
+                else
+                {
+                    pf.OutdoorParkingPlaces += Int32.Parse(GetFromRightSideProps(htmlDoc, "Liczba miejsc parkingowych"));
+                }
             }
 
             return pf;
