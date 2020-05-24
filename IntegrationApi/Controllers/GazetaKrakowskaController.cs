@@ -14,6 +14,7 @@ namespace IntegrationApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [Authorize]
     public class GazetaKrakowskaController : ControllerBase
     {
         private readonly IGazetaKrakowskaRepository databaseRepository;
@@ -43,8 +44,12 @@ namespace IntegrationApi.Controllers
 
                 databaseRepository.AddLog(Request.Headers["X-Request-ID"]);
             }
-            // TODO zapytac prowadzacego
-            return null;
+
+            var result = this.databaseRepository.GetEntry(entryId);
+
+            if (result == null)
+                return new NotFoundObjectResult("Entry does not exist with given Id");
+            return new OkObjectResult(result);
         }
 
         [HttpPost]

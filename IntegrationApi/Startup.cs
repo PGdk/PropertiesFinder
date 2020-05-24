@@ -27,8 +27,6 @@ namespace IntegrationApi
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
-
             services.AddSingleton(typeof(IGazetaKrakowskaRepository), new GazetaKrakowskaRepository(new GazetaKrakowskaContext()));
             services.AddSingleton(typeof(IDumpsRepository), new DumpFileRepository());
             services.AddSingleton(typeof(IEqualityComparer<Entry>), new GazetaKrakowskaComparer());
@@ -44,14 +42,15 @@ namespace IntegrationApi
                 options.DefaultSignOutScheme = CookieAuthenticationDefaults.AuthenticationScheme;
             }).AddGoogle(options =>
             {
-                options.ClientId = "890033233825-764v59iiaggk7i13h0ho3e1pq0b4016l.apps.googleusercontent.com";
-                options.ClientSecret = "UGFBiTc8UHKhSfSY8iIfGq_Z";
-            })
-            .AddCookie(options =>
+                options.ClientId = "890033233825-ocjl96ufuobrgneddm1v5qg7g2pngkb3.apps.googleusercontent.com";
+                options.ClientSecret = "CtPbsnzFijZwyBGhi9YMOOD1";
+            }).AddCookie(options =>
             {
                 options.Cookie.HttpOnly = false;
                 options.Cookie.SameSite = SameSiteMode.None;
             });
+
+            services.AddControllers();
 
             services.AddAuthorization(options =>
                 options.AddPolicy("User", policy =>
@@ -65,7 +64,6 @@ namespace IntegrationApi
 
             services.AddSingleton<IAuthorizationHandler, UserPolicyHandler>();
             services.AddSingleton<IAuthorizationHandler, AdminPolicyHandler>();
-            services.AddMvc();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -79,9 +77,8 @@ namespace IntegrationApi
 
             app.UseRouting();
 
-            app.UseAuthentication();
-
             app.UseAuthorization();
+            app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
             {

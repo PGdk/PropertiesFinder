@@ -19,6 +19,18 @@ namespace DatabaseConnection
             gazetaKrakowskaContext.SaveChanges();
         }
 
+        public EntryDb GetEntry(int id)
+        {
+            return gazetaKrakowskaContext
+                .Entries
+                .Include(e => e.OfferDetails).ThenInclude(od => od.SellerContact)
+                .Include(e => e.PropertyPrice)
+                .Include(e => e.PropertyDetails)
+                .Include(e => e.PropertyAddress)
+                .Include(e => e.PropertyFeatures)
+                .First(e => e.Id == id);
+        }
+
         public IEnumerable<EntryDb> GetEntries()
         {
             return gazetaKrakowskaContext
