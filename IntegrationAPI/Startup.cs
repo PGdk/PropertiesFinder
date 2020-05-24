@@ -31,11 +31,10 @@ namespace IntegrationAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllers();
 
             services.AddDbContext<BazosContext>(options =>
                 options.UseSqlServer(Configuration["ConnectionString:stanislawk171978"]));
-
-            services.AddControllers();
 
             services.AddAuthentication(options =>
             {
@@ -45,8 +44,8 @@ namespace IntegrationAPI
                 options.DefaultSignOutScheme = CookieAuthenticationDefaults.AuthenticationScheme;
             }).AddGoogle(options =>
             {
-                options.ClientId = Configuration["Authentication:Google:ClientId"];
-                options.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
+                options.ClientId = "883984676955-oahkinttofcaurc0m9nttij7bi6m1ppl.apps.googleusercontent.com";
+                options.ClientSecret = "9zFaeHmmaRF-YUaBdtKCGXF2";
             }).AddCookie(options =>
             {
                 options.Cookie.HttpOnly = false;
@@ -108,6 +107,7 @@ namespace IntegrationAPI
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
