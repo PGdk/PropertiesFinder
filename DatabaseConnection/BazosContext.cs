@@ -11,12 +11,14 @@ namespace DatabaseConnection
     public class BazosContext : DbContext
     {
         //public BazosContext() { }
+        public BazosContext(DbContextOptions<BazosContext> options) : base(options)
+        { }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=.\SQLEXPRESS;Database=Bazos;Trusted_Connection=True"); //b => b.MigrationsAssembly("Application"));
+            optionsBuilder.UseSqlServer(@"Server=.\SQLEXPRESS;Database=stanislawk171978;Trusted_Connection=True"); //b => b.MigrationsAssembly("Application"));
         }
 
-        public DbSet<EntryId> Entries { get; set; }
+        public DbSet<Entry> Entries { get; set; }
 
     }
 }

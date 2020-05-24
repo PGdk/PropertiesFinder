@@ -4,14 +4,16 @@ using DatabaseConnection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DatabaseConnection.Migrations
 {
     [DbContext(typeof(BazosContext))]
-    partial class BazosContextModelSnapshot : ModelSnapshot
+    [Migration("20200524091801_stanislawk171978")]
+    partial class stanislawk171978
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -19,7 +21,7 @@ namespace DatabaseConnection.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Models.Entry", b =>
+            modelBuilder.Entity("Models.EntryId", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -59,7 +61,7 @@ namespace DatabaseConnection.Migrations
                     b.ToTable("Entries");
                 });
 
-            modelBuilder.Entity("Models.OfferDetails", b =>
+            modelBuilder.Entity("Models.OfferDetailsId", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -88,10 +90,10 @@ namespace DatabaseConnection.Migrations
 
                     b.HasIndex("SellerContactId");
 
-                    b.ToTable("OfferDetails");
+                    b.ToTable("OfferDetailsId");
                 });
 
-            modelBuilder.Entity("Models.PropertyAddress", b =>
+            modelBuilder.Entity("Models.PropertyAddressId", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -112,10 +114,10 @@ namespace DatabaseConnection.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PropertyAddress");
+                    b.ToTable("PropertyAddressId");
                 });
 
-            modelBuilder.Entity("Models.PropertyDetails", b =>
+            modelBuilder.Entity("Models.PropertyDetailsId", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -136,10 +138,10 @@ namespace DatabaseConnection.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PropertyDetails");
+                    b.ToTable("PropertyDetailsId");
                 });
 
-            modelBuilder.Entity("Models.PropertyFeatures", b =>
+            modelBuilder.Entity("Models.PropertyFeaturesId", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -163,10 +165,10 @@ namespace DatabaseConnection.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PropertyFeatures");
+                    b.ToTable("PropertyFeaturesId");
                 });
 
-            modelBuilder.Entity("Models.PropertyPrice", b =>
+            modelBuilder.Entity("Models.PropertyPriceId", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -184,10 +186,10 @@ namespace DatabaseConnection.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PropertyPrice");
+                    b.ToTable("PropertyPriceId");
                 });
 
-            modelBuilder.Entity("Models.SellerContact", b =>
+            modelBuilder.Entity("Models.SellerContactId", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -205,35 +207,35 @@ namespace DatabaseConnection.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("SellerContact");
+                    b.ToTable("SellerContactId");
                 });
 
-            modelBuilder.Entity("Models.Entry", b =>
+            modelBuilder.Entity("Models.EntryId", b =>
                 {
-                    b.HasOne("Models.OfferDetails", "OfferDetails")
+                    b.HasOne("Models.OfferDetailsId", "OfferDetails")
                         .WithMany()
                         .HasForeignKey("OfferDetailsId");
 
-                    b.HasOne("Models.PropertyAddress", "PropertyAddress")
+                    b.HasOne("Models.PropertyAddressId", "PropertyAddress")
                         .WithMany()
                         .HasForeignKey("PropertyAddressId");
 
-                    b.HasOne("Models.PropertyDetails", "PropertyDetails")
+                    b.HasOne("Models.PropertyDetailsId", "PropertyDetails")
                         .WithMany()
                         .HasForeignKey("PropertyDetailsId");
 
-                    b.HasOne("Models.PropertyFeatures", "PropertyFeatures")
+                    b.HasOne("Models.PropertyFeaturesId", "PropertyFeatures")
                         .WithMany()
                         .HasForeignKey("PropertyFeaturesId");
 
-                    b.HasOne("Models.PropertyPrice", "PropertyPrice")
+                    b.HasOne("Models.PropertyPriceId", "PropertyPrice")
                         .WithMany()
                         .HasForeignKey("PropertyPriceId");
                 });
 
-            modelBuilder.Entity("Models.OfferDetails", b =>
+            modelBuilder.Entity("Models.OfferDetailsId", b =>
                 {
-                    b.HasOne("Models.SellerContact", "SellerContact")
+                    b.HasOne("Models.SellerContactId", "SellerContact")
                         .WithMany()
                         .HasForeignKey("SellerContactId");
                 });

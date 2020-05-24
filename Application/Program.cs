@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using Utilities;
 using System.IO;
+using DatabaseConnection;
 
 namespace SampleApp
 {
@@ -13,6 +14,12 @@ namespace SampleApp
     {
         static void Main()
         {
+            //normalnie używać using
+
+            using BazosContext db = new BazosContext();
+            db.Entries.Add(new Entry { RawDescription="deksrypcja"});
+            db.SaveChanges();
+            //dodanie restowego serwera
             var entriesComparersTypes = GetTypesThatImplementsInterface(typeof(IEqualityComparer<Entry>));
             var firstComparer = Activator.CreateInstance(entriesComparersTypes.First());
 

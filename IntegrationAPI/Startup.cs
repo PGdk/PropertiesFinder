@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DatabaseConnection;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authorization;
@@ -10,6 +11,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -30,11 +32,8 @@ namespace IntegrationAPI
         public void ConfigureServices(IServiceCollection services)
         {
 
-            //services.AddDbContext<BazosContext>(options =>
-            //    options.UseSqlServer(Configuration["ConnectionString:BazosDB"]));
-
-            //services.AddDbContext<BazosContext>(options =>
-            //    options.UseSqlServer(Configuration["ConnectionString:BazosDB"]));
+            services.AddDbContext<BazosContext>(options =>
+                options.UseSqlServer(Configuration["ConnectionString:stanislawk171978"]));
 
             services.AddControllers();
 

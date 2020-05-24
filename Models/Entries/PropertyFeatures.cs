@@ -1,6 +1,6 @@
 ﻿namespace Models
 {
-    public class PropertyFeaturesId
+    public class PropertyFeatures
     {
         public int Id { get; set; }
         /// <summary>

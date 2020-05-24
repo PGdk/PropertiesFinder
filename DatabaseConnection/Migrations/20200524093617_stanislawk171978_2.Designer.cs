@@ -4,14 +4,16 @@ using DatabaseConnection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DatabaseConnection.Migrations
 {
     [DbContext(typeof(BazosContext))]
-    partial class BazosContextModelSnapshot : ModelSnapshot
+    [Migration("20200524093617_stanislawk171978_2")]
+    partial class stanislawk171978_2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

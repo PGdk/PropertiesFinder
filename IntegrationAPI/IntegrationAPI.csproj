@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <OutputType>Exe</OutputType>
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,7 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Application\Application.csproj" />
     <ProjectReference Include="..\Bazos\Bazos.csproj" />
     <ProjectReference Include="..\DatabaseConnection\DatabaseConnection.csproj" />
     <ProjectReference Include="..\Interfaces\Interfaces.csproj" />

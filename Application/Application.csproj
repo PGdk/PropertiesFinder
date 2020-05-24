@@ -23,6 +23,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Bazos\Bazos.csproj" />
+    <ProjectReference Include="..\DatabaseConnection\DatabaseConnection.csproj" />
+    <ProjectReference Include="..\IntegrationAPI\IntegrationAPI.csproj" />
     <ProjectReference Include="..\Interfaces\Interfaces.csproj" />
     <ProjectReference Include="..\Models\Models.csproj" />
     <ProjectReference Include="..\Utilities\Utilities.csproj" />

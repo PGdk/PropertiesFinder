@@ -12,48 +12,48 @@ namespace IntegrationAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class EntryIdsController : ControllerBase
+    public class EntriesController : ControllerBase
     {
         private readonly BazosContext _context;
 
-        public EntryIdsController(BazosContext context)
+        public EntriesController(BazosContext context)
         {
             _context = context;
         }
 
-        // GET: api/EntryIds
+        // GET: api/Entries
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<EntryId>>> GetEntries()
+        public async Task<ActionResult<IEnumerable<Entry>>> GetEntries()
         {
             return await _context.Entries.ToListAsync();
         }
 
-        // GET: api/EntryIds/5
+        // GET: api/Entries/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<EntryId>> GetEntryId(int id)
+        public async Task<ActionResult<Entry>> GetEntry(int id)
         {
-            var entryId = await _context.Entries.FindAsync(id);
+            var entry = await _context.Entries.FindAsync(id);
 
-            if (entryId == null)
+            if (entry == null)
             {
                 return NotFound();
             }
 
-            return entryId;
+            return entry;
         }
 
-        // PUT: api/EntryIds/5
+        // PUT: api/Entries/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutEntryId(int id, EntryId entryId)
+        public async Task<IActionResult> PutEntry(int id, Entry entry)
         {
-            if (id != entryId.Id)
+            if (id != entry.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(entryId).State = EntityState.Modified;
+            _context.Entry(entry).State = EntityState.Modified;
 
             try
             {
@@ -61,7 +61,7 @@ namespace IntegrationAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!EntryIdExists(id))
+                if (!EntryExists(id))
                 {
                     return NotFound();
                 }
@@ -74,35 +74,35 @@ namespace IntegrationAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/EntryIds
+        // POST: api/Entries
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<EntryId>> PostEntryId(EntryId entryId)
+        public async Task<ActionResult<Entry>> PostEntry(Entry entry)
         {
-            _context.Entries.Add(entryId);
+            _context.Entries.Add(entry);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetEntryId", new { id = entryId.Id }, entryId);
+            return CreatedAtAction("GetEntry", new { id = entry.Id }, entry);
         }
 
-        // DELETE: api/EntryIds/5
+        // DELETE: api/Entries/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<EntryId>> DeleteEntryId(int id)
+        public async Task<ActionResult<Entry>> DeleteEntry(int id)
         {
-            var entryId = await _context.Entries.FindAsync(id);
-            if (entryId == null)
+            var entry = await _context.Entries.FindAsync(id);
+            if (entry == null)
             {
                 return NotFound();
             }
 
-            _context.Entries.Remove(entryId);
+            _context.Entries.Remove(entry);
             await _context.SaveChangesAsync();
 
-            return entryId;
+            return entry;
         }
 
-        private bool EntryIdExists(int id)
+        private bool EntryExists(int id)
         {
             return _context.Entries.Any(e => e.Id == id);
         }
