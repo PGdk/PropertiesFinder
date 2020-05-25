@@ -14,7 +14,7 @@ namespace IntegrationApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    [Authorize]
+    // [Authorize]
     public class GazetaKrakowskaController : ControllerBase
     {
         private readonly IGazetaKrakowskaRepository databaseRepository;
@@ -34,7 +34,7 @@ namespace IntegrationApi.Controllers
 
         [HttpGet]
         [Route("{entryId}")]
-        [Authorize(Policy = "User")]
+        // [Authorize(Policy = "User")]
         public IActionResult Get(int entryId)
         {
             if (Request.Headers.ContainsKey("X-Request-ID"))
@@ -54,7 +54,7 @@ namespace IntegrationApi.Controllers
 
         [HttpPost]
         [Route("page")]
-        [Authorize(Policy = "User")]
+        // [Authorize(Policy = "User")]
         public IActionResult AddPage(PageRequest page)
         {
             if (Request.Headers.ContainsKey("X-Request-ID"))
@@ -82,7 +82,7 @@ namespace IntegrationApi.Controllers
 
         [HttpGet]
         [Route("entries")]
-        [Authorize(Policy = "User")]
+        // [Authorize(Policy = "User")]
         public IActionResult GetEntries(string pageLimit, string pageId)
         {
             if (Request.Headers.ContainsKey("X-Request-ID"))
@@ -128,7 +128,7 @@ namespace IntegrationApi.Controllers
 
         [HttpPut]
         [Route("{id}")]
-        [Authorize(Policy = "Admin")]
+        // [Authorize(Policy = "Admin")]
         public IActionResult UpdateEntry(int id, Entry entry)
         {
             if (Request.Headers.ContainsKey("X-Request-ID"))
