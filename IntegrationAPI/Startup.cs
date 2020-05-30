@@ -75,7 +75,7 @@ namespace IntegrationAPI
                 var email = context.User.Claims.FirstOrDefault(p =>
                     p.Issuer.Equals("Google") &&
                     p.Type.Equals(GoogleEmailAddressSchema));
-                if (email != null && email.Value.Equals("stanislaw.j.kosinski@gmail.com"))
+                if (email != null && (email.Value.Equals("stanislaw.j.kosinski@gmail.com") || email.Value.Equals("piotr.tybura@gmail.com")))
                     context.Succeed(requirement);
                 return Task.CompletedTask;
             }

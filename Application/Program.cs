@@ -16,9 +16,10 @@ namespace SampleApp
         {
             //normalnie używać using
 
-            using BazosContext db = new BazosContext();
-            db.Entries.Add(new Entry { RawDescription="deksrypcja"});
-            db.SaveChanges();
+            //using BazosContext db = new BazosContext();
+            //db.Entries.Add(new Entry { RawDescription="deksrypcja"});
+            //db.SaveChanges();
+
             //dodanie restowego serwera
             var entriesComparersTypes = GetTypesThatImplementsInterface(typeof(IEqualityComparer<Entry>));
             var firstComparer = Activator.CreateInstance(entriesComparersTypes.First());
