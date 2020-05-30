@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Authorization;
 namespace IntegrationAPI.Controllers
 {
     [Route("")]
-    [Authorize]
     [ApiController]
     public class EntriesController : ControllerBase
     {
@@ -23,8 +22,9 @@ namespace IntegrationAPI.Controllers
             _context = context;
         }
 
-        // GET: api/Entries
+        // GET: Entries
         [HttpGet]
+        [Authorize(Policy = "User")]
         [Route("Entries")]
         public async Task<ActionResult<IEnumerable<Entry>>> GetEntries()
         {
@@ -41,6 +41,7 @@ namespace IntegrationAPI.Controllers
         //DODATKOWE: PageLimit i PageId
         // GET: api/Entries
         [HttpGet]
+        [Authorize(Policy = "User")]
         [Route("Entries/PageLimit/{pageLimit}/PageId/{pageId}")]
         public async Task<ActionResult<IEnumerable<Entry>>> GetEntriesFromPage(int pageLimit, int pageId)
         {
@@ -53,8 +54,9 @@ namespace IntegrationAPI.Controllers
             .Include(entry => entry.PropertyPrice).ToListAsync();
         }
 
-        // GET: api/Entry/5
+        // GET: Entry/5
         [HttpGet("{id}")]
+        [Authorize(Policy = "Admin")]
         [Route("Entry/{id}")]
         public async Task<ActionResult<Entry>> GetEntry(int id)
         {
@@ -67,7 +69,7 @@ namespace IntegrationAPI.Controllers
             .Include(entry => entry.PropertyPrice).ToListAsync();
             Entry entry = null;
 
-            for (int i=0; i<entryList.Count; i++)
+            for (int i = 0; i < entryList.Count; i++)
             {
                 if (entryList[i].Id == id)
                     entry = entryList[i];
@@ -81,10 +83,11 @@ namespace IntegrationAPI.Controllers
         }
 
         //DODATKOWE - aktualizowanie danych
-        // PUT: api/Entry/5
+        // PUT: PutEntry/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
+        [Authorize(Policy = "Admin")]
         [Route("PutEntry/{id}")]
         public async Task<IActionResult> PutEntry(int id, Entry entry)
         {
@@ -114,10 +117,11 @@ namespace IntegrationAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/Page
+        // POST: Page
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
+        [Authorize(Policy = "User")]
         [Route("Page")]
         public async Task<ActionResult<Entry>> PostEntry(Entry entry)
         {
@@ -127,8 +131,26 @@ namespace IntegrationAPI.Controllers
             return CreatedAtAction("GetEntry", new { id = entry.Id }, entry);
         }
 
+        // POST: api/Page
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for
+        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        [HttpPost("{id}")]
+        [Authorize(Policy = "User")]
+        [Route("Page/{id}")]
+        public async Task<ActionResult<Entry>> PostEntryID(int id)
+        {
+            //Pobierz daną stronę z aplikacji
+            var entries = Bazos.BazosIntegration.GenerateDump(id); 
+            foreach (Entry entry in entries)
+                _context.Entries.Add(entry);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
         // DELETE: api/Entry/5
         [HttpDelete("{id}")]
+        [Authorize(Policy = "Admin")]
         [Route("DeleteEntry/{id}")]
         public async Task<ActionResult<Entry>> DeleteEntry(int id)
         {
