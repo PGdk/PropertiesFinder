@@ -27,5 +27,12 @@
         /// Ilość miejsc prakingowych podziemnych/garażowych. "0" w przypadku braku miejsc, "null" w przypadku braku danych
         /// </summary>
         public int? IndoorParkingPlaces { get; set; }
+
+        public bool HasElevator { get; set; }
+        public bool HasBalcony { get; set; }
+        public bool? IsPrimaryMarket { get; set; }
+        public bool HasBasementArea { get; set; }
+        public int? ParkingPlaces { get; set; }
+        public int? BalconyArea { get; set; }
     }
 }

@@ -16,5 +16,7 @@
         /// Nieprzetworzony tekst z ogłoszenia
         /// </summary>
         public string RawDescription { get; set; }
+
+        public System.Guid Id { get; set; }
     }
 }
