@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DatabaseConnection;
+using Extensions.Reflection;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,9 +11,9 @@ using Models;
 
 namespace IntegrationApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize(Roles = "User,Admin")]
     public class EntriesController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -24,14 +25,29 @@ namespace IntegrationApi.Controllers
 
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Entry>>> GetEntities()
+        public async Task<ActionResult<IEnumerable<Entry>>> GetEntities(int? pageId, int? pageLimit)
         {
-            return await _context.Entries.ToListAsync();
+            IQueryable<Entry> entries = _context.Entries;
+
+            if (pageId.HasValue != pageLimit.HasValue)
+            {
+                return BadRequest("Both parameters (pageId and pageLimit) must be provided.");
+            }
+
+            if(pageId.HasValue)
+            {
+                entries = entries
+                    .OrderBy(entry => entry.Id)
+                    .Skip(pageId.Value * pageLimit.Value)
+                    .Take(pageLimit.Value);
+            }
+
+            return await entries.ToListAsync();
         }
 
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Entry>> GetEntry(int id)
+        public async Task<ActionResult<Entry>> GetEntry(long id)
         {
             var entry = await _context.Entries.FindAsync(id);
 
@@ -45,15 +61,18 @@ namespace IntegrationApi.Controllers
 
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutEntry(Guid id, Entry entry)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> PutEntry(long id, Entry entry)
         {
-            entry.Id = id;
             if (id != entry.Id)
             {
                 return BadRequest();
             }
+            
+            var dbEntry = _context.Entries.Find(id);
+            dbEntry.ApplyNewValues(entry);
 
-            _context.Entry(entry).State = EntityState.Modified;
+            _context.Entries.Update(dbEntry);
 
             try
             {
@@ -100,7 +119,7 @@ namespace IntegrationApi.Controllers
             return entry;
         }
 
-        private bool EntryExists(Guid id)
+        private bool EntryExists(long id)
         {
             return _context.Entries.Any(e => e.Id == id);
         }

@@ -17,6 +17,6 @@
         /// </summary>
         public string RawDescription { get; set; }
 
-        public System.Guid Id { get; set; }
+        public long Id { get; set; }
     }
 }

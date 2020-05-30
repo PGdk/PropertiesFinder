@@ -6,7 +6,6 @@ using DatabaseConnection;
 using Extensions;
 using HtmlAgilityPack;
 using Interfaces;
-using Microsoft.EntityFrameworkCore;
 using Models;
 
 namespace Implementation
@@ -86,13 +85,9 @@ namespace Implementation
                         }
                     }
                 }
+                if(entries.Count > 500) break;
             }
 
-
-            var context = new ApplicationDbContext("Data Source=localhost;Initial Catalog=ApplicationDbContext;Integrated Security=True");
-            
-            context.Entries.AddRange(entries);
-            context.SaveChanges();
             return new Dump { Entries = entries, WebPage = WebPage, DateTime = DateTime.Now };
         }
 
@@ -209,7 +204,7 @@ namespace Implementation
         private static string CreateDescription(HtmlNode htmlNode)
         {
             return htmlNode
-                .SelectSingleNode("//div[@id='description']").InnerText;
+                .SelectSingleNode("//div[@id='description']")?.InnerText ?? String.Empty;
         }
 
         private OfferDetails CreateOfferDetail(HtmlNode htmlNode)

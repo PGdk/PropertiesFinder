@@ -4,7 +4,7 @@ using Models;
 
 namespace Extensions.Comparers
 {
-    class EntryEqualityComparer : IEqualityComparer<Entry>
+    public class EntryEqualityComparer : IEqualityComparer<Entry>
     {
         private static readonly OfferDetailsEqualityComparer OfferDetailsEqualityComparer = new OfferDetailsEqualityComparer();
         private static readonly PropertyPriceEqualityComparer PropertyPriceEqualityComparer = new PropertyPriceEqualityComparer();

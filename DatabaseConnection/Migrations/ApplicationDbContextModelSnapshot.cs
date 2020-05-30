@@ -31,7 +31,8 @@ namespace DatabaseConnection.Migrations
 
                     b.Property<DateTime>("Time")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("getdate()");
 
                     b.HasKey("Id");
 
@@ -40,9 +41,10 @@ namespace DatabaseConnection.Migrations
 
             modelBuilder.Entity("Models.Entry", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("RawDescription")
                         .HasColumnType("nvarchar(max)");
@@ -56,8 +58,10 @@ namespace DatabaseConnection.Migrations
                 {
                     b.OwnsOne("Models.OfferDetails", "OfferDetails", b1 =>
                         {
-                            b1.Property<Guid>("EntryId")
-                                .HasColumnType("uniqueidentifier");
+                            b1.Property<long>("EntryId")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("bigint")
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                             b1.Property<DateTime>("CreationDateTime")
                                 .HasColumnType("datetime2");
@@ -83,8 +87,10 @@ namespace DatabaseConnection.Migrations
 
                             b1.OwnsOne("Models.SellerContact", "SellerContact", b2 =>
                                 {
-                                    b2.Property<Guid>("OfferDetailsEntryId")
-                                        .HasColumnType("uniqueidentifier");
+                                    b2.Property<long>("OfferDetailsEntryId")
+                                        .ValueGeneratedOnAdd()
+                                        .HasColumnType("bigint")
+                                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                                     b2.Property<string>("Email")
                                         .HasColumnType("nvarchar(max)");
@@ -106,8 +112,10 @@ namespace DatabaseConnection.Migrations
 
                     b.OwnsOne("Models.PropertyAddress", "PropertyAddress", b1 =>
                         {
-                            b1.Property<Guid>("EntryId")
-                                .HasColumnType("uniqueidentifier");
+                            b1.Property<long>("EntryId")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("bigint")
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                             b1.Property<int>("City")
                                 .HasColumnType("int");
@@ -131,8 +139,10 @@ namespace DatabaseConnection.Migrations
 
                     b.OwnsOne("Models.PropertyDetails", "PropertyDetails", b1 =>
                         {
-                            b1.Property<Guid>("EntryId")
-                                .HasColumnType("uniqueidentifier");
+                            b1.Property<long>("EntryId")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("bigint")
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                             b1.Property<decimal>("Area")
                                 .HasColumnType("decimal(18,2)");
@@ -162,8 +172,10 @@ namespace DatabaseConnection.Migrations
 
                     b.OwnsOne("Models.PropertyFeatures", "PropertyFeatures", b1 =>
                         {
-                            b1.Property<Guid>("EntryId")
-                                .HasColumnType("uniqueidentifier");
+                            b1.Property<long>("EntryId")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("bigint")
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                             b1.Property<int?>("Balconies")
                                 .HasColumnType("int");
@@ -208,8 +220,10 @@ namespace DatabaseConnection.Migrations
 
                     b.OwnsOne("Models.PropertyPrice", "PropertyPrice", b1 =>
                         {
-                            b1.Property<Guid>("EntryId")
-                                .HasColumnType("uniqueidentifier");
+                            b1.Property<long>("EntryId")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("bigint")
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                             b1.Property<bool>("NegotiablePrice")
                                 .HasColumnType("bit");

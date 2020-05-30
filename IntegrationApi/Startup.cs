@@ -4,15 +4,25 @@ using System.Linq;
 using System.Threading.Tasks;
 using DatabaseConnection;
 using DatabaseConnection.Models;
+using Extensions.Comparers;
+using Implementation;
+using IntegrationApi.Middlewares;
+using IntegrationApi.ViewModels;
+using Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.Options;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Authentication.Google;
+using Models;
+using Utilities;
 
 namespace IntegrationApi
 {
@@ -30,6 +40,24 @@ namespace IntegrationApi
         {
             services.AddControllers();
             services.AddDbContext<ApplicationDbContext>(builder => builder.UseSqlServer(Configuration.GetConnectionString("ApplicationDbContext")));
+            services.Configure<InfoViewModel>(Configuration.GetSection("Student"));
+            services.AddSingleton<IWebSiteIntegration, Integration>();
+            services.AddSingleton<IDumpsRepository, DumpFileRepository>();
+            services.AddSingleton<IEqualityComparer<Entry>, EntryEqualityComparer>();
+
+            services.AddAuthentication(o =>
+                {
+                    o.DefaultScheme = "Application";
+                    o.DefaultSignInScheme = "External";
+                })
+                .AddCookie("Application")
+                .AddCookie("External")
+                .AddGoogle(o =>
+                {
+                    IConfigurationSection googleAuthNSection = Configuration.GetSection("Authentication:Google");
+                    o.ClientId = googleAuthNSection["ClientId"];
+                    o.ClientSecret = googleAuthNSection["ClientSecret"];
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -40,23 +68,12 @@ namespace IntegrationApi
                 app.UseDeveloperExceptionPage();
             }
 
-            app.Use(async (context, next) =>
-            {
-                // Do work that doesn't write to the Response.
-                await next.Invoke();
-                
-                if (context.Request.Headers.ContainsKey("X-Request-ID"))
-                {
-                    var db = context.RequestServices.GetRequiredService<ApplicationDbContext>();
-                    db.Logs.Add(new Log(context.Request.Headers["X-Request-ID"]));
-                    await db.SaveChangesAsync();
-                }
-            });
-
+            app.UseMiddleware<XRequestMiddleware>();
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

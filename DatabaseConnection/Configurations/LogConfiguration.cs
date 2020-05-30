@@ -11,7 +11,7 @@ namespace DatabaseConnection.Configurations
             builder.HasKey(log => log.Id);
             builder.Property(log => log.Id).ValueGeneratedOnAdd();
 
-            builder.Property(log => log.Time).ValueGeneratedOnAdd();
+            builder.Property(log => log.Time).HasDefaultValueSql("getdate()");
 
             builder.Property(log => log.HeaderValue).IsRequired();
         }

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DatabaseConnection.Migrations
 {
-    public partial class Intial : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -11,7 +11,8 @@ namespace DatabaseConnection.Migrations
                 name: "Entries",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false),
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     OfferDetails_Url = table.Column<string>(nullable: true),
                     OfferDetails_CreationDateTime = table.Column<DateTime>(nullable: true),
                     OfferDetails_LastUpdateDateTime = table.Column<DateTime>(nullable: true),
@@ -58,7 +59,7 @@ namespace DatabaseConnection.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false),
                     HeaderValue = table.Column<string>(nullable: false),
-                    Time = table.Column<DateTime>(nullable: false)
+                    Time = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()")
                 },
                 constraints: table =>
                 {
