@@ -22,8 +22,9 @@ namespace IntegrationAPI.Controllers
             _context = context;
         }
 
-        // GET: Entries
+        // GET: /Entries
         [HttpGet]
+        // DODATKOWE - autoryzacja (patrz również na inne metody)
         [Authorize(Policy = "User")]
         [Route("Entries")]
         public async Task<ActionResult<IEnumerable<Entry>>> GetEntries()
@@ -38,23 +39,27 @@ namespace IntegrationAPI.Controllers
             .Include(entry => entry.PropertyPrice).ToListAsync();
         }
 
-        //DODATKOWE: PageLimit i PageId
-        // GET: api/Entries
-        [HttpGet]
+        // DODATKOWE: PageLimit i PageId
+        // GET: /Entries/20/2
+        [HttpGet("{pageLimit}/{pageId}")]
         [Authorize(Policy = "User")]
-        [Route("Entries/PageLimit/{pageLimit}/PageId/{pageId}")]
+        [Route("Entries/{pageLimit}/{pageId}")]
         public async Task<ActionResult<IEnumerable<Entry>>> GetEntriesFromPage(int pageLimit, int pageId)
         {
+            int firstEntry = pageLimit * (pageId - 1) + 1;
             return await _context.Entries
-            .Include(entry => entry.OfferDetails)
-                .ThenInclude(offerDetails => offerDetails.SellerContact)
-            .Include(entry => entry.PropertyAddress)
-            .Include(entry => entry.PropertyDetails)
-            .Include(entry => entry.PropertyFeatures)
-            .Include(entry => entry.PropertyPrice).ToListAsync();
+                            .Include(entry => entry.OfferDetails)
+                                .ThenInclude(offerDetails => offerDetails.SellerContact)
+                            .Include(entry => entry.PropertyAddress)
+                            .Include(entry => entry.PropertyDetails)
+                            .Include(entry => entry.PropertyFeatures)
+                            .Include(entry => entry.PropertyPrice)
+                            .Where(entry => entry.Id>=firstEntry)
+                            .Where(entry => entry.Id < firstEntry+pageLimit)
+                            .ToListAsync();
         }
 
-        // GET: Entry/5
+        // GET: /Entry/5
         [HttpGet("{id}")]
         [Authorize(Policy = "Admin")]
         [Route("Entry/{id}")]
@@ -82,11 +87,11 @@ namespace IntegrationAPI.Controllers
             return entry;
         }
 
-        //DODATKOWE - aktualizowanie danych
+        // DODATKOWE - aktualizowanie danych
         // PUT: PutEntry/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+
         [HttpPut("{id}")]
+        // DODATKOWE - autoryzacja User/Admin
         [Authorize(Policy = "Admin")]
         [Route("PutEntry/{id}")]
         public async Task<IActionResult> PutEntry(int id, Entry entry)
@@ -117,23 +122,19 @@ namespace IntegrationAPI.Controllers
             return NoContent();
         }
 
-        // POST: Page
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPost]
-        [Authorize(Policy = "User")]
-        [Route("Page")]
-        public async Task<ActionResult<Entry>> PostEntry(Entry entry)
-        {
-            _context.Entries.Add(entry);
-            await _context.SaveChangesAsync();
+        //// POST: /Entry/2
+        //[HttpPost]
+        //[Authorize(Policy = "User")]
+        //[Route("Entry")]
+        //public async Task<ActionResult<Entry>> PostEntry(Entry entry)
+        //{
+        //    _context.Entries.Add(entry);
+        //    await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetEntry", new { id = entry.Id }, entry);
-        }
+        //    return CreatedAtAction("GetEntry", new { id = entry.Id }, entry);
+        //}
 
         // POST: api/Page
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost("{id}")]
         [Authorize(Policy = "User")]
         [Route("Page/{id}")]
@@ -148,7 +149,7 @@ namespace IntegrationAPI.Controllers
             return NoContent();
         }
 
-        // DELETE: api/Entry/5
+        // DELETE: /Entry/5
         [HttpDelete("{id}")]
         [Authorize(Policy = "Admin")]
         [Route("DeleteEntry/{id}")]

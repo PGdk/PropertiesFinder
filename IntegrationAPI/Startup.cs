@@ -51,7 +51,7 @@ namespace IntegrationAPI
                 options.Cookie.HttpOnly = false;
                 options.Cookie.SameSite = SameSiteMode.None;
             });
-
+            // DODATKOWE - autoryzacja User/Admin
             services.AddAuthorization(options =>
                 options.AddPolicy("User", policy =>
                     policy.Requirements.Add(new UserPolicyRequirement())));
