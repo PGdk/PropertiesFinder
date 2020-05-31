@@ -6,6 +6,7 @@ using HtmlAgilityPack;
 using System.Linq;
 using System.Threading;
 using System.Reflection;
+using System.Globalization;
 
 namespace Bazos
 {
@@ -75,98 +76,7 @@ namespace Bazos
 
             List<Entry> dumpEntries = new List<Entry>();
             // Dla każdego ogłoszenia ze strony głównej tworzymy nowe Entry i dodajemy do Dumpa
-            foreach (var page in pages)
-            {
-                Dictionary<string, string> info = CreateDictionary();
-
-                doc = web.Load(page);
-                InfoExtracter.ExtractInfoFromPropertyPage(info, doc);
-                decimal ppm;
-                PolishCity city;
-                var dateStr = info["CreationDateTime"];
-                var dateDT = DateTime.Parse(dateStr);
-
-                OfferKind offer;
-
-                if (Enum.IsDefined(typeof(PolishCity), info["City"]))
-                {
-                    city = (PolishCity)System.Enum.Parse(typeof(PolishCity), info["City"].ToUpper());
-                }
-                else
-                {
-                    continue;
-                }
-
-                if (info["Area"] != "-1")
-                {
-                    ppm = Convert.ToDecimal(info["TotalGrossPrice"]) / Convert.ToDecimal(info["Area"]);
-                }
-                else
-                {
-                    ppm = 0;
-                }
-                if (info["Rental"] == "WYNAJEM")
-                {
-                    offer = OfferKind.RENTAL;
-                }
-                else
-                {
-                    offer = OfferKind.SALE;
-                }
-
-                Entry entry = new Entry
-                {
-
-                    OfferDetails = new OfferDetails
-                    {
-                        Url = page,
-                        CreationDateTime = dateDT,
-                        LastUpdateDateTime = null, //Strona bazos nie zawiera informacji o aktualizacji ogłoszenia 
-                        OfferKind = offer,
-                        SellerContact = new SellerContact
-                        {
-                            Email = info["Email"],
-                            Name = info["Name"],
-                            Telephone = info["Telephone"]
-                        },
-
-                        IsStillValid = true
-                    },
-                    PropertyDetails = new PropertyDetails
-                    {
-                        Area = Convert.ToDecimal(info["Area"]),
-                        NumberOfRooms = Convert.ToInt32(info["NumberOfRooms"]),
-                        FloorNumber = Convert.ToInt32(info["FloorNumber"]),
-                        YearOfConstruction = Convert.ToInt32(info["YearOfConstruction"]),
-                    },
-                    PropertyFeatures = new PropertyFeatures
-                    {
-                        GardenArea = Convert.ToDecimal(info["GardenArea"]),
-                        Balconies = Convert.ToInt32(info["Balconies"]),
-                        BasementArea = Convert.ToDecimal(info["BasementArea"]),
-                        OutdoorParkingPlaces = Convert.ToInt32(info["OutdoorParkingPlaces"]),
-                        IndoorParkingPlaces = Convert.ToInt32(info["IndoorParkingPlaces"]),
-                    },
-                    PropertyAddress = new PropertyAddress
-                    {
-                        City = city,
-                        District = info["District"],
-                        StreetName = info["StreetName"],
-                        DetailedAddress = info["DetailedAddress"],
-                    },
-                    PropertyPrice = new PropertyPrice
-                    {
-                        TotalGrossPrice = Convert.ToDecimal(info["TotalGrossPrice"]),
-                        PricePerMeter = ppm,
-                        ResidentalRent = Convert.ToInt32(info["ResidentalRent"]),
-                    },
-                    RawDescription = info["RawDescription"]
-                };
-
-                ChangeEmptyToNull(entry); //Wszelkie puste infromacje zamieniamy na nulla
-
-                dumpEntries.Add(entry);
-            }
+            CreateDump(pages, web, doc, dumpEntries);
             dump.Entries = dumpEntries;
 
             return dump;
@@ -182,99 +92,12 @@ namespace Bazos
             //Tutaj w normalnej sytuacji musimy ściągnąć dane z konkretnej strony, przeparsować je i dopiero wtedy zapisać do modelu Dump
 
             List<Entry> entries = new List<Entry>();
-            // Dla każdego ogłoszenia ze strony głównej tworzymy nowe Entry i dodajemy do Dumpa
-            foreach (var page in pages)
+            if (pages == null)
             {
-                Dictionary<string, string> info = CreateDictionary();
-
-                doc = web.Load(page);
-                InfoExtracter.ExtractInfoFromPropertyPage(info, doc);
-                decimal ppm;
-                PolishCity city;
-                var dateStr = info["CreationDateTime"];
-                var dateDT = DateTime.Parse(dateStr);
-
-                OfferKind offer;
-
-                if (Enum.IsDefined(typeof(PolishCity), info["City"]))
-                {
-                    city = (PolishCity)System.Enum.Parse(typeof(PolishCity), info["City"].ToUpper());
-                }
-                else
-                {
-                    continue;
-                }
-
-                if (info["Area"] != "-1" && Convert.ToInt32(info["Area"]) != 0)
-                {
-                    ppm = Convert.ToDecimal(info["TotalGrossPrice"]) / Convert.ToDecimal(info["Area"]);
-                }
-                else
-                {
-                    ppm = 0;
-                }
-                if (info["Rental"] == "WYNAJEM")
-                {
-                    offer = OfferKind.RENTAL;
-                }
-                else
-                {
-                    offer = OfferKind.SALE;
-                }
-
-                Entry entry = new Entry
-                {
-
-                    OfferDetails = new OfferDetails
-                    {
-                        Url = page,
-                        CreationDateTime = dateDT,
-                        LastUpdateDateTime = null, //Strona bazos nie zawiera informacji o aktualizacji ogłoszenia 
-                        OfferKind = offer,
-                        SellerContact = new SellerContact
-                        {
-                            Email = info["Email"],
-                            Name = info["Name"],
-                            Telephone = info["Telephone"]
-                        },
-
-                        IsStillValid = true
-                    },
-                    PropertyDetails = new PropertyDetails
-                    {
-                        Area = Convert.ToDecimal(info["Area"]),
-                        NumberOfRooms = Convert.ToInt32(info["NumberOfRooms"]),
-                        FloorNumber = Convert.ToInt32(info["FloorNumber"]),
-                        YearOfConstruction = Convert.ToInt32(info["YearOfConstruction"]),
-                    },
-                    PropertyFeatures = new PropertyFeatures
-                    {
-                        GardenArea = Convert.ToDecimal(info["GardenArea"]),
-                        Balconies = Convert.ToInt32(info["Balconies"]),
-                        BasementArea = Convert.ToDecimal(info["BasementArea"]),
-                        OutdoorParkingPlaces = Convert.ToInt32(info["OutdoorParkingPlaces"]),
-                        IndoorParkingPlaces = Convert.ToInt32(info["IndoorParkingPlaces"]),
-                    },
-                    PropertyAddress = new PropertyAddress
-                    {
-                        City = city,
-                        District = info["District"],
-                        StreetName = info["StreetName"],
-                        DetailedAddress = info["DetailedAddress"],
-                    },
-                    PropertyPrice = new PropertyPrice
-                    {
-                        TotalGrossPrice = Convert.ToDecimal(info["TotalGrossPrice"]),
-                        PricePerMeter = ppm,
-                        ResidentalRent = Convert.ToInt32(info["ResidentalRent"]),
-                    },
-                    RawDescription = info["RawDescription"]
-                };
-
-                ChangeEmptyToNull(entry); //Wszelkie puste infromacje zamieniamy na nulla
-
-                entries.Add(entry);
+                return entries;
             }
+            // Dla każdego ogłoszenia ze strony głównej tworzymy nowe Entry i dodajemy do Dumpa
+            CreateDump(pages, web, doc, entries);
             return entries;
         }
 
@@ -352,11 +175,114 @@ namespace Bazos
         {
             //Zbieramy linki wszystkich ogłoszeń ze strony głównej
             var pagesNodes = doc.DocumentNode.SelectNodes("//span[@class=\"nadpis\"]");
+            if(pagesNodes == null)
+            {
+                return;
+            }
             foreach (HtmlNode node in pagesNodes)
             {
                 var address = node.FirstChild.GetAttributeValue("href", string.Empty);
                 address = "https://nieruchomosci.bazos.pl" + address;
                 pages.Add(address);
+            }
+        }
+        private static void CreateDump(List<string> pages, HtmlWeb web, HtmlDocument doc, List<Entry> dumpEntries)
+        {
+            foreach (var page in pages)
+            {
+                Dictionary<string, string> info = CreateDictionary();
+
+                doc = web.Load(page);
+                InfoExtracter.ExtractInfoFromPropertyPage(info, doc);
+                decimal ppm;
+                PolishCity city;
+
+                var culture = new System.Globalization.CultureInfo("pl-PL");
+                var dateStr = info["CreationDateTime"];
+                var plDFI = culture.DateTimeFormat;
+                var date = DateTime.Parse(dateStr);
+                date = Convert.ToDateTime(date, plDFI);
+
+                OfferKind offer;
+
+                if (Enum.IsDefined(typeof(PolishCity), info["City"]))
+                {
+                    city = (PolishCity)System.Enum.Parse(typeof(PolishCity), info["City"].ToUpper());
+                }
+                else
+                {
+                    continue;
+                }
+
+                if (info["Area"] != "-1" && Convert.ToInt32(info["Area"]) != 0)
+                {
+                    ppm = Convert.ToDecimal(info["TotalGrossPrice"]) / Convert.ToDecimal(info["Area"]);
+                }
+                else
+                {
+                    ppm = 0;
+                }
+                if (info["Rental"] == "WYNAJEM")
+                {
+                    offer = OfferKind.RENTAL;
+                }
+                else
+                {
+                    offer = OfferKind.SALE;
+                }
+
+                Entry entry = new Entry
+                {
+
+                    OfferDetails = new OfferDetails
+                    {
+                        Url = page,
+                        CreationDateTime = date,
+                        LastUpdateDateTime = null, //Strona bazos nie zawiera informacji o aktualizacji ogłoszenia 
+                        OfferKind = offer,
+                        SellerContact = new SellerContact
+                        {
+                            Email = info["Email"],
+                            Name = info["Name"],
+                            Telephone = info["Telephone"]
+                        },
+
+                        IsStillValid = true
+                    },
+                    PropertyDetails = new PropertyDetails
+                    {
+                        Area = Convert.ToDecimal(info["Area"]),
+                        NumberOfRooms = Convert.ToInt32(info["NumberOfRooms"]),
+                        FloorNumber = Convert.ToInt32(info["FloorNumber"]),
+                        YearOfConstruction = Convert.ToInt32(info["YearOfConstruction"]),
+                    },
+                    PropertyFeatures = new PropertyFeatures
+                    {
+                        GardenArea = Convert.ToDecimal(info["GardenArea"]),
+                        Balconies = Convert.ToInt32(info["Balconies"]),
+                        BasementArea = Convert.ToDecimal(info["BasementArea"]),
+                        OutdoorParkingPlaces = Convert.ToInt32(info["OutdoorParkingPlaces"]),
+                        IndoorParkingPlaces = Convert.ToInt32(info["IndoorParkingPlaces"]),
+                    },
+                    PropertyAddress = new PropertyAddress
+                    {
+                        City = city,
+                        District = info["District"],
+                        StreetName = info["StreetName"],
+                        DetailedAddress = info["DetailedAddress"],
+                    },
+                    PropertyPrice = new PropertyPrice
+                    {
+                        TotalGrossPrice = Convert.ToDecimal(info["TotalGrossPrice"]),
+                        PricePerMeter = ppm,
+                        ResidentalRent = Convert.ToInt32(info["ResidentalRent"]),
+                    },
+                    RawDescription = info["RawDescription"]
+                };
+
+                ChangeEmptyToNull(entry); //Wszelkie puste infromacje zamieniamy na nulla
+
+                dumpEntries.Add(entry);
             }
         }
     }

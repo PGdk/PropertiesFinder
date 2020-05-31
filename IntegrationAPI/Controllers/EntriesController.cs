@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using DatabaseConnection;
 using Models;
 using Microsoft.AspNetCore.Authorization;
+using Newtonsoft.Json.Linq;
+using DatabaseConnection.Models;
 
 namespace IntegrationAPI.Controllers
 {
@@ -47,7 +49,7 @@ namespace IntegrationAPI.Controllers
         public async Task<ActionResult<IEnumerable<Entry>>> GetEntriesFromPage(int pageLimit, int pageId)
         {
             int firstEntry = pageLimit * (pageId - 1) + 1;
-            return await _context.Entries
+            var entries = await _context.Entries
                             .Include(entry => entry.OfferDetails)
                                 .ThenInclude(offerDetails => offerDetails.SellerContact)
                             .Include(entry => entry.PropertyAddress)
@@ -57,6 +59,16 @@ namespace IntegrationAPI.Controllers
                             .Where(entry => entry.Id>=firstEntry)
                             .Where(entry => entry.Id < firstEntry+pageLimit)
                             .ToListAsync();
+            if (entries == null)
+            {
+                // Dodatkowe - Zwrot 404
+                return NotFound();
+            }
+            else
+            {
+                return entries;
+            }
+
         }
 
         // GET: /Entry/5
@@ -138,10 +150,32 @@ namespace IntegrationAPI.Controllers
         [HttpPost("{id}")]
         [Authorize(Policy = "User")]
         [Route("Page/{id}")]
-        public async Task<ActionResult<Entry>> PostEntryID(int id)
+        public async Task<ActionResult<Entry>> PostPage(int id)
         {
             //Pobierz daną stronę z aplikacji
             var entries = Bazos.BazosIntegration.GenerateDump(id); 
+            if (entries.Count == 0)
+            {
+                return BadRequest();
+            }
+            foreach (Entry entry in entries)
+                _context.Entries.Add(entry);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        [HttpPost]
+        [Authorize(Policy = "User")]
+        [Route("Page")]
+        public async Task<ActionResult<Entry>> PostPageJSon(Page page)
+        {
+            var entries = Bazos.BazosIntegration.GenerateDump(page.pageNumber);
+            if (entries.Count == 0)
+            {
+                // Dodatkowe - Zwrot 400
+                return BadRequest();
+            }
             foreach (Entry entry in entries)
                 _context.Entries.Add(entry);
             await _context.SaveChangesAsync();
