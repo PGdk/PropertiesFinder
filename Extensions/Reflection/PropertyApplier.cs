@@ -12,8 +12,6 @@ namespace Extensions.Reflection
                 return;
             }
 
-            ;
-
             Type objType = baseObject.GetType();
             PropertyInfo[] properties = objType.GetProperties();
             foreach (PropertyInfo property in properties)
