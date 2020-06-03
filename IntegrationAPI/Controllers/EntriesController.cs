@@ -73,7 +73,7 @@ namespace IntegrationAPI.Controllers
 
         // GET: /Entry/5
         [HttpGet("{id}")]
-        [Authorize(Policy = "Admin")]
+        [Authorize(Policy = "User")]
         [Route("Entry/{id}")]
         public async Task<ActionResult<Entry>> GetEntry(int id)
         {
@@ -100,7 +100,7 @@ namespace IntegrationAPI.Controllers
         }
 
         // DODATKOWE - aktualizowanie danych
-        // PUT: PutEntry/5
+        // PUT: Entry/5
 
         [HttpPut("{id}")]
         // DODATKOWE - autoryzacja User/Admin
@@ -146,7 +146,7 @@ namespace IntegrationAPI.Controllers
         //    return CreatedAtAction("GetEntry", new { id = entry.Id }, entry);
         //}
 
-        // POST: api/Page
+        // POST: Page/id
         [HttpPost("{id}")]
         [Authorize(Policy = "User")]
         [Route("Page/{id}")]
@@ -165,6 +165,7 @@ namespace IntegrationAPI.Controllers
             return NoContent();
         }
 
+        // POST: Page (wyslanie numeru strony JSONem
         [HttpPost]
         [Authorize(Policy = "User")]
         [Route("Page")]
