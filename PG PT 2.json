@@ -1,0 +1,198 @@
+{
+  "version": 6,
+  "entities": [
+    {
+      "entity": {
+        "type": "Project",
+        "id": "2b004ba2-3a9a-488c-914e-ee4af7387068",
+        "name": "PG PT 2"
+      },
+      "children": [
+        {
+          "entity": {
+            "type": "Request",
+            "method": {
+              "link": "https://tools.ietf.org/html/rfc7231#section-4.3",
+              "name": "GET"
+            },
+            "body": {
+              "bodyType": "Text",
+              "textBody": ""
+            },
+            "uri": {
+              "query": {
+                "delimiter": "&",
+                "items": [
+                  {
+                    "enabled": true,
+                    "name": "pageId",
+                    "value": "1"
+                  },
+                  {
+                    "enabled": true,
+                    "name": "pageLimit",
+                    "value": "5"
+                  }
+                ]
+              },
+              "scheme": {
+                "secure": true,
+                "name": "https",
+                "version": "V11"
+              },
+              "host": "localhost:0348",
+              "path": "/entries"
+            },
+            "id": "b62a794e-6880-4425-a58b-db6a55474a2e",
+            "name": "GetEntries - 50%",
+            "headers": [],
+            "assertions": []
+          }
+        },
+        {
+          "entity": {
+            "type": "Request",
+            "method": {
+              "link": "https://tools.ietf.org/html/rfc7231#section-4.3",
+              "name": "GET"
+            },
+            "body": {
+              "bodyType": "Text",
+              "textBody": ""
+            },
+            "uri": {
+              "query": {
+                "delimiter": "&",
+                "items": []
+              },
+              "scheme": {
+                "secure": true,
+                "name": "https",
+                "version": "V11"
+              },
+              "host": "localhost:0348",
+              "path": "/entries/1"
+            },
+            "id": "10bd7eba-36ac-44c0-a1fd-ce8c4afd4d7b",
+            "name": "GetEntry - 50%",
+            "headers": [],
+            "assertions": []
+          }
+        },
+        {
+          "entity": {
+            "type": "Request",
+            "method": {
+              "link": "https://tools.ietf.org/html/rfc7231#section-4.3",
+              "name": "GET"
+            },
+            "body": {
+              "bodyType": "Text",
+              "textBody": ""
+            },
+            "uri": {
+              "query": {
+                "delimiter": "&",
+                "items": []
+              },
+              "scheme": {
+                "secure": true,
+                "name": "https",
+                "version": "V11"
+              },
+              "host": "localhost:0348",
+              "path": "/info"
+            },
+            "id": "71ececc1-7770-4d12-b0cb-a8d1324a97ee",
+            "name": "GetInfo - 50%",
+            "headers": [],
+            "assertions": []
+          }
+        },
+        {
+          "entity": {
+            "type": "Request",
+            "method": {
+              "requestBody": true,
+              "link": "https://tools.ietf.org/html/rfc7231#section-4.3",
+              "name": "POST"
+            },
+            "body": {
+              "bodyType": "Text",
+              "textBody": "{\n\t\"pageNumber\": 2\n}"
+            },
+            "uri": {
+              "query": {
+                "delimiter": "&",
+                "items": []
+              },
+              "scheme": {
+                "secure": true,
+                "name": "https",
+                "version": "V11"
+              },
+              "host": "localhost:0348",
+              "path": "/page"
+            },
+            "id": "589be3c9-769f-4209-9b73-ee440c52652f",
+            "name": "LoadPage - 50%",
+            "headers": [
+              {
+                "enabled": true,
+                "name": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "enabled": true,
+                "name": "X-Request-ID",
+                "value": "2"
+              }
+            ],
+            "assertions": []
+          }
+        },
+        {
+          "entity": {
+            "type": "Request",
+            "method": {
+              "requestBody": true,
+              "link": "http://tools.ietf.org/html/rfc7231#section-4.3.4",
+              "name": "PUT"
+            },
+            "body": {
+              "formBody": {
+                "overrideContentType": true,
+                "encoding": "application/x-www-form-urlencoded",
+                "items": []
+              },
+              "bodyType": "Text",
+              "textBody": "{\n\"offerDetails\":{\n\"url\": \"https://www.oferty.net/of,1531159378\",\n\"creationDateTime\": \"2020-05-01T00:00:00\",\n\"lastUpdateDateTime\": \"2020-05-18T00:00:00\",\n\"offerKind\": 1,\n\"sellerContact\":{\n\"email\": null,\n\"telephone\": \"22222222\",\n\"name\": \"Tur Nieruchomości\"\n},\n\"isStillValid\": false\n},\n\"id\": 1\n}"
+            },
+            "uri": {
+              "query": {
+                "delimiter": "&",
+                "items": []
+              },
+              "scheme": {
+                "secure": true,
+                "name": "https",
+                "version": "V11"
+              },
+              "host": "localhost:0348",
+              "path": "/entries/1"
+            },
+            "id": "c0630e3c-1910-438d-b505-5b176cfbf306",
+            "name": "PutEntry - 50%",
+            "headers": [
+              {
+                "enabled": true,
+                "name": "Content-Type",
+                "value": "application/json"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
