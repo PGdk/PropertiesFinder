@@ -39,11 +39,7 @@ namespace Exhouse.Exhouse
 
                 foreach (HtmlNode link in documentNode.SelectNodes("//div[@class='offersListHolder']/div/div/div/a[@class='overlay-link']"))
                 {
-                    string entryUrl = GenerateUrl(link.Attributes["href"].Value);
-
                     entries.Add(CreateEntry(GenerateUrl(link.Attributes["href"].Value)));
-
-                    Console.WriteLine($"Import ({entries.Count}): {entryUrl}");
                 }
 
                 pageUrl = FindNextPageUrl(documentNode);
