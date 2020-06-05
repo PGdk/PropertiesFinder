@@ -67,6 +67,18 @@ namespace IntegrationSprzedajemy
             };
         }
 
+        private void RetrieveOffersByPage(int pageNum)
+        {
+            // Warning : without any filters it is possible to scrap up to (15'000 + offersPerPage) offers
+
+            var offersPerPage = 60;
+            var pageParams = "{0}?items_per_page={1}&offset={2}";
+            string url = string.Format(pageParams, WebPage.Url, offersPerPage, pageNum * offersPerPage);
+
+            offers.Clear();
+            AppendOffersUrls(url);
+        }
+
         private void RetrieveAllOffers()
         {
             // Warning : without any filters it is possible to scrap up to (15'000 + offersPerPage) offers
@@ -81,6 +93,31 @@ namespace IntegrationSprzedajemy
                 AppendOffersUrls(url);
             }
         }
+
+        public List<Entry> GetOffersByPageNum(int pageNumber)
+        {
+            RetrieveOffersByPage(pageNumber);
+
+            var entriesTasks = new List<Task<Entry>>();
+            var entriesDone = new List<Entry>();
+
+            foreach (var o in offers)
+            {
+                entriesTasks.Add(Task.Run(() => RetriveEntry(o)));
+
+                // Note : As long as HtmlAgilityPack.HtmlWeb.Load is a bottleneck multithreading is disabled
+                entriesTasks.Last().Wait();
+            }
+
+            foreach (var t in entriesTasks)
+            {
+                t.Wait();
+                entriesDone.Add(t.Result);
+            }
+
+            return entriesDone;
+        }
+
         private void AppendOffersUrls(string url)
         {
             HtmlWeb web = new HtmlWeb();
