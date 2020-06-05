@@ -4,7 +4,7 @@
     "IntegrationApi": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "info",
+      "launchUrl": "entries",
       "applicationUrl": "https://localhost:0348",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"

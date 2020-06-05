@@ -5,7 +5,7 @@ namespace Extensions.Reflection
 {
     public static class PropertyApplier
     {
-        public static void ApplyNewValues<T>(this T baseObject, T newObject)
+        public static void ApplyNewValues<T>(this T baseObject, T newObject) where T : class
         {
             baseObject.ApplyNewValues(newObject, 0);
         }
