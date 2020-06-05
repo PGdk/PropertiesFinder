@@ -10,7 +10,7 @@ namespace IntegrationApi.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class PageController : ControllerBase
+    public class PageController : AbstractController
     {
         private readonly ExhouseIntegration _integration;
         private readonly DatabaseContext _context;
@@ -25,6 +25,8 @@ namespace IntegrationApi.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] SelectedPage selectedPage)
         {
+            GenerateLog();
+
             if (selectedPage.PageNumber < 1)
             {
                 return NotFound();

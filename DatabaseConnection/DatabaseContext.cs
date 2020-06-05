@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using DatabaseConnection.Models;
+using Microsoft.EntityFrameworkCore;
 using Models;
 
 namespace DatabaseConnection
@@ -20,6 +21,8 @@ namespace DatabaseConnection
         public DbSet<PropertyPrice> PropertiesPrices { get; set; }
 
         public DbSet<SellerContact> SellersContacts { get; set; }
+
+        public DbSet<Log> Logs { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

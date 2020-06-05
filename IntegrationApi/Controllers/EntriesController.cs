@@ -9,7 +9,7 @@ using System.Linq;
 namespace IntegrationApi.Controllers
 {
     [ApiController]
-    public class EntriesController : ControllerBase
+    public class EntriesController : AbstractController
     {
         private readonly DatabaseContext _context;
 
@@ -23,6 +23,8 @@ namespace IntegrationApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Entry>>> GetEntries()
         {
+            GenerateLog();
+
             return await _context.Entries
                 .Include(e => e.OfferDetails)
                 .ThenInclude(of => of.SellerContact)
@@ -38,6 +40,8 @@ namespace IntegrationApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Entry>>> GetEntriesPage(int pageLimit, int pageId)
         {
+            GenerateLog();
+
             if (pageLimit < 1)
             {
                 return BadRequest();
@@ -65,6 +69,8 @@ namespace IntegrationApi.Controllers
         [HttpGet]
         public async Task<ActionResult<Entry>> GetEntry(int id)
         {
+            GenerateLog();
+
             var entry = await _context.Entries
                 .Include(e => e.OfferDetails)
                 .ThenInclude(of => of.SellerContact)
@@ -87,6 +93,8 @@ namespace IntegrationApi.Controllers
         [HttpPut]
         public async Task<IActionResult> PutEntry(int id, Entry entry)
         {
+            GenerateLog();
+
             if (id != entry.Id)
             {
                 return BadRequest();

@@ -7,7 +7,7 @@ namespace IntegrationApi.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class InfoController : ControllerBase
+    public class InfoController : AbstractController
     {
         private static readonly string StudentName = "Kamil Werner";
         private static readonly int StudentIndex = 167950;
@@ -16,6 +16,8 @@ namespace IntegrationApi.Controllers
         [HttpGet]
         public ActionResult<Info> Get()
         {
+            GenerateLog();
+
             return Ok(
                 new Info
                 {
