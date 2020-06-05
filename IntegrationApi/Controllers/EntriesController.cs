@@ -34,11 +34,16 @@ namespace IntegrationApi.Controllers
         }
 
         // GET: /entries/10/2
-        [Route("entries/{pageLimit}/{pageId}")]
+        [Route("entries/{pageLimit:int}/{pageId:int}")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Entry>>> GetEntriesPage(int pageLimit, int pageId)
         {
-            if (pageLimit < 1 || pageId < 1)
+            if (pageLimit < 1)
+            {
+                return BadRequest();
+            }
+
+            if (pageId < 1 || (_context.Entries.Count() / pageLimit) < (pageId - 1))
             {
                 return NotFound();
             }
@@ -56,7 +61,7 @@ namespace IntegrationApi.Controllers
         }
 
         // GET: /entry/5
-        [Route("entry/{id}")]
+        [Route("entry/{id:int}")]
         [HttpGet]
         public async Task<ActionResult<Entry>> GetEntry(int id)
         {
@@ -78,7 +83,7 @@ namespace IntegrationApi.Controllers
         }
 
         // PUT: /entry/5
-        [Route("entry/{id}")]
+        [Route("entry/{id:int}")]
         [HttpPut]
         public async Task<IActionResult> PutEntry(int id, Entry entry)
         {

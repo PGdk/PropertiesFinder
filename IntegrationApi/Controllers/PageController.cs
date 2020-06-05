@@ -1,8 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using DatabaseConnection;
 using Exhouse.Exhouse;
 using IntegrationApi.Models;
 using Microsoft.AspNetCore.Mvc;
+using Models;
 
 namespace IntegrationApi.Controllers
 {
@@ -25,13 +27,17 @@ namespace IntegrationApi.Controllers
         {
             if (selectedPage.PageNumber < 1)
             {
-                return BadRequest();
+                return NotFound();
             }
 
-            await _context.Entries.AddRangeAsync(
-                _integration.FetchEntriesFromOffersPage(selectedPage.PageNumber)
-            );
+            List<Entry> entries = _integration.FetchEntriesFromOffersPage(selectedPage.PageNumber);
 
+            if (0 == entries.Count)
+            {
+                return NotFound();
+            }
+
+            await _context.Entries.AddRangeAsync(entries);
             await _context.SaveChangesAsync();
 
             return NoContent();
