@@ -7,15 +7,15 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Utilities;
 
-namespace BezposrednieIntegration
+namespace Bezposrednie
 {
-    class BezposrednieIntegration : IWebSiteIntegration
+    public class BezposrednieIntegration : IWebSiteIntegration
     {
         public WebPage WebPage { get; }
         public IDumpsRepository DumpsRepository { get; }
 
         public IEqualityComparer<Entry> EntriesComparer { get; }
-        public BezposrednieGetOffersFromMainPage mainPage;
+        /*public*/ BezposrednieGetOffersFromMainPage mainPage;
 
         public BezposrednieIntegration(IDumpsRepository dumpsRepository,
             IEqualityComparer<Entry> equalityComparer)

@@ -3,7 +3,7 @@ using Utilities;
 using System.Collections.Generic;
 using System.Text;
 
-namespace BezposrednieIntegration
+namespace Bezposrednie
 {
     class BezposrednieGetOffersFromMainPage
     {

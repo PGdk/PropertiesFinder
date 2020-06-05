@@ -4,9 +4,9 @@ using System.Text;
 using Models;
 using System.Diagnostics.CodeAnalysis;
 
-namespace BezposrednieIntegration
+namespace Bezposrednie
 {
-    class BezposrednieComparer : IEqualityComparer<Entry>
+   public class BezposrednieComparer : IEqualityComparer<Entry>
     {
         public bool Equals(Entry x, Entry y)
         {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Utilities;
 
-namespace BezposrednieIntegration
+namespace Bezposrednie
 {
     class BezpostednieGetOfferDetails
     {
@@ -166,8 +166,15 @@ namespace BezposrednieIntegration
             string City = "";
             if (Flat)
             {
-                City = AddressDataTable[1].Trim().ToUpper();
-                City = ReplacePolishChars(City);
+                try
+                {
+                    City = AddressDataTable[1].Trim().ToUpper();
+                    City = ReplacePolishChars(City);
+                }
+                catch 
+                {
+                    City = AddressDataTable[0].Trim().ToUpper();
+                }
             }
             else
             {
