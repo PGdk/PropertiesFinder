@@ -7,7 +7,7 @@ using Models;
 
 namespace Exhouse.Exhouse
 {
-    class ExhouseIntegration : IWebSiteIntegration
+    public class ExhouseIntegration : IWebSiteIntegration
     {
         public WebPage WebPage { get; }
 
@@ -37,15 +37,35 @@ namespace Exhouse.Exhouse
             {
                 HtmlNode documentNode = FetchDocumentNode(pageUrl);
 
-                foreach (HtmlNode link in documentNode.SelectNodes("//div[@class='offersListHolder']/div/div/div/a[@class='overlay-link']"))
-                {
-                    entries.Add(CreateEntry(GenerateUrl(link.Attributes["href"].Value)));
-                }
+                entries.AddRange(FetchEntriesFromDocumentNode(documentNode));
 
                 pageUrl = FindNextPageUrl(documentNode);
             }
 
             return CreateDump(entries);
+        }
+
+        public List<Entry> FetchEntriesFromOffersPage(int pageNumber)
+        {
+            --pageNumber;
+
+            return FetchEntriesFromDocumentNode(
+                FetchDocumentNode(
+                    GenerateUrl(ExhouseWebPage.OFFERS_PAGE_PATH + pageNumber)
+                )
+            );
+        }
+
+        private List<Entry> FetchEntriesFromDocumentNode(HtmlNode documentNode)
+        {
+            List<Entry> entries = new List<Entry>();
+
+            foreach (HtmlNode link in documentNode.SelectNodes("//div[@class='offersListHolder']/div/div/div/a[@class='overlay-link']"))
+            {
+                entries.Add(CreateEntry(GenerateUrl(link.Attributes["href"].Value)));
+            }
+
+            return entries;
         }
 
         private Entry CreateEntry(string url)
