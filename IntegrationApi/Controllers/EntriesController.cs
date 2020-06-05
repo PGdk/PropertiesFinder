@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DatabaseConnection;
 using Models;
+using System.Linq;
 
 namespace IntegrationApi.Controllers
 {
@@ -23,6 +24,28 @@ namespace IntegrationApi.Controllers
         public async Task<ActionResult<IEnumerable<Entry>>> GetEntries()
         {
             return await _context.Entries
+                .Include(e => e.OfferDetails)
+                .ThenInclude(of => of.SellerContact)
+                .Include(e => e.PropertyPrice)
+                .Include(e => e.PropertyDetails)
+                .Include(e => e.PropertyAddress)
+                .Include(e => e.PropertyFeatures)
+                .ToListAsync();
+        }
+
+        // GET: /entries/10/2
+        [Route("entries/{pageLimit}/{pageId}")]
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Entry>>> GetEntriesPage(int pageLimit, int pageId)
+        {
+            if (pageLimit < 1 || pageId < 1)
+            {
+                return NotFound();
+            }
+
+            return await _context.Entries
+                .Skip(pageLimit * (pageId - 1))
+                .Take(pageLimit)
                 .Include(e => e.OfferDetails)
                 .ThenInclude(of => of.SellerContact)
                 .Include(e => e.PropertyPrice)
