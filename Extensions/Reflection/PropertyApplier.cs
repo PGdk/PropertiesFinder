@@ -5,7 +5,12 @@ namespace Extensions.Reflection
 {
     public static class PropertyApplier
     {
-        public static void ApplyNewValues(this object baseObject, object newObject, int indent = 0)
+        public static void ApplyNewValues<T>(this T baseObject, T newObject)
+        {
+            baseObject.ApplyNewValues(newObject, 0);
+        }
+
+        internal static void ApplyNewValues(this object baseObject, object newObject, int indent)
         {
             if (baseObject == null)
             {
@@ -38,5 +43,6 @@ namespace Extensions.Reflection
                 }
             }
         }
+
     }
 }
