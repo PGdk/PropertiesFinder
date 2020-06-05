@@ -5,10 +5,12 @@ using Microsoft.EntityFrameworkCore;
 using DatabaseConnection;
 using Models;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 
 namespace IntegrationApi.Controllers
 {
     [ApiController]
+    [Authorize]
     public class EntriesController : AbstractController
     {
         private readonly DatabaseContext _context;

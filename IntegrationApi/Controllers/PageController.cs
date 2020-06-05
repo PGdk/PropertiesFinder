@@ -3,12 +3,14 @@ using System.Threading.Tasks;
 using DatabaseConnection;
 using Exhouse.Exhouse;
 using IntegrationApi.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 
 namespace IntegrationApi.Controllers
 {
     [Route("[controller]")]
+    [Authorize]
     [ApiController]
     public class PageController : AbstractController
     {
