@@ -76,5 +76,39 @@ namespace IntegrationApi.Controllers
 
             return entry;
         }
+
+        // PUT: /entry/5
+        [Route("entry/{id}")]
+        [HttpPut]
+        public async Task<IActionResult> PutEntry(int id, Entry entry)
+        {
+            if (id != entry.Id)
+            {
+                return BadRequest();
+            }
+
+            _context.Entry(entry).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (EntryExists(id))
+                {
+                    throw;
+                }
+
+                return NotFound();
+            }
+
+            return NoContent();
+        }
+
+        private bool EntryExists(int id)
+        {
+            return _context.Entries.Any(e => id == e.Id);
+        }
     }
 }
