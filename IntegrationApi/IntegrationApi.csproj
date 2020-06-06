@@ -12,10 +12,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DatabaseConnection\DatabaseConnection.csproj" />
     <ProjectReference Include="..\GazetaKrakowska\GazetaKrakowska.csproj" />
     <ProjectReference Include="..\Interfaces\Interfaces.csproj" />
     <ProjectReference Include="..\Utilities\Utilities.csproj" />
+    <ProjectReference Include="..\DatabaseConnection2\DatabaseConnection.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
   </ItemGroup>
 
 

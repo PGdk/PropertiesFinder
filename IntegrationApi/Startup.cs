@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using AutoMapper;
 using DatabaseConnection;
 using GazetaKrakowska;
@@ -27,7 +28,7 @@ namespace IntegrationApi
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton(typeof(IGazetaKrakowskaRepository), new GazetaKrakowskaRepository(new GazetaKrakowskaContext()));
+            services.AddScoped<IGazetaKrakowskaRepository>(s => new GazetaKrakowskaRepository(new GazetaKrakowskaContext()));
             services.AddSingleton(typeof(IDumpsRepository), new DumpFileRepository());
             services.AddSingleton(typeof(IEqualityComparer<Entry>), new GazetaKrakowskaComparer());
 
@@ -42,8 +43,8 @@ namespace IntegrationApi
                 options.DefaultSignOutScheme = CookieAuthenticationDefaults.AuthenticationScheme;
             }).AddGoogle(options =>
             {
-                options.ClientId = "890033233825-ocjl96ufuobrgneddm1v5qg7g2pngkb3.apps.googleusercontent.com";
-                options.ClientSecret = "CtPbsnzFijZwyBGhi9YMOOD1";
+                options.ClientId = "890033233825-764v59iiaggk7i13h0ho3e1pq0b4016l.apps.googleusercontent.com";
+                options.ClientSecret = "UGFBiTc8UHKhSfSY8iIfGq_Z";
             }).AddCookie(options =>
             {
                 options.Cookie.HttpOnly = false;
@@ -73,16 +74,39 @@ namespace IntegrationApi
                 app.UseDeveloperExceptionPage();
             }
 
+            app.Use(async(context, next) =>
+            {
+                await XRequestMiddleware(context);
+                await next();
+            });
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
-            app.UseAuthorization();
             app.UseAuthentication();
+            app.UseAuthorization();
+
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+        }
+
+        private Task XRequestMiddleware(HttpContext context)
+        {
+            return Task.Run(() =>
+            {
+                var request = context.Request;
+                var databaseRepository = context.RequestServices.GetService<GazetaKrakowskaRepository>();
+
+                if (request.Headers.ContainsKey("X-Request-ID"))
+                {
+                    if (request.Headers["X-Request-ID"].ToString().Trim() != "")
+                    {
+                        databaseRepository.AddLog(request.Headers["X-Request-ID"]);
+                    }
+                }
             });
         }
     }

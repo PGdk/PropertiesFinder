@@ -14,7 +14,6 @@ namespace IntegrationApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    // [Authorize]
     public class GazetaKrakowskaController : ControllerBase
     {
         private readonly IGazetaKrakowskaRepository databaseRepository;
@@ -34,17 +33,9 @@ namespace IntegrationApi.Controllers
 
         [HttpGet]
         [Route("{entryId}")]
-        // [Authorize(Policy = "User")]
+        [Authorize(Policy = "User")]
         public IActionResult Get(int entryId)
         {
-            if (Request.Headers.ContainsKey("X-Request-ID"))
-            {
-                if (Request.Headers["X-Request-ID"].ToString().Trim() == "")
-                    return new BadRequestObjectResult("X-Request-ID cannot be empty");
-
-                databaseRepository.AddLog(Request.Headers["X-Request-ID"]);
-            }
-
             var result = this.databaseRepository.GetEntry(entryId);
 
             if (result == null)
@@ -54,17 +45,9 @@ namespace IntegrationApi.Controllers
 
         [HttpPost]
         [Route("page")]
-        // [Authorize(Policy = "User")]
+        [Authorize(Policy = "User")]
         public IActionResult AddPage(PageRequest page)
         {
-            if (Request.Headers.ContainsKey("X-Request-ID"))
-            { 
-                if(Request.Headers["X-Request-ID"].ToString().Trim() == "" )
-                    return new BadRequestObjectResult("X-Request-ID cannot be empty");
-
-                databaseRepository.AddLog(Request.Headers["X-Request-ID"]);
-            }
-
             if (page.PageNumber < 1)
                 return new BadRequestObjectResult("Page number cannot be less than 1");
 
@@ -82,17 +65,9 @@ namespace IntegrationApi.Controllers
 
         [HttpGet]
         [Route("entries")]
-        // [Authorize(Policy = "User")]
+        [Authorize(Policy = "User")]
         public IActionResult GetEntries(string pageLimit, string pageId)
         {
-            if (Request.Headers.ContainsKey("X-Request-ID"))
-            {
-                if (Request.Headers["X-Request-ID"].ToString().Trim() == "")
-                    return new BadRequestObjectResult("X-Request-ID cannot be empty");
-
-                databaseRepository.AddLog(Request.Headers["X-Request-ID"]);
-            }
-
             if (pageLimit != null && pageId != null)
             {
                 try
@@ -127,18 +102,10 @@ namespace IntegrationApi.Controllers
         }
 
         [HttpPut]
-        [Route("{id}")]
-        // [Authorize(Policy = "Admin")]
+        [Route("entries/{id}")]
+        [Authorize(Policy = "Admin")]
         public IActionResult UpdateEntry(int id, Entry entry)
         {
-            if (Request.Headers.ContainsKey("X-Request-ID"))
-            {
-                if (Request.Headers["X-Request-ID"].ToString().Trim() == "")
-                    return new BadRequestObjectResult("X-Request-ID cannot be empty");
-
-                databaseRepository.AddLog(Request.Headers["X-Request-ID"]);
-            }
-
             var entryToUpdate = this.mapper.Map<EntryDb>(entry);
             var entryUpdated = this.databaseRepository.UpdateEntry(id, entryToUpdate);
 
