@@ -16,14 +16,6 @@ namespace IntegrationApi.Controllers
         [HttpGet]
         public IActionResult GetInfo()
         {
-            if (Request.Headers.ContainsKey("X-Request-ID"))
-            {
-                if (Request.Headers["X-Request-ID"].ToString().Trim() == "")
-                    return new BadRequestObjectResult("X-Request-ID cannot be empty");
-
-                databaseRepository.AddLog(Request.Headers["X-Request-ID"]);
-            }
-
             return new OkObjectResult(new InfoStatus()
             {
                 ConnectionString = @"Server=.\SQLEXPRESS;Database=KamilD170100;Trusted_Connection=True;",

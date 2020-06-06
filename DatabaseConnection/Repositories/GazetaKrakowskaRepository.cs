@@ -74,7 +74,7 @@ namespace DatabaseConnection
 
         public void AddLog(string xRequestId)
         {
-            gazetaKrakowskaContext.Logs.Add(new Logs()
+            gazetaKrakowskaContext.XRequestLogs.Add(new XRequestLogs()
             {
                 DateTime = DateTime.Now,
                 XRequestId = xRequestId

@@ -2,7 +2,7 @@
 
 namespace DatabaseConnection
 {
-    public class Logs
+    public class XRequestLogs
     {
         public long Id { get; set; }
         public DateTime DateTime { get; set; }

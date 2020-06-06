@@ -5,7 +5,7 @@ namespace DatabaseConnection
     public class GazetaKrakowskaContext: DbContext
     {
         public DbSet<EntryDb> Entries { get; set; }
-        public DbSet<Logs> Logs { get; set; }
+        public DbSet<XRequestLogs> XRequestLogs { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
