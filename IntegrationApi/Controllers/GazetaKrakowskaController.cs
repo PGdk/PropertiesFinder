@@ -14,6 +14,7 @@ namespace IntegrationApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [Authorize]
     public class GazetaKrakowskaController : ControllerBase
     {
         private readonly IGazetaKrakowskaRepository databaseRepository;
