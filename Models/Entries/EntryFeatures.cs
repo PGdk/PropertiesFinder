@@ -27,5 +27,7 @@
         /// Ilość miejsc prakingowych podziemnych/garażowych. "0" w przypadku braku miejsc, "null" w przypadku braku danych
         /// </summary>
         public int? IndoorParkingPlaces { get; set; }
+
+        public int Id { get; set; }
     }
 }

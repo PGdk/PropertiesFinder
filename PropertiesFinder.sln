@@ -13,6 +13,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utilities", "Utilities\Util
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZnajdzTo", "ZnajdzTo\ZnajdzTo.csproj", "{D7D784BF-FC83-4BC8-B902-6346540D7563}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseConnection", "DatabaseConnection\DatabaseConnection.csproj", "{D10BC540-FC5A-458F-B2A3-968D0957C0BF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationApi", "IntegrationApi\IntegrationApi.csproj", "{A50BA6E4-A487-4379-8332-A446E628DE94}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{D7D784BF-FC83-4BC8-B902-6346540D7563}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D7D784BF-FC83-4BC8-B902-6346540D7563}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D7D784BF-FC83-4BC8-B902-6346540D7563}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D10BC540-FC5A-458F-B2A3-968D0957C0BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D10BC540-FC5A-458F-B2A3-968D0957C0BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D10BC540-FC5A-458F-B2A3-968D0957C0BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D10BC540-FC5A-458F-B2A3-968D0957C0BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A50BA6E4-A487-4379-8332-A446E628DE94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A50BA6E4-A487-4379-8332-A446E628DE94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A50BA6E4-A487-4379-8332-A446E628DE94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A50BA6E4-A487-4379-8332-A446E628DE94}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

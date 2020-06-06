@@ -1,6 +1,7 @@
 ﻿using HtmlAgilityPack;
 using Models;
 using System;
+using System.Globalization;
 using System.Text.RegularExpressions;
 
 namespace ZnajdzTo
@@ -345,7 +346,7 @@ namespace ZnajdzTo
                     if (!(telephoneNode is null))
                     {
                         string telephoneTag = telephoneNode.OuterHtml.Split("<br>")[0];
-                        string telephone = telephoneTag.Replace("<h1>", "").Replace("<\\h1>", "").Replace("\n", "");
+                        string telephone = telephoneTag.Replace("<h1>", "").Replace("<//h1>", "").Replace("\n", "");
                         return telephone;
                     }
                     else {
@@ -371,8 +372,8 @@ namespace ZnajdzTo
                     {
                         HtmlNode pricePerMeterNode = offerDetailsInfoNodes[1];
                         string pricePerMeterWithEntitiesAndZl = pricePerMeterNode.InnerText;
-                        string pricePerMeterWithoutEntitiesAndZl = pricePerMeterWithEntitiesAndZl.Split("&")[0].Replace('.', ',');
-                        decimal pricePerMeter = decimal.Parse(pricePerMeterWithoutEntitiesAndZl);
+                        string pricePerMeterWithoutEntitiesAndZl = pricePerMeterWithEntitiesAndZl.Split("&")[0];
+                        decimal pricePerMeter = decimal.Parse(pricePerMeterWithoutEntitiesAndZl, NumberStyles.Any, CultureInfo.InvariantCulture);
                         return pricePerMeter;
                     }
                     else

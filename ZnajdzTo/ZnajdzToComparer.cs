@@ -4,7 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace ZnajdzTo
 {
-    class ZnajdzToComparer : IEqualityComparer<Entry>
+    public class ZnajdzToComparer : IEqualityComparer<Entry>
     {
         public bool Equals([AllowNull] Entry x, [AllowNull] Entry y)
         {

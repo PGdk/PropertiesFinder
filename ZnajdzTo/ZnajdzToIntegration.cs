@@ -1,4 +1,5 @@
-﻿using HtmlAgilityPack;
+﻿using DatabaseConnection;
+using HtmlAgilityPack;
 using Interfaces;
 using Models;
 using System;
@@ -70,7 +71,7 @@ namespace ZnajdzTo
             return homeSales;
         }
 
-        private List<Entry> TakeHomeSalesEntriesFromHomeSalesListPage(int page) {
+        public List<Entry> TakeHomeSalesEntriesFromHomeSalesListPage(int page) {
             try
             {
                 string pageUrl = GeneratePageUrl(page);
@@ -81,21 +82,25 @@ namespace ZnajdzTo
 
                 List<Entry> homeSales = new List<Entry>();
 
-                foreach (HtmlNode homeSalePageLinkNode in homeSalePageLinkNodes) {
-                    string homeSalePageUrl = GenerateHyperlinkNodeHref(homeSalePageLinkNode);
-                    HtmlDocument homeSaleHtmlDoc = htmlWeb.Load(homeSalePageUrl);
-                    ZnajdzToHomeSalePage homeSalePage = new ZnajdzToHomeSalePage(homeSaleHtmlDoc, homeSalePageUrl);
-
-                    if (homeSalePage.IsCity)
+                if(homeSalePageLinkNodes != null)
+                {
+                    foreach (HtmlNode homeSalePageLinkNode in homeSalePageLinkNodes)
                     {
-                        Entry homeSale = TakeHomeSaleEntryFromPage(homeSalePage);
-                        homeSales.Add(homeSale);
+                        string homeSalePageUrl = GenerateHyperlinkNodeHref(homeSalePageLinkNode);
+                        HtmlDocument homeSaleHtmlDoc = htmlWeb.Load(homeSalePageUrl);
+                        ZnajdzToHomeSalePage homeSalePage = new ZnajdzToHomeSalePage(homeSaleHtmlDoc, homeSalePageUrl);
+
+                        if (homeSalePage.IsCity)
+                        {
+                            Entry homeSale = TakeHomeSaleEntryFromPage(homeSalePage);
+                            homeSales.Add(homeSale);
+                        }
                     }
                 }
 
                 return homeSales;
             }
-            catch
+            catch(Exception)
             {
                 return new List<Entry>();
             }
