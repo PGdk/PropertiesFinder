@@ -11,7 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Application\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utilities", "Utilities\Utilities.csproj", "{42A0CDFB-8A68-4C9E-8FDC-34202330BFF3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DziennikBaltycki", "DziennikBaltycki\DziennikBaltycki.csproj", "{047F8533-719E-4E7A-A388-0BC5029115A0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DziennikBaltycki", "DziennikBaltycki\DziennikBaltycki.csproj", "{047F8533-719E-4E7A-A388-0BC5029115A0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatabaseConnection", "DatabaseConnection\DatabaseConnection.csproj", "{954FB5AB-E84A-4B0C-9359-7E4C9EFC1CD2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationApi", "IntegrationApi\IntegrationApi.csproj", "{26682219-659B-4362-BEF6-914E4B5C651F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +43,14 @@ Global
 		{047F8533-719E-4E7A-A388-0BC5029115A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{047F8533-719E-4E7A-A388-0BC5029115A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{047F8533-719E-4E7A-A388-0BC5029115A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{954FB5AB-E84A-4B0C-9359-7E4C9EFC1CD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{954FB5AB-E84A-4B0C-9359-7E4C9EFC1CD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{954FB5AB-E84A-4B0C-9359-7E4C9EFC1CD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{954FB5AB-E84A-4B0C-9359-7E4C9EFC1CD2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26682219-659B-4362-BEF6-914E4B5C651F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26682219-659B-4362-BEF6-914E4B5C651F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26682219-659B-4362-BEF6-914E4B5C651F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26682219-659B-4362-BEF6-914E4B5C651F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
