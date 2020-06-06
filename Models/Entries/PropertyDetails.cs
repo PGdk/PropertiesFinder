@@ -22,6 +22,6 @@
         /// </summary>
         public int? YearOfConstruction { get; set; }
 
-
+        public int Id { set; get; }
     }
 }

@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Collections;
+using System.Linq;
 
 namespace Models
 {
@@ -11,6 +13,7 @@ namespace Models
         /// Kolekcja reprezentująca wszystkie oferty znalezione podczas zrzutu. Te dane powinny zostać pobrane automatycznie
         /// za pomocą parsera.
         /// </summary>
-        public IEnumerable<Entry> Entries { get; set; }
+        
+        public List<Entry> myEntries { get; set; }
     }
 }

@@ -2,10 +2,10 @@
 using Models;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using Utilities;
+using DatabaseConnection;
 
 namespace SampleApp
 {
@@ -13,6 +13,10 @@ namespace SampleApp
     {
         static void Main()
         {
+            //using DatabaseContext database = new DatabaseContext();
+            //database.Entries.Add(new Entry { RawDescription = "testowy opis" });
+            //database.SaveChanges();
+
             var entriesComparersTypes = GetTypesThatImplementsInterface(typeof(IEqualityComparer<Entry>));
             var firstComparer = Activator.CreateInstance(entriesComparersTypes.First());
 
@@ -35,17 +39,17 @@ namespace SampleApp
                 //Tu następuje wykonywanie zrzutu ze strony internetowej
                 var newDump = webSiteIngegration.GenerateDump();
 
-                foreach(var oldDumpDetails in oldDumpsDetails)
+                foreach (var oldDumpDetails in oldDumpsDetails)
                 {
                     //Załaduj całego dumpa z pamięci wraz z ofertami
                     var oldDump = webSiteIngegration.DumpsRepository.GetDump(oldDumpDetails);
 
                     //Znajdź wszystkie oferty w starych dumpach których nie ma w nowym dumpie...
-                    foreach (var closedEntry in oldDump.Entries.Where(_ => _.OfferDetails.IsStillValid == true)
+                    foreach (var closedEntry in oldDump.myEntries.Where(_ => _.OfferDetails.IsStillValid == true)
                         .Except(
-                            newDump.Entries,
+                            newDump.myEntries,
                             webSiteIngegration.EntriesComparer))
-                    //...i oznacz je jako niekatualne
+                        //...i oznacz je jako niekatualne
                         closedEntry.OfferDetails.IsStillValid = false;
 
                     //Zapisz zmiany w dumpach do repozytorium
@@ -66,11 +70,8 @@ namespace SampleApp
             if (!interfaceType.GetTypeInfo().IsInterface)
                 throw new ArgumentException();
 
-            var assemblies = new FileInfo(Uri.UnescapeDataString(new UriBuilder(Assembly.GetExecutingAssembly().CodeBase).Path))
-                .Directory.GetFiles().Where(file => file.Extension == ".dll")
-                .Select(dll => Assembly.LoadFile(dll.FullName));
-
-            return assemblies.SelectMany(element => element.GetTypes())
+            return AppDomain.CurrentDomain.GetAssemblies()
+                  .SelectMany(element => element.GetTypes())
                   .Where(type => interfaceType.IsAssignableFrom(type)
                   && type.GetTypeInfo().IsClass);
         }
