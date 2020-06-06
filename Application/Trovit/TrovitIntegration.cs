@@ -51,6 +51,63 @@ namespace Application.Trovit
             EntriesComparer = equalityComparer;
         }
 
+        public IEnumerable<Entry> GetOffersByPage(int page)
+        {
+            var entries = new List<Entry>();
+
+            for (int i = 0; i < 25; i++)
+            {
+                entries.Add(
+                    new Entry
+                    {
+                        OfferDetails = new OfferDetails
+                        {
+                            CreationDateTime = new DateTime(),
+                            IsStillValid = true,
+                            LastUpdateDateTime = new DateTime(),
+                            Url = "http://mock.url",
+                            OfferKind = OfferKind.SALE,
+                            SellerContact = new SellerContact
+                            {
+                                Email = "mock@mock.com",
+                                Name = "Mockej Mockowy",
+                                Telephone =  "666 666 666"
+                            }
+                        },
+                        PropertyAddress = new PropertyAddress { 
+                            City = PolishCity.GDANSK,
+                            DetailedAddress = String.Format("ul.Mockowa {1}/{0}", i, page ),
+                            District = "Mockow",
+                            StreetName = "Mockowa"
+                        },
+                        PropertyDetails = new PropertyDetails { 
+                            FloorNumber = page % 6,
+                            NumberOfRooms = page % 4,
+                            YearOfConstruction = 2020 - page,
+                            Area = 666 / page,
+                        },
+                        PropertyFeatures = new PropertyFeatures { 
+                            Balconies = page % 3,
+                            BasementArea = 0,
+                            GardenArea = 0,
+                            IndoorParkingPlaces = 0,
+                            OutdoorParkingPlaces = 0
+                        },
+                        PropertyPrice = new PropertyPrice
+                        {
+                            PricePerMeter = 666,
+                            ResidentalRent = 0,
+                            TotalGrossPrice = 666 * i + page,
+                        },
+                        RawDescription = String.Format("Description for offer {0} on page {1}", i, page),
+                        
+                    }
+                );
+            }
+
+            return entries;
+        }
+
         public Dump GenerateDump()
         {
             var entries = new TorvitClient().Fetch(filters).Select(entry => {
