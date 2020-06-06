@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Authorization;
 namespace IntegrationApi.Controllers
 {
     [ApiController]
-    [Authorize]
     public class EntriesController : AbstractController
     {
         private readonly DatabaseContext _context;
@@ -22,6 +21,7 @@ namespace IntegrationApi.Controllers
 
         // GET: /entries
         [Route("entries")]
+        [Authorize(Policy = "User")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Entry>>> GetEntries()
         {
@@ -39,6 +39,7 @@ namespace IntegrationApi.Controllers
 
         // GET: /entries/10/2
         [Route("entries/{pageLimit:int}/{pageId:int}")]
+        [Authorize(Policy = "User")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Entry>>> GetEntriesPage(int pageLimit, int pageId)
         {
@@ -68,6 +69,7 @@ namespace IntegrationApi.Controllers
 
         // GET: /entry/5
         [Route("entry/{id:int}")]
+        [Authorize(Policy = "User")]
         [HttpGet]
         public async Task<ActionResult<Entry>> GetEntry(int id)
         {
@@ -92,6 +94,7 @@ namespace IntegrationApi.Controllers
 
         // PUT: /entry/5
         [Route("entry/{id:int}")]
+        [Authorize(Policy = "Admin")]
         [HttpPut]
         public async Task<IActionResult> PutEntry(int id, Entry entry)
         {

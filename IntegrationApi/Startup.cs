@@ -1,6 +1,8 @@
 using DatabaseConnection;
+using IntegrationApi.Security;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -48,8 +50,26 @@ namespace IntegrationApi
                     {
                         options.Cookie.HttpOnly = false;
                         options.Cookie.SameSite = SameSiteMode.None;
+                        options.AccessDeniedPath = "/security/access_denied";
                     }
                 );
+
+            services.AddAuthorization(
+                options => options.AddPolicy(
+                    "User",
+                    policy => policy.Requirements.Add(new UserPolicyRequirement())
+                )
+            );
+
+            services.AddAuthorization(
+                options => options.AddPolicy(
+                    "Admin",
+                    policy => policy.Requirements.Add(new AdminPolicyRequirement())
+                )
+            );
+
+            services.AddSingleton<IAuthorizationHandler, UserPolicyHandler>();
+            services.AddSingleton<IAuthorizationHandler, AdminPolicyHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -10,7 +10,7 @@ using Models;
 namespace IntegrationApi.Controllers
 {
     [Route("[controller]")]
-    [Authorize]
+    [Authorize(Policy = "User")]
     [ApiController]
     public class PageController : AbstractController
     {
