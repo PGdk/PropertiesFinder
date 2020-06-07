@@ -45,64 +45,76 @@ namespace Application.Gratka
         public Dump GenerateDump()
         {
             const int MAX_NUMBER_OF_PAGES = 2;
-            GenerateAllEntries(MAX_NUMBER_OF_PAGES);
+            var entries = GenerateAllEntries(MAX_NUMBER_OF_PAGES);
 
             return new Dump
             {
                 DateTime = DateTime.Now,
                 WebPage = WebPage,
-                Entries = Entries
+                Entries = entries
             };
         }
 
-        private void GenerateAllEntries(int maxNumberOfPages)
+        private List<Entry> GenerateAllEntries(int maxNumberOfPages)
         {
+
+            var entries = new List<Entry>();
+
             for (int i = 1; i < maxNumberOfPages + 1; ++i)
             {
-                GenerateEntriesFromPage(i);
+                entries.AddRange(GenerateEntriesFromPage(i));
             }
+
+            return entries;
         }
 
-        private void GenerateEntriesFromPage(int pageNumber)
+        public List<Entry> GenerateEntriesFromPage(int pageNumber)
         {
+
+
             var fullUrl = WebPage.Url + (pageNumber == 1 ? "" : "?page=" + pageNumber.ToString());
             var page = LoadUrl(fullUrl);
             if (page == null)
             {
-                return;
+                return new List<Entry>();
             }
-
+            List<Entry> ent = new List<Entry>();
             var teaserNodes = GetHtmlNodesByClass(page, "teaserEstate", "article");
             foreach (var teaserNode in teaserNodes)
             {
                 if (teaserNode != null)
                 {
-                    GenerateEntry(teaserNode);
+                    var entry = GenerateEntry(teaserNode);
+                    if (entry != null)
+                    {
+                        ent.Add(entry);
+                    }
                 }
             }
+            return ent;
+
         }
 
-        private void GenerateEntry(HtmlNode teaserNode)
+        private Entry GenerateEntry(HtmlNode teaserNode)
         {
             var city = GetCityFromTeaserNode(teaserNode);
             if (city == null)
             {
-                return;
+                return null;
             }
 
             var url = GetUrlFromTeaserNode(teaserNode);
             var page = LoadUrl(url);
             if (page == null)
             {
-                return;
+                return null;
             }
 
             var district = GetDistrictFromTeaserNode(teaserNode);
             var area = GetAreaFromTeaserNode(teaserNode);
             var lastUpdateDateTime = GetLastUpdateDateTimeFromTeaserNode(teaserNode);
             var totalGrossPrice = GetTotalGrossPriceFromTeaserNode(teaserNode);
-
-            Entries.Add(new Entry
+            return new Entry
             {
                 OfferDetails = GetOfferDetails(page, url, lastUpdateDateTime),
                 PropertyPrice = GetPropertyPrice(page, totalGrossPrice, area),
@@ -110,7 +122,16 @@ namespace Application.Gratka
                 PropertyAddress = GetPropertyAddress(page, city, district),
                 PropertyFeatures = GetPropertyFeatures(page),
                 RawDescription = GetRawDescription(page)
-            });
+            };
+            //Entries.Add(new Entry
+            //{
+            //    OfferDetails = GetOfferDetails(page, url, lastUpdateDateTime),
+            //    PropertyPrice = GetPropertyPrice(page, totalGrossPrice, area),
+            //    PropertyDetails = GetPropertyDetails(page, area),
+            //    PropertyAddress = GetPropertyAddress(page, city, district),
+            //    PropertyFeatures = GetPropertyFeatures(page),
+            //    RawDescription = GetRawDescription(page)
+            //});
         }
 
         private PolishCity? GetCityFromTeaserNode(HtmlNode teaserNode)

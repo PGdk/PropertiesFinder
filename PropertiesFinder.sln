@@ -11,7 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Application\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utilities", "Utilities\Utilities.csproj", "{42A0CDFB-8A68-4C9E-8FDC-34202330BFF3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gratka", "Gratka\Gratka.csproj", "{08018566-8B70-49D4-9968-308E88CD495C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gratka", "Gratka\Gratka.csproj", "{08018566-8B70-49D4-9968-308E88CD495C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseConnection", "DatabaseConnection\DatabaseConnection.csproj", "{4FE94A61-621A-44ED-9F35-4B86A84EDE3D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GratkaIntegrationApi", "GratkaIntegrationApi\GratkaIntegrationApi.csproj", "{5B223FA6-64A9-493D-B784-6699E2C96477}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +43,14 @@ Global
 		{08018566-8B70-49D4-9968-308E88CD495C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{08018566-8B70-49D4-9968-308E88CD495C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{08018566-8B70-49D4-9968-308E88CD495C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4FE94A61-621A-44ED-9F35-4B86A84EDE3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4FE94A61-621A-44ED-9F35-4B86A84EDE3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4FE94A61-621A-44ED-9F35-4B86A84EDE3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4FE94A61-621A-44ED-9F35-4B86A84EDE3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B223FA6-64A9-493D-B784-6699E2C96477}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B223FA6-64A9-493D-B784-6699E2C96477}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B223FA6-64A9-493D-B784-6699E2C96477}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B223FA6-64A9-493D-B784-6699E2C96477}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
