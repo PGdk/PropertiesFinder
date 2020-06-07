@@ -12,6 +12,9 @@ namespace IntegrationApi.Controllers
     [ApiController]
     public class EntriesController : ControllerBase
     {
+        private static readonly string PageLimitQueryParameterName = "pageLimit";
+        private static readonly string PageIdQueryParameterName = "pageId";
+
         private readonly DatabaseContext _context;
 
         public EntriesController(DatabaseContext context)
@@ -19,41 +22,37 @@ namespace IntegrationApi.Controllers
             _context = context;
         }
 
-        // GET: /entries
+        // GET: /entries || /entries/10/2
         [Route("entries")]
         [Authorize(Policy = "User")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Entry>>> GetEntries()
         {
-            return await _context.Entries
-                .Include(e => e.OfferDetails)
-                .ThenInclude(of => of.SellerContact)
-                .Include(e => e.PropertyPrice)
-                .Include(e => e.PropertyDetails)
-                .Include(e => e.PropertyAddress)
-                .Include(e => e.PropertyFeatures)
-                .ToListAsync();
-        }
+            int? pageLimit = Request.Query.ContainsKey(PageLimitQueryParameterName)
+                ? int.Parse(Request.Query[PageLimitQueryParameterName])
+                : (int?) null;
+            int? pageId = Request.Query.ContainsKey(PageIdQueryParameterName)
+                ? int.Parse(Request.Query[PageIdQueryParameterName])
+                : (int?) null;
 
-        // GET: /entries/10/2
-        [Route("entries/{pageLimit:int}/{pageId:int}")]
-        [Authorize(Policy = "User")]
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Entry>>> GetEntriesPage(int pageLimit, int pageId)
-        {
-            if (pageLimit < 1)
+            if ((null != pageLimit && null == pageId) || (null == pageLimit && null != pageId))
             {
                 return BadRequest();
             }
 
-            if (pageId < 1 || (_context.Entries.Count() / pageLimit) < (pageId - 1))
+            if (null != pageLimit && pageLimit < 1)
+            {
+                return BadRequest();
+            }
+
+            if (null != pageId && (pageId < 1 || (_context.Entries.Count() / pageLimit) < (pageId - 1)))
             {
                 return NotFound();
             }
 
             return await _context.Entries
-                .Skip(pageLimit * (pageId - 1))
-                .Take(pageLimit)
+                .Skip((pageLimit * (pageId - 1)) ?? 0)
+                .Take(pageLimit ?? _context.Entries.Count())
                 .Include(e => e.OfferDetails)
                 .ThenInclude(of => of.SellerContact)
                 .Include(e => e.PropertyPrice)
