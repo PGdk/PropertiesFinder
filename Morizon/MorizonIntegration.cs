@@ -5,10 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Text.Json;
 using System.Text.RegularExpressions;
 
-namespace Application.Classes {
+namespace Morizon {
     public class MorizonIntegration : IWebSiteIntegration {
         public WebPage WebPage { get; }
         public IDumpsRepository DumpsRepository { get; }
@@ -43,7 +42,8 @@ namespace Application.Classes {
                 { "września", 9},
                 { "października", 10},
                 { "listopada", 11},
-                { "grudnia", 12}};
+                { "grudnia", 12}
+        };
 
         Dictionary<string, string> polishCharactersMapper = new Dictionary<string, string> {
                     { "Ą", "A" },
@@ -55,7 +55,8 @@ namespace Application.Classes {
                     { "Ś", "S" },
                     { "Ź", "Z" },
                     { "Ż", "Z" },
-                    {" ", "_" }};
+                    {" ", "_" }
+        };
 
         public static DateTime GetDate(string date) {
             DateTime newDate;
@@ -87,12 +88,11 @@ namespace Application.Classes {
                 if ( !number.Contains(",") )
                     return Decimal.Parse(number + sepdec + "00");
 
-                return Decimal.Parse(number.Replace(",", sepdec));
+                return Decimal.Parse(number, NumberStyles.Any, new CultureInfo("pl-PL"));
             }
             catch ( FormatException ) {
                 return null;
             }
-
         }
 
         public OfferDetails CreateOfferDetails(HtmlNode property, string propertyUrl) {
@@ -137,13 +137,12 @@ namespace Application.Classes {
             decimal price;
             string dataPrice = property.SelectSingleNode("//li[@class='paramIconPrice']/em")?.InnerText;
             if ( dataPrice != null ) {
-                if ( !dataPrice.Split("&")[0].Contains(",") )
-                    dataPrice = dataPrice.Split("&")[0] + sepdec + "00";
-                else
-                    dataPrice = dataPrice.Split("&")[0].Replace(",", sepdec);
+                dataPrice = dataPrice.Split("&")[0];
+                if ( !dataPrice.Contains(",") )
+                    dataPrice = dataPrice +",00";
             }
 
-            if ( !decimal.TryParse(dataPrice, out price) ) {
+            if ( !decimal.TryParse(dataPrice, NumberStyles.Any, new CultureInfo("pl-PL"), out price) ) {
                 // These page does not contain information about price (need to ask a seller)
                 price = -1;
             }
@@ -151,13 +150,12 @@ namespace Application.Classes {
             decimal pricePerMeter;
             string dataPricePerMeter = property.SelectSingleNode("//li[@class='paramIconPriceM2']/em")?.InnerText;
             if ( dataPricePerMeter != null ) {
-                if ( !dataPricePerMeter.Split("&")[0].Contains(",") )
-                    dataPricePerMeter = dataPricePerMeter.Split("&")[0] + sepdec + "00";
-                else
-                    dataPricePerMeter = dataPricePerMeter.Split("&")[0].Replace(",", sepdec);
+                dataPricePerMeter = dataPricePerMeter.Split("&")[0];
+                if ( !dataPricePerMeter.Contains(",") )
+                    dataPricePerMeter = dataPricePerMeter + ",00";;
             }
 
-            if ( dataPricePerMeter == null || !decimal.TryParse(dataPricePerMeter, out pricePerMeter) ) {
+            if ( dataPricePerMeter == null || !decimal.TryParse(dataPricePerMeter, NumberStyles.Any, new CultureInfo("pl-PL"), out pricePerMeter) ) {
                 // These page does not contain information about price per meter (need to ask a seller)
                 pricePerMeter = -1;
             }
@@ -332,7 +330,6 @@ namespace Application.Classes {
                             }
                         }
                     }
-
                 }
             }
             return basementArea;
@@ -377,7 +374,7 @@ namespace Application.Classes {
             return propertyFeatures;
         }
 
-        List<Entry> GetEntries(string url, string urlPath, List<Entry> entries) {
+        public List<Entry> GetEntries(string url, string urlPath, List<Entry> entries) {
             var web = new HtmlWeb();
             var doc = web.Load(url + urlPath);
 
@@ -413,16 +410,48 @@ namespace Application.Classes {
             return entries;
         }
 
-        public Dump GenerateDump() {
+        public List<Entry> GetPage(int number) {
+            var web = new HtmlWeb();
+            var doc = web.Load("https://www.morizon.pl/mieszkania/" + number);
 
+            List<string> propertiesUrls = new List<string>();
             List<Entry> entries = new List<Entry>();
 
+            foreach ( HtmlAgilityPack.HtmlNode node in doc.DocumentNode.SelectNodes("//a[@class='property_link property-url']") ) {
+                propertiesUrls.Add(node.Attributes["href"].Value);
+            }
+
+            foreach ( string propertyUrl in propertiesUrls ) {
+                var property = web.Load(propertyUrl).DocumentNode;
+
+                var description = property.SelectSingleNode("//div[@class='description']")?.InnerText;
+                description = description != null ? description : "";
+
+                Entry propertyOffer = new Entry {
+                    OfferDetails = CreateOfferDetails(property, propertyUrl),
+                    PropertyPrice = CreatePropertyPrice(property),
+                    PropertyDetails = CreatePropertyDetails(property),
+                    PropertyAddress = CreatePropertyAddress(property),
+                    PropertyFeatures = CreatePropertyFeatures(property, description),
+                    RawDescription = description
+                };
+
+                entries.Add(propertyOffer);
+            }
+
+            return entries;
+        }
+
+
+        public Dump GenerateDump() {
+            
+            List<Entry> entries = new List<Entry>();
             var url = "https://www.morizon.pl";
 
             entries = GetEntries(url, "/mieszkania", entries);
 
             List<Entry> uniqueEntries = entries.Distinct(new MorizonComparer()).ToList();
-
+            
             return new Dump {
                 DateTime = DateTime.Now,
                 WebPage = WebPage,

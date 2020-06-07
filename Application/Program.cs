@@ -13,6 +13,8 @@ namespace SampleApp
     {
         static void Main()
         {
+
+
             var entriesComparersTypes = GetTypesThatImplementsInterface(typeof(IEqualityComparer<Entry>));
             var firstComparer = Activator.CreateInstance(entriesComparersTypes.First());
 

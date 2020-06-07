@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Application.Classes {
+namespace Morizon {
     public class MorizonComparer : IEqualityComparer<Entry> {
         public bool Equals(Entry x, Entry y) {
             if ( x.OfferDetails.OfferKind.Equals(y.OfferDetails.OfferKind) ) {

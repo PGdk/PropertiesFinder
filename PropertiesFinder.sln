@@ -11,7 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Application\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utilities", "Utilities\Utilities.csproj", "{42A0CDFB-8A68-4C9E-8FDC-34202330BFF3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Morizon", "Morizon\Morizon.csproj", "{2193BD7F-35D9-45BD-889B-4914EEACC476}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Morizon", "Morizon\Morizon.csproj", "{2193BD7F-35D9-45BD-889B-4914EEACC476}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntegrationApi", "IntegrationApi\IntegrationApi.csproj", "{6413D4EB-CE45-460A-B8BF-EC38264187F8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseConnection", "DatabaseConnection\DatabaseConnection.csproj", "{0372CC04-317C-4D4C-86DD-8E4CE2CF2FD4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +43,14 @@ Global
 		{2193BD7F-35D9-45BD-889B-4914EEACC476}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2193BD7F-35D9-45BD-889B-4914EEACC476}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2193BD7F-35D9-45BD-889B-4914EEACC476}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6413D4EB-CE45-460A-B8BF-EC38264187F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6413D4EB-CE45-460A-B8BF-EC38264187F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6413D4EB-CE45-460A-B8BF-EC38264187F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6413D4EB-CE45-460A-B8BF-EC38264187F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0372CC04-317C-4D4C-86DD-8E4CE2CF2FD4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0372CC04-317C-4D4C-86DD-8E4CE2CF2FD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0372CC04-317C-4D4C-86DD-8E4CE2CF2FD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0372CC04-317C-4D4C-86DD-8E4CE2CF2FD4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
