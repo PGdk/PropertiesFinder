@@ -39,17 +39,23 @@ namespace IntegrationApi.DataReposytory
 
         public IEnumerable<EntryDB> GetEntrys(int pageLimit, int pageID)
         {
-            List<EntryDB> entry = new List<EntryDB>();
+           List<EntryDB> entry = new List<EntryDB>();
             var context = new EntryContexst();
-              
+            
+
+            /*
                 foreach (EntryDB ent in context.Entries)
                 {
                     entry.Add(ent);
                 }
-            if (pageLimit != 0 && pageID != 0 )
-            entry = entry.GetRange (((pageLimit * pageID) - pageLimit), pageLimit);
+            */
+            if (pageLimit != 0 && pageID != 0)
+                ///entry = entry.GetRange (((pageLimit * pageID) - pageLimit), pageLimit);
+                entry = context.Entries.OrderBy(e => e.ID).Skip(pageLimit * (pageID - 1)).Take(pageLimit).ToList();
+            else
+                entry = context.Entries.ToList();
 
-           return entry;
+            return entry;
         }
         /*
         public IEnumerable<EntryDB> GetEntries()
