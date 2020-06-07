@@ -8,7 +8,7 @@ using HtmlAgilityPack;
 
 namespace EchodniaEu
 {
-    public class EchodniaEuParser: IPageParser
+    public class EchodniaEuParser : IPageParser
     {
         public WebPage WebPage { get; set; }
 
@@ -38,13 +38,45 @@ namespace EchodniaEu
             };
         }
 
+        public Dump Parse(int page)
+        {
+            var offersPage = new OffersListPage(WebPage.Url).GetPropertyOffersPage();
+            var pages = offersPage.GetPagesCount();
+
+            if (page > pages || page < 1)
+            {
+                throw new NotFoundException();
+            }
+
+            var pageUrls = new List<string> { $"https://echodnia.eu/ogloszenia/{page},22969,8433,n,fm,pk.html" };
+
+
+            var entries = pageUrls
+                .AsParallel()
+                .SelectMany(url => new OffersListPage(url)
+                    .GetOfferUrls()
+                    .AsParallel()
+                    .Select(pageInfo => ParseEntry(pageInfo.Item1, pageInfo.Item2))
+                    .Where(p => p != null)
+                    .ToArray()
+                ).ToList();
+
+            return new Dump
+            {
+                WebPage = WebPage,
+                DateTime = DateTime.Now,
+                Entries = entries
+            };
+        }
+
         private Entry? ParseEntry(string url, HtmlNode header)
         {
             try
             {
                 var parser = new EntryParser(url, header);
                 return parser.PageExists() ? parser.Dump() : null;
-            } catch (WebException ex)
+            }
+            catch (WebException ex)
             {
                 return null;
             }

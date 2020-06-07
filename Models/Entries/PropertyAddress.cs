@@ -2,12 +2,13 @@
 {
     public class PropertyAddress
     {
+        public int ID { get; set; }
         /// <summary>
         /// Nazwa miasta. Nie wymagane jeżeli posesja stoi we wsi
         /// </summary>
         public PolishCity City { get; set; }
 
-        
+
         /// <summary>
         /// Dzielnica w której znajduje się posesja
         /// </summary>

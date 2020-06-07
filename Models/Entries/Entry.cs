@@ -2,10 +2,11 @@
 {
     public class Entry
     {
+        public int ID { get; set; }
         public OfferDetails OfferDetails { get; set; }
 
         public PropertyPrice PropertyPrice { get; set; }
-    
+
         public PropertyDetails PropertyDetails { get; set; }
 
         public PropertyAddress PropertyAddress { get; set; }
