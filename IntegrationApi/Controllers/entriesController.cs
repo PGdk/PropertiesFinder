@@ -52,11 +52,13 @@ namespace IntegrationApi.Controllers
             }
             var EntriesResult = GetEntries() as OkObjectResult;
             var EntriesResultToList = EntriesResult.Value as List<Entry>;
-            if (EntriesResultToList.Count < int.Parse(id))
+            var matchedObject = from @object in EntriesResultToList where @object.ID == int.Parse(id) select @object;
+            if (matchedObject != null && matchedObject.Any())
             {
-                return BadRequest();
+                return Ok(matchedObject);
+                
             }
-            return Ok(EntriesResultToList[int.Parse(id) - 1]);
+            else return BadRequest();
         }
 
         [HttpGet]

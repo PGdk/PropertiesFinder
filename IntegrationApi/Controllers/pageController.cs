@@ -26,7 +26,12 @@ namespace IntegrationApi.Controllers
                     repo.AddLog(Request.Headers["X-Request-ID"]);
                 }
             }
-            var Entries = repo.Split(pageSelect.pageNumber);
+
+            if (pageSelect?.pageNumber == null)
+            {
+                return BadRequest("No page Number");
+            }
+            var Entries = repo.Split(pageSelect.pageNumber.GetValueOrDefault());
             if (Entries.Count() != 0)
             {
                 repo.AddEntry(Entries);

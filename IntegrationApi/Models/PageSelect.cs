@@ -7,6 +7,6 @@ namespace IntegrationApi.Models
 {
     public class PageSelect
     {
-        public int pageNumber { get; set; }
+        public int? pageNumber { get; set; }
     }
 }
