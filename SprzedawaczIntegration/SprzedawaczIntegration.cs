@@ -35,6 +35,14 @@ namespace SprzedawaczIntegration
 
         private readonly HttpClient client;
 
+        private List<Tuple<string, OfferKind, bool>> urls = new List<Tuple<string, OfferKind, bool>>();
+
+        public SprzedawaczIntegration()
+        {
+            client = new HttpClient();
+            client.BaseAddress = new Uri(mainUrl);
+        }
+
         public SprzedawaczIntegration(IDumpsRepository dumpsRepository,
             IEqualityComparer<Entry> equalityComparer)
         {
@@ -54,6 +62,19 @@ namespace SprzedawaczIntegration
             };
             client = new HttpClient();
             client.BaseAddress = new Uri(WebPage.Url);
+        }
+
+        public List<Entry>? GeneratePage(int pageNumber, int pageSize)
+        {
+            urls.AddRange(GetCategoryUrls($"{mainUrl}{rentFlatsPath}").Select(url => Tuple.Create($"{mainUrl}{url}", OfferKind.RENTAL, false)));
+            urls.AddRange(GetCategoryUrls($"{mainUrl}{sellFlatsPath}").Select(url => Tuple.Create($"{mainUrl}{url}", OfferKind.SALE, false)));
+            urls.AddRange(GetCategoryUrls($"{mainUrl}{rentHousesPath}").Select(url => Tuple.Create($"{mainUrl}{url}", OfferKind.RENTAL, true)));
+            urls.AddRange(GetCategoryUrls($"{mainUrl}{sellHousesPath}").Select(url => Tuple.Create($"{mainUrl}{url}", OfferKind.SALE, true)));
+            if (urls.Count() < pageNumber * pageSize)
+                return null;
+            var entries = urls.GetRange(pageNumber * pageSize, pageSize).Select(url => GetEntryFromUrl(url)).ToList();
+            entries.RemoveAll(entry => entry == null);
+            return entries;
         }
 
         public Dump GenerateDump()
@@ -107,67 +128,75 @@ namespace SprzedawaczIntegration
             }
             return urls;
         }
+        private Entry GetEntryFromUrl(Tuple<string, OfferKind, bool> tuple)
+        {
+            return GetEntryFromUrl(tuple.Item1, tuple.Item2, tuple.Item3);
+        }
 
         private Entry GetEntryFromUrl(string url, OfferKind kind, bool house = false)
         {
             var offerToParse = GetParsedHtmlFromUrl(url);
-            var paragraphs = offerToParse.QuerySelectorAll(".c p");
-            var floor = MatchOrNull(TryGetParagraphValueString(paragraphs, "Piętro:"), "([0-9]+|Parter)")?.Value;
-            floor = floor == "Parter" ? "0" : floor;
-            PolishCity city;
-            var description = offerToParse.QuerySelector(".c .col-md-9 > p").Text();
-            return new Entry
+            if (offerToParse != null)
             {
-                OfferDetails = new OfferDetails
+                var paragraphs = offerToParse.QuerySelectorAll(".c p");
+                var floor = MatchOrNull(TryGetParagraphValueString(paragraphs, "Piętro:"), "([0-9]+|Parter)")?.Value;
+                floor = floor == "Parter" ? "0" : floor;
+                PolishCity city;
+                var description = offerToParse.QuerySelector(".c .col-md-9 > p").Text();
+                return new Entry
                 {
-                    Url = url,
-                    CreationDateTime = DateTime.Parse(offerToParse.QuerySelector(".ann-panel-right p:last-of-type b:last-of-type").Text()),
-                    OfferKind = kind,
-                    SellerContact = new SellerContact
+                    OfferDetails = new OfferDetails
                     {
-                        //Not a proper email validation but it's simple
-                        Email = MatchOrNull(description, @"\w+@\w+\.\w+")?.Value,
-                        Telephone = GetParsedHtmlFromUrl(
-                                $"{mainUrl}/ajax_daj_telefon.php?hash={offerToParse.QuerySelector(".tel-btn")?.GetAttribute("data-hash")}&token={offerToParse.QuerySelector(".tel-btn")?.GetAttribute("data-token")}")
-                            ?.QuerySelector("a")
-                            ?.Text() ?? MatchOrNull(description, "([0-9]{3}(-| )?){2}[0-9]{3}")?.Value,
-                        Name = offerToParse.QuerySelector(".ann-panel-right > p > b").Text()
+                        Url = url,
+                        CreationDateTime = DateTime.Parse(offerToParse.QuerySelector(".ann-panel-right p:last-of-type b:last-of-type").Text()),
+                        OfferKind = kind,
+                        SellerContact = new SellerContact
+                        {
+                            //Not a proper email validation but it's simple
+                            Email = MatchOrNull(description, @"\w+@\w+\.\w+")?.Value,
+                            Telephone = GetParsedHtmlFromUrl(
+                                    $"{mainUrl}/ajax_daj_telefon.php?hash={offerToParse.QuerySelector(".tel-btn")?.GetAttribute("data-hash")}&token={offerToParse.QuerySelector(".tel-btn")?.GetAttribute("data-token")}")
+                                ?.QuerySelector("a")
+                                ?.Text() ?? MatchOrNull(description, "([0-9]{3}(-| )?){2}[0-9]{3}")?.Value,
+                            Name = offerToParse.QuerySelector(".ann-panel-right > p > b").Text()
+                        },
+                        IsStillValid = true
                     },
-                    IsStillValid = true
-                },
-                PropertyAddress = new PropertyAddress
-                {
-                    City = Enum.TryParse(MatchOrNull(url, "m_(?<city>[a-z_]+)[-/]").Groups["city"]?.Value.ToUpper(), out city) ? city : default,
-                    District = TryGetParagraphValueString(paragraphs, "Dzielnica:"),
-                    StreetName = MatchOrNull(description, @"(ul.|Ul.|UL.) \p{L}+")?.Value,
-                    DetailedAddress = MatchOrNull(description, @"(ul.|Ul.|UL.) \p{L}+ (?<detail>[0-9]{1,4}/?[0-9]{1,4})").Groups["detail"]?.Value
-                },
-                PropertyDetails = new PropertyDetails
-                {
-                    Area = house ? TryGetParagraphValueDecimal(paragraphs, "Pow. domu:")
-                        : TryGetParagraphValueDecimal(paragraphs, "Powierzchnia:"),
-                    FloorNumber = floor != null ? int.Parse(floor) : default,
-                    NumberOfRooms = TryGetParagraphValueInt(paragraphs, "Liczba pokoi:"),
-                    YearOfConstruction = TryGetParagraphValueInt(paragraphs, "Rok budowy:")
-                },
-                PropertyFeatures = new PropertyFeatures
-                {
-                    Balconies = Regex.IsMatch(description, "(B|b)alkony?") ? 1 : default,
-                    BasementArea = GetBasement(description),
-                    GardenArea = TryGetParagraphValueDecimal(paragraphs, "Pow. działki:"),
-                    //May cause false possitives
-                    IndoorParkingPlaces = Regex.IsMatch(description, "(G|g)araż") ? 1 : default,
-                    OutdoorParkingPlaces = Regex.IsMatch(description, "(M|m)iejsce parkingowe") ? 1 : default
-                },
-                PropertyPrice = new PropertyPrice
-                {
-                    PricePerMeter = TryGetParagraphValueDecimal(paragraphs, "Cena za m2:"),
-                    //No field, hard to guess from description
-                    ResidentalRent = null,
-                    TotalGrossPrice = GetPrice(offerToParse.QuerySelector(".c > .r > div.text-right > h2").Text())
-                },
-                RawDescription = description
-            };
+                    PropertyAddress = new PropertyAddress
+                    {
+                        City = Enum.TryParse(MatchOrNull(url, "m_(?<city>[a-z_]+)[-/]").Groups["city"]?.Value.ToUpper(), out city) ? city : default,
+                        District = TryGetParagraphValueString(paragraphs, "Dzielnica:"),
+                        StreetName = MatchOrNull(description, @"(ul.|Ul.|UL.) \p{L}+")?.Value,
+                        DetailedAddress = MatchOrNull(description, @"(ul.|Ul.|UL.) \p{L}+ (?<detail>[0-9]{1,4}/?[0-9]{1,4})").Groups["detail"]?.Value
+                    },
+                    PropertyDetails = new PropertyDetails
+                    {
+                        Area = house ? TryGetParagraphValueDecimal(paragraphs, "Pow. domu:")
+                            : TryGetParagraphValueDecimal(paragraphs, "Powierzchnia:"),
+                        FloorNumber = floor != null ? int.Parse(floor) : default,
+                        NumberOfRooms = TryGetParagraphValueInt(paragraphs, "Liczba pokoi:"),
+                        YearOfConstruction = TryGetParagraphValueInt(paragraphs, "Rok budowy:")
+                    },
+                    PropertyFeatures = new PropertyFeatures
+                    {
+                        Balconies = Regex.IsMatch(description, "(B|b)alkony?") ? 1 : default,
+                        BasementArea = GetBasement(description),
+                        GardenArea = TryGetParagraphValueDecimal(paragraphs, "Pow. działki:"),
+                        //May cause false possitives
+                        IndoorParkingPlaces = Regex.IsMatch(description, "(G|g)araż") ? 1 : default,
+                        OutdoorParkingPlaces = Regex.IsMatch(description, "(M|m)iejsce parkingowe") ? 1 : default
+                    },
+                    PropertyPrice = new PropertyPrice
+                    {
+                        PricePerMeter = TryGetParagraphValueDecimal(paragraphs, "Cena za m2:"),
+                        //No field, hard to guess from description
+                        ResidentalRent = null,
+                        TotalGrossPrice = GetPrice(offerToParse.QuerySelector(".c > .r > div.text-right > h2").Text())
+                    },
+                    RawDescription = description
+                };
+            }
+            return null;
         }
 
         private decimal? GetBasement(string desc)
