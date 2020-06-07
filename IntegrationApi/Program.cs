@@ -21,7 +21,7 @@ namespace IntegrationApi
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                    webBuilder.UseUrls("http://localhost:9924/");
+                    webBuilder.UseUrls("https://localhost:9924/");
                 });
     }
 }
