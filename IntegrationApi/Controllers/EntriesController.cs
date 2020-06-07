@@ -52,7 +52,7 @@ namespace IntegrationApi.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize(Policy = "Admin")]
+        [Authorize(Policy = "User")]
         public IActionResult GetEntry(int id)
         {
             var entry = DatabaseContext.Entries
