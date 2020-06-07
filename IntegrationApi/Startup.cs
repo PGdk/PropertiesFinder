@@ -57,7 +57,7 @@ namespace IntegrationApi
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseMiddleware<XRequestMiddleware>();
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthentication();
