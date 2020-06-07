@@ -6,6 +6,8 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using Utilities;
+using DatabaseConnectionNew;
+
 
 namespace SampleApp
 {
@@ -55,6 +57,7 @@ namespace SampleApp
                 //Zapisz nowy dump do repozytorium
                 webSiteIngegration.DumpsRepository.InsertDump(newDump);
             }
+            
         }
         /// <summary>
         /// Poniższa instrukcja znajduje wszystkie klasy które implementują interfejs IWebSiteIntegration

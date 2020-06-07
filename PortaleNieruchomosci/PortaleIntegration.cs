@@ -15,7 +15,7 @@ using Newtonsoft.Json;
 
 namespace Application.Portalenieruchomosci
 {
-    class PortaleIntegration : IWebSiteIntegration
+    public class PortaleIntegration : IWebSiteIntegration
     {
         public WebPage WebPage { get; }
         public IDumpsRepository DumpsRepository { get; }
@@ -98,6 +98,8 @@ namespace Application.Portalenieruchomosci
                     },
                     IsStillValid = true
                 };
+
+                // entry.ID = int.Parse(offer["id"].ToString());
 
                 entry.PropertyPrice = new PropertyPrice
                 {
