@@ -80,6 +80,8 @@ namespace IntegrationApi
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseLogger();
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
