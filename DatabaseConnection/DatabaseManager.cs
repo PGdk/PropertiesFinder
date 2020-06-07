@@ -21,23 +21,31 @@ namespace DatabaseConnection
 
         static public List<Entry> GetAllEntries()
         {
-            List<Entry> entries = new List<Entry>();
+            var entries = new List<Entry>();
             using var context = new DatabaseContext();
             entries = context.Entries
-                .ToList();
-            entries = context.Entries
                 .Include(c => c.OfferDetails)
-                .ToList();
-            entries = context.Entries
+                    .ThenInclude(c => c.SellerContact)
                 .Include(c => c.PropertyPrice)
-                .ToList();
-            entries = context.Entries
                 .Include(c => c.PropertyDetails)
-                .ToList();
-            entries = context.Entries
                 .Include(c => c.PropertyAddress)
+                .Include(c => c.PropertyFeatures)
                 .ToList();
+            return entries;
+        }
+
+        static public List<Entry> GetEntriesForGivenRange(int first, int count)
+        {
+            var entries = new List<Entry>();
+            using var context = new DatabaseContext();
             entries = context.Entries
+                .Skip(first)
+                .Take(count)
+                .Include(c => c.OfferDetails)
+                    .ThenInclude(c => c.SellerContact)
+                .Include(c => c.PropertyPrice)
+                .Include(c => c.PropertyDetails)
+                .Include(c => c.PropertyAddress)
                 .Include(c => c.PropertyFeatures)
                 .ToList();
             return entries;
