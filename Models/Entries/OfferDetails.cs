@@ -4,6 +4,8 @@ namespace Models
 {
     public class OfferDetails
     { 
+        public int Id { get; set; }
+      
         /// <summary>
         /// Adres do konkretnej oferty
         /// </summary>

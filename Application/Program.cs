@@ -35,7 +35,7 @@ namespace SampleApp
                 //Tu następuje wykonywanie zrzutu ze strony internetowej
                 var newDump = webSiteIngegration.GenerateDump();
 
-                foreach(var oldDumpDetails in oldDumpsDetails)
+                foreach (var oldDumpDetails in oldDumpsDetails)
                 {
                     //Załaduj całego dumpa z pamięci wraz z ofertami
                     var oldDump = webSiteIngegration.DumpsRepository.GetDump(oldDumpDetails);
@@ -45,7 +45,7 @@ namespace SampleApp
                         .Except(
                             newDump.Entries,
                             webSiteIngegration.EntriesComparer))
-                    //...i oznacz je jako niekatualne
+                        //...i oznacz je jako niekatualne
                         closedEntry.OfferDetails.IsStillValid = false;
 
                     //Zapisz zmiany w dumpach do repozytorium

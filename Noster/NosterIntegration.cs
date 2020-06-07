@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Application
 {
-    class NosterIntegration : IWebSiteIntegration
+    public class NosterIntegration : IWebSiteIntegration
     {
         public WebPage WebPage { get; }
 
@@ -83,7 +83,7 @@ namespace Application
             return entries;
         }
 
-        private Entry GetNewEntry(string url)
+        private static Entry GetNewEntry(string url)
         {
             var htmlDocument = new HtmlDocument();
             var client = new WebClient();
@@ -155,6 +155,27 @@ namespace Application
             {
                 links.AddRange(result);
             }
+
+            return links;
+        }
+
+        public static List<Entry> GetEntriesForPage(int pageNumber)
+        {
+            int numberOfPages = HtmlParser.GetNumberOfPages();
+            if (pageNumber > numberOfPages || pageNumber <= 0)
+                return null;
+            var links = GetLinksToOffersForPage(pageNumber);
+            var entries = new List<Entry>();
+            foreach (var link in links)
+                entries.Add(GetNewEntry(link));
+
+            return entries;
+        }
+
+        private static List<string> GetLinksToOffersForPage(int pageNumber)
+        {
+            string url = "https://www.noster-nieruchomosci.pl/oferty/?page=" + (pageNumber - 1).ToString();
+            var links = HtmlParser.GetLinksToOffersFromUrl(url);
 
             return links;
         }
