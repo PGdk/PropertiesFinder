@@ -10,12 +10,12 @@
         public bool Equals(Entry x, Entry y)
         {
             // Check all the mandatory same fields
-            if (x.OfferDetails.OfferKind != y.OfferDetails.OfferKind
-                || x.OfferDetails.SellerContact.Telephone.RemoveAllWhiteSpaces() != y.OfferDetails.SellerContact.Telephone.RemoveAllWhiteSpaces()
-                || x.PropertyAddress.City != y.PropertyAddress.City
-                || (x.PropertyAddress.District != null && y.PropertyAddress.District != null && x.PropertyAddress.District.Trim() != y.PropertyAddress.District.Trim())
-                || (x.PropertyAddress.StreetName != null && y.PropertyAddress.StreetName != null && x.PropertyAddress.StreetName.Trim() != y.PropertyAddress.StreetName.Trim())
-                || (x.PropertyDetails.FloorNumber != null && y.PropertyDetails.FloorNumber != null && x.PropertyDetails.FloorNumber != y.PropertyDetails.FloorNumber)
+            if (x.OfferDetails?.OfferKind != y.OfferDetails?.OfferKind
+                || x.OfferDetails?.SellerContact?.Telephone?.RemoveAllWhiteSpaces() != y.OfferDetails?.SellerContact?.Telephone?.RemoveAllWhiteSpaces()
+                || x.PropertyAddress?.City != y.PropertyAddress?.City
+                || (x.PropertyAddress?.District != null && y.PropertyAddress?.District != null && x.PropertyAddress?.District.Trim() != y.PropertyAddress?.District.Trim())
+                || (x.PropertyAddress?.StreetName != null && y.PropertyAddress?.StreetName != null && x.PropertyAddress?.StreetName.Trim() != y.PropertyAddress?.StreetName.Trim())
+                || (x.PropertyDetails?.FloorNumber != null && y.PropertyDetails?.FloorNumber != null && x.PropertyDetails?.FloorNumber != y.PropertyDetails?.FloorNumber)
                 )
             {
                 return false;

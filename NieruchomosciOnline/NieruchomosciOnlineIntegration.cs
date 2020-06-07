@@ -55,16 +55,8 @@
 
             while (nextPageExists && entries.Count < this.MaximumOffersPerDump)
             {
-                var urlList = this.GetOffersFromPage(page, out nextPageExists);
-                foreach (var url in urlList)
-                {
-                    if(entries.Count < this.MaximumOffersPerDump && this.TryToParseOffer(url, out Entry entry))
-                    {
-                        entries.Add(entry);
-                    }
-                }
-
-                page++;
+                var result = this.GetEntriesFromPage(page++, out nextPageExists);
+                entries.AddRange(result);
             }
             this.LastDumpFinishedPage = page;
 
@@ -74,6 +66,26 @@
                 DateTime = DateTime.Now,
                 WebPage = this.WebPage
             };
+        }
+
+        public List<Entry> GetEntriesFromPage(int page, out bool nextPageExists)
+        {
+            var result = new List<Entry>();
+            var urlList = this.GetOffersFromPage(page, out nextPageExists);
+            foreach (var url in urlList)
+            {
+                if (this.TryToParseOffer(url, out Entry entry))
+                {
+                    result.Add(entry);
+                }
+            }
+
+            return result;
+        }
+
+        public List<Entry> GetEntriesFromPage(int page)
+        {
+            return this.GetEntriesFromPage(page, out bool tmp);
         }
 
         /// <summary>
@@ -86,31 +98,36 @@
         {
             var url = $"https://www.nieruchomosci-online.pl/szukaj.html?p={pageNumber}";
 
+            var hrefList = new List<string>();
             var document = this.htmlWeb.Load(url);
             nextPageExists = document.DocumentNode.Descendants("em").Any(n => n.GetAttributeValue("class", string.Empty) == "nextLabel");
 
-            var hrefList = new List<string>();
-            var links = document.DocumentNode.Descendants("a");
-            var tertiaryNameId = 1;
-            HtmlNode link;
-
-            do
+            // Czasem jak strona nie istnieje przenosi na pierwszą
+            if(pageNumber != 1 
+                && document
+                .DocumentNode
+                .Descendants("ul")
+                .FirstOrDefault(u => u.GetAttributeValue("class", string.Empty) == "pagination-mob-sub")
+                ?.Descendants("span")
+                .FirstOrDefault(u => u.GetAttributeValue("class", string.Empty) == "active")
+                ?.InnerText=="1")
             {
-                var id = $"tertiary-name_{tertiaryNameId}";
-                link = links.FirstOrDefault(l => l.GetAttributeValue("id", string.Empty) == id);
+                return hrefList;
+            }
 
-                // without investments comercials
-                if (link != null && !link.ParentNode.ParentNode.ParentNode.ParentNode.GetAttributeValue("class", string.Empty).Contains("tile-investment"))
+            var links = document.DocumentNode.Descendants("a");
+
+            foreach(var l in links)
+            {
+                if(l.GetAttributeValue("id", string.Empty).Contains("tertiary-name_") && !l.ParentNode.ParentNode.ParentNode.ParentNode.GetAttributeValue("class", string.Empty).Contains("tile-investment"))
                 {
-                    var hrefValue = link.GetAttributeValue("href", string.Empty);
+                    var hrefValue = l.GetAttributeValue("href", string.Empty);
                     if (hrefValue != string.Empty)
                     {
                         hrefList.Add(hrefValue);
                     }
                 }
-
-                tertiaryNameId++;
-            } while ((link == null && hrefList.Count == 0) || (link != null));
+            }
 
             return hrefList;
         }
