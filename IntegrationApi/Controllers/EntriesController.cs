@@ -29,7 +29,11 @@ namespace IntegrationApi.Controllers
         [Authorize(Policy = "User")]
         public IActionResult GetEntries(string pageLimit, string pageId)
         {
-            if (pageLimit == null || pageId == null)
+            if(pageLimit == null && pageId == null)
+            {
+                return RedirectToAction("GetAllEntries");
+            }
+            else if (pageLimit == null || pageId == null)
             {
                 return BadRequest("Nieprawidłowa wartość");
             }
@@ -42,6 +46,12 @@ namespace IntegrationApi.Controllers
                 return Ok(ObslugaBazyDanych.ZwrocRekordy(Convert.ToInt32(pageLimit), Convert.ToInt32(pageId)));
             }
 
+        }
+        [Route("GetAllEntries")]
+        [Authorize(Policy = "User")]
+        public IActionResult GetAllEntries()
+        {
+            return Ok(ObslugaBazyDanych.ZwrocRekordy());
         }
 
         [HttpGet]

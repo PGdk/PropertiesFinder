@@ -66,8 +66,20 @@ namespace IntegrationApi.Models
         {
             using (Db = new BazaDanych())
             {
+                return Db.Entries.Skip((limitRekordow * ktoraStrona) - limitRekordow).Take(limitRekordow)
+                   .Include(x => x.OfferDetails).ThenInclude(od => od.SellerContact)
+                   .Include(x => x.PropertyPrice)
+                   .Include(x => x.PropertyDetails)
+                   .Include(x => x.PropertyAddress)
+                   .Include(x => x.PropertyFeatures)
+                   .ToList(); 
+            }
+        }
+        public static List<Entry> ZwrocRekordy()
+        {
+            using (Db = new BazaDanych())
+            {
                 return Db.Entries
-                   .Where(x => x.ID >= ((limitRekordow * ktoraStrona) - limitRekordow + 1) && x.ID <= (limitRekordow * ktoraStrona))
                    .Include(x => x.OfferDetails).ThenInclude(od => od.SellerContact)
                    .Include(x => x.PropertyPrice)
                    .Include(x => x.PropertyDetails)
