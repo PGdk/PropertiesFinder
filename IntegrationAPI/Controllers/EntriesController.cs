@@ -48,7 +48,7 @@ namespace IntegrationAPI.Controllers
         [Route("Entries/{pageLimit}/{pageId}")]
         public async Task<ActionResult<IEnumerable<Entry>>> GetEntriesFromPage(int pageLimit, int pageId)
         {
-            int firstEntry = pageLimit * (pageId - 1) + 1;
+            int numberToSkip = pageLimit * (pageId - 1);
             var entries = await _context.Entries
                             .Include(entry => entry.OfferDetails)
                                 .ThenInclude(offerDetails => offerDetails.SellerContact)
@@ -56,8 +56,9 @@ namespace IntegrationAPI.Controllers
                             .Include(entry => entry.PropertyDetails)
                             .Include(entry => entry.PropertyFeatures)
                             .Include(entry => entry.PropertyPrice)
-                            .Where(entry => entry.Id>=firstEntry)
-                            .Where(entry => entry.Id < firstEntry+pageLimit)
+                            .OrderBy(entry => entry.Id)
+                            .Skip(numberToSkip)
+                            .Take(pageLimit)
                             .ToListAsync();
             if (entries == null)
             {
@@ -158,8 +159,7 @@ namespace IntegrationAPI.Controllers
             {
                 return BadRequest();
             }
-            foreach (Entry entry in entries)
-                _context.Entries.Add(entry);
+            _context.Entries.AddRange(entries);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -177,8 +177,7 @@ namespace IntegrationAPI.Controllers
                 // Dodatkowe - Zwrot 400
                 return BadRequest();
             }
-            foreach (Entry entry in entries)
-                _context.Entries.Add(entry);
+            _context.Entries.AddRange(entries);
             await _context.SaveChangesAsync();
 
             return NoContent();
