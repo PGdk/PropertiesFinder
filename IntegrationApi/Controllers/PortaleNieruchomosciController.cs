@@ -14,6 +14,8 @@ using Microsoft.Net.Http.Headers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 
+
+
 namespace IntegrationApi.Controllers
 {
     
@@ -23,13 +25,13 @@ namespace IntegrationApi.Controllers
     public class PortaleNieruchomosciController : ControllerBase
     {
         private DatabaseContext db = new DatabaseContext();
-
-        [Route("entry/{id}")]
-        [HttpGet]
+        [Authorize(Policy = "User")]
+        [HttpGet("entry/{id}")]
         public ActionResult<Entry> SingleEntry(int id)
         {
-            var entries = db.Entries.Include("OfferDetails").Include("PropertyPrice")
-                .Include("PropertyDetails").Include("PropertyAddress").Include("PropertyFeatures")
+            var entries = db.Entries.Include(x => x.PropertyPrice)
+                .Include(x => x.PropertyDetails).Include(x => x.PropertyAddress).Include(x => x.PropertyFeatures)
+                .Include(x => x.OfferDetails).ThenInclude(x => x.SellerContact)
                 .FirstOrDefault(x => x.ID == id);
 
             if (entries == null)
@@ -39,8 +41,8 @@ namespace IntegrationApi.Controllers
 
             return Ok(entries);
         }
-        [Route("entry/{id}")]
-        [HttpPut]
+        [Authorize(Policy = "Admin")]
+        [HttpPut("entry/{id}")]
         public IActionResult PutKsiazka(int id, [FromBody]Entry entries)
         {
             if (id != entries.ID)
@@ -67,13 +69,13 @@ namespace IntegrationApi.Controllers
 
             return NoContent();
         }
-
-        [Route("entries")]
-        [HttpGet]
+        [Authorize(Policy = "User")]
+        [HttpGet("entries")]
         public ActionResult<IEnumerable<Entry>> AllEntries()
         {
-            var entries = db.Entries.Include("OfferDetails").Include("PropertyPrice")
-                .Include("PropertyDetails").Include("PropertyAddress").Include("PropertyFeatures").ToList();
+            var entries = db.Entries.Include(x=>x.PropertyPrice)
+                .Include(x=>x.PropertyDetails).Include(x=>x.PropertyAddress).Include(x=>x.PropertyFeatures)
+                .Include(x => x.OfferDetails).ThenInclude(x => x.SellerContact).ToList();
             if (entries.Count() == 0)
             {
                 return NotFound();
@@ -81,8 +83,8 @@ namespace IntegrationApi.Controllers
             return Ok(entries);
         }
 
-        [Route("entries/{pagelimit}/{pageid}")]
-        [HttpGet]
+        [Authorize(Policy = "User")]
+        [HttpGet("entries/{pagelimit}/{pageid}")]
         public IActionResult GetLimitId(int pageLimit, int pageId)
         {
             if(pageLimit <= 0 || pageId <= 0)
@@ -90,8 +92,9 @@ namespace IntegrationApi.Controllers
                 return BadRequest();
             }
 
-            var entries = db.Entries.Include("OfferDetails").Include("PropertyPrice")
-                .Include("PropertyDetails").Include("PropertyAddress").Include("PropertyFeatures").ToList()
+            var entries = db.Entries.Include(x => x.PropertyPrice)
+                .Include(x => x.PropertyDetails).Include(x => x.PropertyAddress).Include(x => x.PropertyFeatures)
+                .Include(x => x.OfferDetails).ThenInclude(x => x.SellerContact).ToList()
                 .Skip((pageId - 1) * pageLimit).Take(pageLimit);
 
             if (entries.Count() == 0)
@@ -101,9 +104,9 @@ namespace IntegrationApi.Controllers
 
             return Ok(entries);
         }
-        
-        [Route("page")]
-        [HttpPost]
+
+        [Authorize(Policy = "User")]
+        [HttpPost("page")]
         public IActionResult PostEntries([FromBody]int pageNumber)
         {
             if(pageNumber <= 0)

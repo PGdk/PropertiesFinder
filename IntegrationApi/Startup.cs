@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -29,7 +30,8 @@ namespace IntegrationApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddAuthentication(options => {
+            services.AddAuthentication(options =>
+            {
                 options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
@@ -43,6 +45,14 @@ namespace IntegrationApi
                 options.Cookie.HttpOnly = false;
                 options.Cookie.SameSite = SameSiteMode.None;
             });
+            services.AddAuthorization(options =>
+                options.AddPolicy("User", policy =>
+                policy.Requirements.Add(new UserPolicyRequirement())));
+            services.AddAuthorization(options =>
+                options.AddPolicy("Admin", policy =>
+                policy.Requirements.Add(new AdminPolicyRequirement())));
+            services.AddSingleton<IAuthorizationHandler, UserPolicyHandler>();
+            services.AddSingleton<IAuthorizationHandler, AdminPolicyHandler>();
 
             services.AddMvc();
         }
@@ -67,6 +77,28 @@ namespace IntegrationApi
             {
                 endpoints.MapControllers();
             });
+        }
+        public class AdminPolicyHandler : AuthorizationHandler<AdminPolicyRequirement>
+        {
+            const string GoogleEmailAddressSchema = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress";
+            protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, AdminPolicyRequirement requirement)
+            {
+                var email = context.User.Claims.FirstOrDefault(p => p.Issuer.Equals("Google") && p.Type.Equals(GoogleEmailAddressSchema));
+                if (email != null && email.Value.Equals("piotr.tybura@gmail.com") || email.Value.Equals("monikakurowskapg@gmail.com"))
+                    context.Succeed(requirement); 
+                return Task.CompletedTask;
+            }
+        }
+        public class AdminPolicyRequirement : IAuthorizationRequirement { }
+        public class UserPolicyHandler : AuthorizationHandler<UserPolicyRequirement>
+        {
+            protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, UserPolicyRequirement requirement)
+            {
+                context.Succeed(requirement); return Task.CompletedTask;
+            }
+        }
+        public class UserPolicyRequirement : IAuthorizationRequirement
+        {
         }
     }
 }
