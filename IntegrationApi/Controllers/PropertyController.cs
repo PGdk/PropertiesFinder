@@ -83,7 +83,7 @@ namespace IntegrationApi.Controllers
             return entry;
         }
 
-        [HttpGet("/entries/{id}")]
+        [HttpPut("/entries/{id}")]
         public async Task<IActionResult> PutEntry(int id, Entry entry)
         {
             if (id != entry.Id)
