@@ -59,8 +59,8 @@ namespace IntegrationApi.Controllers
 
             return NoContent();
         }
-
-        [Route("entry")]
+        
+        [Route("entry/{id}")]
         [Authorize(Policy = "User")]
         [HttpGet]
         public IActionResult GetEntry(int id)
@@ -73,6 +73,18 @@ namespace IntegrationApi.Controllers
             return Ok(entry);
         }
 
+        [Route("entry")]
+        [Authorize(Policy = "User")]
+        [HttpGet]
+        public IActionResult GetEntries()
+        {
+            List<Entry> entries = _databaseAccessService.getEntries();
+            if (entries.Count == 0)
+            {
+                return NotFound();
+            }
+            return Ok(entries);
+        }
 
         [Route("entry")]
         [Authorize(Policy = "Admin")]
@@ -85,19 +97,6 @@ namespace IntegrationApi.Controllers
                 return BadRequest();
             }
             return Ok(entry);
-        }
-
-        [Route("entries")]
-        [Authorize(Policy = "User")]
-        [HttpGet]
-        public IActionResult GetEntries()
-        {
-            List<Entry> entries = _databaseAccessService.getEntries();
-            if (entries == null)
-            {
-                return NotFound();
-            }
-            return Ok(entries);
         }
     }
 }
