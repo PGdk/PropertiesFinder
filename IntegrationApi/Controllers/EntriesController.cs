@@ -11,10 +11,11 @@ using System.Net;
 using System;
 using System.Text.Json;
 using Newtonsoft.Json.Linq;
+using Microsoft.AspNetCore.Authorization;
 
 namespace IntegrationApi.Controllers
 {
-    [Route("")]
+    [Route("[controller]")]
     [ApiController]
     public class EntriesController : ControllerBase
     {
@@ -27,7 +28,7 @@ namespace IntegrationApi.Controllers
 
         // GET Entries?PageId=5&PageLimit=50
         [HttpGet]
-        [Route("Entries")]
+        [Authorize(Policy = "User")]
         public async Task<ActionResult<IEnumerable<Entry>>> GetEntries(int pageId = 1, int pageLimit = 20)
         {
             int skip = ( pageId - 1 ) * pageLimit;
@@ -46,9 +47,9 @@ namespace IntegrationApi.Controllers
             return entries;
         }
 
-        // GET: api/Entry/5
+        // GET: entries/5
         [HttpGet("{id}")]
-        [Route("Entry/{id}")]
+        [Authorize(Policy = "User")]
         public async Task<ActionResult<Entry>> GetEntry(int id)
         {
             var entry = await _context.Entries.FindAsync(id);
@@ -66,9 +67,9 @@ namespace IntegrationApi.Controllers
             return entry;
         }
 
-        // PUT: UpdateEntry/5
+        // PUT: entries/5
         [HttpPut("{id}")]
-        [Route("UpdateEntry/{id}")]
+        [Authorize(Policy = "Admin")]
         public async Task<IActionResult> PutEntry(int id, Entry entry)
         {
             if (id != entry.ID)
@@ -97,9 +98,9 @@ namespace IntegrationApi.Controllers
             return NoContent();
         }
 
-        // POST: page
+        // POST: entries
         [HttpPost]
-        [Route("Page")]
+        [Authorize(Policy = "User")]
         public async Task<ActionResult<IEnumerable<Entry>>> PostPage([FromBody] JsonElement body)
         {
 
@@ -124,9 +125,9 @@ namespace IntegrationApi.Controllers
             return entries;
         }
 
-        // DELETE: DeleteEntry/5
+        // DELETE: entries/5
         [HttpDelete("{id}")]
-        [Route("DeleteEntry/{id}")]
+        [Authorize(Policy = "Admin")]
         public async Task<ActionResult<Entry>> DeleteEntry(int id)
         {
             var entry = await _context.Entries.FindAsync(id);
@@ -147,7 +148,7 @@ namespace IntegrationApi.Controllers
         }
 
 
-        // GET: 
+        // GET: entries/info
         [HttpGet]
         [Route("Info")]
         public JsonResult GetInfo() {
