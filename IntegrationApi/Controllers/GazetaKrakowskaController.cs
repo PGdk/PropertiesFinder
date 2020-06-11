@@ -5,6 +5,8 @@ using AutoMapper;
 using DatabaseConnection;
 using DatabaseConnection.Models;
 using GazetaKrakowska;
+using IntegrationApi.Models;
+using IntegrationApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
@@ -19,16 +21,18 @@ namespace IntegrationApi.Controllers
     {
         private readonly IGazetaKrakowskaRepository databaseRepository;
         private readonly IMapper mapper;
+        private readonly IGazetaKrakowskaService gazetaKrakowskaService;
         private readonly IDumpsRepository dumpsRepository;
         private readonly IEqualityComparer<Entry> equalityComparer;
         private readonly GazetaKrakowskaIntegration gk;
 
-        public GazetaKrakowskaController(IGazetaKrakowskaRepository databaseRepository, IMapper mapper, IDumpsRepository dumpsRepository, IEqualityComparer<Entry> equalityComparer)
+        public GazetaKrakowskaController(IGazetaKrakowskaRepository databaseRepository, IMapper mapper, IDumpsRepository dumpsRepository, IEqualityComparer<Entry> equalityComparer, IGazetaKrakowskaService gazetaKrakowskaService)
         {
             this.databaseRepository = databaseRepository;
             this.mapper = mapper;
             this.dumpsRepository = dumpsRepository;
             this.equalityComparer = equalityComparer;
+            this.gazetaKrakowskaService = gazetaKrakowskaService;
             this.gk = new GazetaKrakowskaIntegration(this.dumpsRepository, this.equalityComparer);
         }
 
@@ -116,6 +120,14 @@ namespace IntegrationApi.Controllers
             }
 
             return new OkObjectResult(entryUpdated);
+        }
+
+        [HttpGet]
+        [Route("entries/special")]
+        [Authorize(Policy = "User")]
+        public IActionResult GetSpecialEntries()
+        {
+            return new OkObjectResult(this.gazetaKrakowskaService.GetSpecialEntries());
         }
     }
 }

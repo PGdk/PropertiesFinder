@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using DatabaseConnection;
 using GazetaKrakowska;
+using IntegrationApi.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authorization;
@@ -31,6 +32,7 @@ namespace IntegrationApi
             services.AddScoped<IGazetaKrakowskaRepository>(s => new GazetaKrakowskaRepository(new GazetaKrakowskaContext()));
             services.AddSingleton(typeof(IDumpsRepository), new DumpFileRepository());
             services.AddSingleton(typeof(IEqualityComparer<Entry>), new GazetaKrakowskaComparer());
+            services.AddSingleton(typeof(IGazetaKrakowskaService), new GazetaKrakowskaService(new GazetaKrakowskaRepository(new GazetaKrakowskaContext())));
 
             services.AddAutoMapper(typeof(Startup));
             services.AddAutoMapper(c => c.AddProfile<AutoMapping>(), typeof(Startup));

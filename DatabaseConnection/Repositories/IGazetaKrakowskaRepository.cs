@@ -6,6 +6,7 @@ namespace DatabaseConnection
     {
         void AddEntries(IEnumerable<EntryDb> entries);
         IEnumerable<EntryDb> GetEntries();
+        IEnumerable<EntryDb> GetEntries(int minYearOfConstruction);
         IEnumerable<EntryDb> GetEntries(int pageId, int pageLimit);
         EntryDb UpdateEntry(int id, EntryDb entryToUpdate);
         void AddLog(string xRequestId);

@@ -43,6 +43,19 @@ namespace DatabaseConnection
                 .ToList();
         }
 
+        public IEnumerable<EntryDb> GetEntries(int minYearOfContruction)
+        {
+            return gazetaKrakowskaContext
+                .Entries
+                .Include(e => e.OfferDetails).ThenInclude(od => od.SellerContact)
+                .Include(e => e.PropertyPrice)
+                .Include(e => e.PropertyDetails)
+                .Include(e => e.PropertyAddress)
+                .Include(e => e.PropertyFeatures)
+                .Where(e => e.PropertyDetails.YearOfConstruction >= minYearOfContruction)
+                .ToList();
+        }
+
         public IEnumerable<EntryDb> GetEntries(int pageId, int pageLimit)
         {
             int offset = (pageId - 1) * pageLimit;
