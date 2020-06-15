@@ -11,6 +11,7 @@ namespace IntegrationApi.Services
         private readonly IGazetaKrakowskaRepository databaseRepository;
         /**
          *  Okazyjne oferty beda liczone na podstawie wysokosci ceny za metr, czy posiadaja miejsce parkingowe wewnątrz budynku oraz czy zostały wybudowane nie dalej jak 2015 rok
+         *  Zwracane bedzie 10 najlepszych ofert
          *  
          *  Zasada przyznawania oceny:
          *  Rok budowy > 2015 - 5pkt
@@ -28,21 +29,24 @@ namespace IntegrationApi.Services
 
         public IEnumerable<EntryDb> GetSpecialEntries()
         {
-            IDictionary<long, int> entryIdToPoints = new Dictionary<long, int>();
+            IDictionary<EntryDb, int> entryIdToPoints = new Dictionary<EntryDb, int>();
             List<EntryDb> allEntries = this.databaseRepository.GetEntries().ToList();
 
             allEntries.ForEach(entry =>
             {
                 var points = GetPointsForEntry(entry);
-                entryIdToPoints.Add(entry.Id, points);
+                entryIdToPoints.Add(entry, points);
             });
 
-            var sortedKeys = (from entry in entryIdToPoints where entry.Value != 0 orderby entry.Value descending select entry.Key).Take(10);
+            var allSpecialEntries = (from entry in entryIdToPoints where entry.Value != 0 orderby entry.Value descending select entry.Key).Take(10).ToList();
 
-            return allEntries.FindAll(s => sortedKeys.Contains(s.Id));
+            if (allSpecialEntries.Count > 0)
+                return allSpecialEntries;
+
+            return null;
         }
 
-        private int GetPointsForEntry(EntryDb entry)
+        public int GetPointsForEntry(EntryDb entry)
         {
             var points = 0;
             var optionAppliedNumber = 0;

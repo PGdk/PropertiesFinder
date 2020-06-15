@@ -5,7 +5,6 @@ using AutoMapper;
 using DatabaseConnection;
 using DatabaseConnection.Models;
 using GazetaKrakowska;
-using IntegrationApi.Models;
 using IntegrationApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -127,7 +126,12 @@ namespace IntegrationApi.Controllers
         [Authorize(Policy = "User")]
         public IActionResult GetSpecialEntries()
         {
-            return new OkObjectResult(this.gazetaKrakowskaService.GetSpecialEntries());
+            var allSpecialEntries = this.gazetaKrakowskaService.GetSpecialEntries();
+
+            if (allSpecialEntries == null)
+                return new NotFoundObjectResult("There is no special entries unfortunately.");
+
+            return new OkObjectResult(allSpecialEntries);
         }
     }
 }
