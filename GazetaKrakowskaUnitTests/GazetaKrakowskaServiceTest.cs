@@ -27,11 +27,11 @@ namespace GazetaKrakowskaUnitTests
         {
             //Arrange
             List<EntryDb> entries = new List<EntryDb>();
-            entries.Add(PrepareMockedEntryWithNoFeature(1));
-            entries.Add(PrepareMockedEntryWithNoFeature(2));
-            entries.Add(PrepareMockedEntryWithSingleFeature(3, 2016, 9001));
-            entries.Add(PrepareMockedEntryWithTwoFeatures(4));
-            entries.Add(PrepareMockedEntryWithThreeFeatures(5));
+            entries.Add(PrepareMockedEntryWithGivenFeatures(1, 10000, null, null));
+            entries.Add(PrepareMockedEntryWithGivenFeatures(2, 10000, null, null));
+            entries.Add(PrepareMockedEntryWithGivenFeatures(3, 9001, 2016, null));
+            entries.Add(PrepareMockedEntryWithGivenFeatures(4, 8001, 2017, 0));
+            entries.Add(PrepareMockedEntryWithGivenFeatures(5, 8999, 2020, 1));
 
             IEnumerable<EntryDb> mockEntries = entries;
 
@@ -57,11 +57,11 @@ namespace GazetaKrakowskaUnitTests
         {
             //Arrange
             List<EntryDb> entries = new List<EntryDb>();
-            entries.Add(PrepareMockedEntryWithNoFeature(1));
-            entries.Add(PrepareMockedEntryWithNoFeature(2));
-            entries.Add(PrepareMockedEntryWithNoFeature(3));
-            entries.Add(PrepareMockedEntryWithNoFeature(4));
-            entries.Add(PrepareMockedEntryWithNoFeature(5));
+            entries.Add(PrepareMockedEntryWithGivenFeatures(1, 10000, null, null));
+            entries.Add(PrepareMockedEntryWithGivenFeatures(2, 10000, null, null));
+            entries.Add(PrepareMockedEntryWithGivenFeatures(3, 10000, null, null));
+            entries.Add(PrepareMockedEntryWithGivenFeatures(4, 10000, null, null));
+            entries.Add(PrepareMockedEntryWithGivenFeatures(5, 10000, null, null));
 
             IEnumerable<EntryDb> mockEntries = entries;
 
@@ -97,8 +97,8 @@ namespace GazetaKrakowskaUnitTests
         {
             //Arrange
             List<EntryDb> entries = new List<EntryDb>();
-            entries.Add(PrepareMockedEntryWithSingleFeature(1, 10000, 2016));
-            entries.Add(PrepareMockedEntryWithSingleFeature(2, 8999, 2010));
+            entries.Add(PrepareMockedEntryWithGivenFeatures(1, 10000, 2016, 0));
+            entries.Add(PrepareMockedEntryWithGivenFeatures(2, 8999, 2010, 0));
 
             IEnumerable<EntryDb> mockEntries = entries;
 
@@ -114,12 +114,12 @@ namespace GazetaKrakowskaUnitTests
 
             Assert.AreEqual(2, result1.Id);
             Assert.AreEqual(2010, result1.PropertyDetails.YearOfConstruction);
-            Assert.AreEqual(null, result1.PropertyFeatures.IndoorParkingPlaces);
+            Assert.AreEqual(0, result1.PropertyFeatures.IndoorParkingPlaces);
             Assert.AreEqual(8999, result1.PropertyPrice.PricePerMeter);
         }
 
 
-        private EntryDb PrepareMockedEntryWithSingleFeature(int id, int price, int year)
+        private EntryDb PrepareMockedEntryWithGivenFeatures(int id, int price, int? year, int? indoorParkingPlaces)
         {
             return new EntryDb()
             {
@@ -132,88 +132,15 @@ namespace GazetaKrakowskaUnitTests
                     YearOfConstruction = year
 
                 },
-                PropertyFeatures = new PropertyFeaturesDb(),
+                PropertyFeatures = new PropertyFeaturesDb()
+                {
+                    Id = id,
+                    IndoorParkingPlaces = indoorParkingPlaces
+                },
                 PropertyPrice = new PropertyPriceDb()
                 {
                     Id = id,
                     PricePerMeter = price
-                },
-                RawDescription = "someDescription"
-            };
-        }
-
-        private EntryDb PrepareMockedEntryWithTwoFeatures(int id)
-        {
-            return new EntryDb()
-            {
-                Id = id,
-                OfferDetails = new OfferDetailsDb(),
-                PropertyAddress = new PropertyAddressDb(),
-                PropertyDetails = new PropertyDetailsDb()
-                {
-                    Id = id,
-                    YearOfConstruction = 2017
-
-                },
-                PropertyFeatures = new PropertyFeaturesDb(),
-                PropertyPrice = new PropertyPriceDb()
-                {
-                    Id = id,
-                    PricePerMeter = 8000
-                },
-                RawDescription = "someDescription"
-            };
-        }
-
-        private EntryDb PrepareMockedEntryWithThreeFeatures(int id)
-        {
-            return new EntryDb()
-            {
-                Id = id,
-                OfferDetails = new OfferDetailsDb(),
-                PropertyAddress = new PropertyAddressDb(),
-                PropertyDetails = new PropertyDetailsDb()
-                {
-                    Id = id,
-                    YearOfConstruction = 2020
-
-                },
-                PropertyFeatures = new PropertyFeaturesDb()
-                {
-                    Id = id,
-                    IndoorParkingPlaces = 1
-                },
-                PropertyPrice = new PropertyPriceDb()
-                {
-                    Id = id,
-                    PricePerMeter = 8999
-                },
-                RawDescription = "someDescription"
-            };
-        }
-
-        private EntryDb PrepareMockedEntryWithNoFeature(int id)
-        {
-            return new EntryDb()
-            {
-                Id = id,
-                OfferDetails = new OfferDetailsDb(),
-                PropertyAddress = new PropertyAddressDb(),
-                PropertyDetails = new PropertyDetailsDb()
-                {
-                    Id = id,
-                    YearOfConstruction = 2010
-
-                },
-                PropertyFeatures = new PropertyFeaturesDb()
-                {
-                    Id = id,
-                    IndoorParkingPlaces = 0
-                },
-                PropertyPrice = new PropertyPriceDb()
-                {
-                    Id = id,
-                    PricePerMeter = 15000
                 },
                 RawDescription = "someDescription"
             };
