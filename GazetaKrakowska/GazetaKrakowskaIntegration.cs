@@ -146,9 +146,23 @@ namespace GazetaKrakowska
             return links.ZipThree(creationDates, updatedDates, (link, createDate, updateDate) => new GazetaKrakowskaOffer
             {
                 UrlDetails = link,
-                CreationDateTime = DateTime.Parse(createDate),
-                LastUpdateDateTime = DateTime.Parse(updateDate)
+                CreationDateTime = ParseDate(createDate),
+                LastUpdateDateTime = ParseDate(updateDate)
             }).ToList();
+        }
+
+        private DateTime ParseDate(string date)
+        {
+            var parsedDate = DateTime.Now;
+            try
+            {
+                parsedDate = DateTime.Parse(date);
+            } catch (Exception)
+            {
+                return parsedDate;
+            }
+
+            return parsedDate;
         }
 
         private List<String> GetValuesFromNodeList(HtmlNodeCollection nodes)
