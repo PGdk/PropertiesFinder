@@ -18,7 +18,21 @@ namespace IntegrationApi.Controllers
         {
             _context = context;
         }
-
+        // Take 5 cheapest offers by PricePerMeter at given city
+        [HttpGet("sqm-deal/{cityId}")]
+        public async Task<ActionResult<IEnumerable<Entry>>> GetSqmDeal(int cityId)
+        {
+            return await _context.Entries
+                .Include(e => e.OfferDetails)
+                .ThenInclude(od => od.SellerContact)
+                .Include(e => e.PropertyAddress)
+                .Include(e => e.PropertyDetails)
+                .Include(e => e.PropertyPrice)
+                .Include(e => e.PropertyFeatures)
+                .Where(e => (int)e.PropertyAddress.City == cityId)
+                .OrderBy(e => e.PropertyPrice.PricePerMeter)
+                .Take(5).ToListAsync();
+        }
         // GET: Entries
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Entry>>> GetEntries()

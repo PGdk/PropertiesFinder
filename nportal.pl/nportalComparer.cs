@@ -4,7 +4,7 @@ using Models;
 
 namespace nportal.pl
 {
-    class NportalComparer : IEqualityComparer<Entry>
+    public class NportalComparer : IEqualityComparer<Entry>
     {
         public bool Equals(Entry x, Entry y)
         {

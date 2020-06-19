@@ -13,9 +13,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utilities", "Utilities\Util
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "nportal.pl", "nportal.pl\nportal.pl.csproj", "{74405D09-F02E-49FF-AF25-B8754CF5B597}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationApi", "IntegrationApi\IntegrationApi.csproj", "{D561AEA2-E626-4994-AB8B-D56A760F060A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntegrationApi", "IntegrationApi\IntegrationApi.csproj", "{D561AEA2-E626-4994-AB8B-D56A760F060A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseConnection", "DatabaseConnection\DatabaseConnection.csproj", "{AC8B5FBC-799E-49E8-9988-A5167373F4CE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatabaseConnection", "DatabaseConnection\DatabaseConnection.csproj", "{AC8B5FBC-799E-49E8-9988-A5167373F4CE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationApi.Tests", "IntegrationApi.Tests\IntegrationApi.Tests.csproj", "{7D4566B0-D342-4E4B-A1F1-1F4A0C9332B5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{AC8B5FBC-799E-49E8-9988-A5167373F4CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AC8B5FBC-799E-49E8-9988-A5167373F4CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AC8B5FBC-799E-49E8-9988-A5167373F4CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D4566B0-D342-4E4B-A1F1-1F4A0C9332B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D4566B0-D342-4E4B-A1F1-1F4A0C9332B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D4566B0-D342-4E4B-A1F1-1F4A0C9332B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D4566B0-D342-4E4B-A1F1-1F4A0C9332B5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

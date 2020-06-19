@@ -10,7 +10,7 @@ using WebPage = Models.WebPage;
 
 namespace nportal.pl
 {
-    class NportalIntegration : IWebSiteIntegration
+    public class NportalIntegration : IWebSiteIntegration
     {
 
         public WebPage WebPage { get; }
@@ -109,7 +109,7 @@ namespace nportal.pl
 
         // Seller is either company or agent, so we have if else thru offerFeatures.
         // ! No e-mail on website, just phone
-        private SellerContact FindSellerContact(HtmlNode htmlOffer)
+        public SellerContact FindSellerContact(HtmlNode htmlOffer)
         {
             string name;
             var nameAsHtml = htmlOffer.CssSelect("#sidebar>div>section>div.agentInfo>div.agentName").FirstOrDefault();
@@ -161,7 +161,7 @@ namespace nportal.pl
 
         // Addresses are inconsistent - sometimes it's 'Warsaw, Praga', sometimes 'Warsaw Praga', or 'Warsaw City, Warsaw, Praga'.
         // ! That's why I defaulted City value to PolishCity.ALEKSANDROW_KUJAWSKI, because City can't be null or undefined
-        private PropertyAddress GetPropertyAddress(Dictionary<string, string> offerFeatures)
+        public PropertyAddress GetPropertyAddress(Dictionary<string, string> offerFeatures)
         {
             var address = offerFeatures["Adres"].Split(',');
             if (!Enum.TryParse(address[0].RemoveDiacritics(), true, out PolishCity city))
@@ -199,7 +199,8 @@ namespace nportal.pl
 
             return int.Parse(features[featureKey]);
         }
-        private PropertyDetails GetPropertyDetails(Dictionary<string, string> offerFeatures)
+
+        public PropertyDetails GetPropertyDetails(Dictionary<string, string> offerFeatures)
         {
             var area = decimal.Parse(offerFeatures["Powierzchnia mieszkalna"].Replace("m²", "").Replace(",", "."));
             var floorNumber = FindFeatureKey(offerFeatures, "Piętro", ParsingRule.GroundFloor);
@@ -245,7 +246,7 @@ namespace nportal.pl
 
         // Sometimes there's no price info and types can't be null, so I defaulted it to 0.
         // ! Also there's no rent info.
-        private PropertyPrice GetPropertyPrice(Dictionary<string, string> offerFeatures)
+        public PropertyPrice GetPropertyPrice(Dictionary<string, string> offerFeatures)
         {
             var pricePerMeterAsHtml = "0";
             if (offerFeatures.ContainsKey("Cena za m&sup2;"))
@@ -263,7 +264,7 @@ namespace nportal.pl
                 TotalGrossPrice = totalGrossPrice
             };
         }
-        private Dictionary<string, string> FindOfferFeatures(HtmlNodeCollection htmlTableWithFeatures)
+        public Dictionary<string, string> FindOfferFeatures(HtmlNodeCollection htmlTableWithFeatures)
         {
             var features = new Dictionary<string, string>();
             foreach (var htmlRow in htmlTableWithFeatures)
