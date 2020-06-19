@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 
-namespace Application.PolskaTimes
+namespace PolskaTimes
 {
     public class Integration : IWebSiteIntegration
     {
@@ -37,19 +37,17 @@ namespace Application.PolskaTimes
             };
         }
 
-        public List<Entry> GetHtml()
+        public static List<Entry> GetHtml(int ParsePageNumber = 1)
         {
-
-
-
             char[] alphabet = { 'a', 'ą', 'b', 'c', 'ć', 'd', 'e', 'ę', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'ł', 'm', 'n', 'ń', 'o', 'ó', 'p', 'r', 's', 'ś', 't', 'u', 'w', 'y', 'z', 'ź', 'ż',
                                     'A', 'Ą', 'B', 'C', 'Ć', 'D', 'E', 'Ę', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'Ł', 'M', 'N', 'Ń', 'O', 'Ó', 'P', 'R', 'S', 'Ś', 'T', 'U', 'W', 'Y', 'Z', 'Ź', 'Ż',
                                     '\n', ' ', '/', '.'};
 
             List<Entry> Entries = new List<Entry>();
 
-            var numberOfPages = 1; // liczba stron do przeparsowania
-            for (int i = 1; i <= numberOfPages; i++)
+            var numberOfPages = ParsePageNumber; // liczba stron do przeparsowania
+            int i = ParsePageNumber;
+            for (; i <= numberOfPages; i++)
             {
                 // url każdej ze stron
                 var URL = "";
@@ -227,6 +225,7 @@ namespace Application.PolskaTimes
                         roomNumbers = offerParams.SelectSingleNode(".//ul[@class='parameters__rolled']/li[contains(.//span, 'Liczba pokoi')]/b").InnerText;
                         if (roomNumbers != "")
                         {
+                            roomNumbers = roomNumbers.Trim(alphabet);
                             roomNumbersInt = Int32.Parse(roomNumbers);
                         }
                     }
@@ -329,11 +328,14 @@ namespace Application.PolskaTimes
             return Entries;
         }
 
+        public static List<Entry> GenerateDump(int id)
+        {
+            return GetHtml(id); // id to parametr opcjonalny
+        }
+
         public Dump GenerateDump()
         {
-
             var allParsedPages = GetHtml();
-
 
             return new Dump
             {
