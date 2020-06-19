@@ -8,7 +8,7 @@ using Models;
 
 namespace IntegrationApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class EntriesController : ControllerBase
     {
@@ -19,7 +19,7 @@ namespace IntegrationApi.Controllers
             _context = context;
         }
 
-        // GET: api/Entries
+        // GET: Entries
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Entry>>> GetEntries()
         {
@@ -32,7 +32,7 @@ namespace IntegrationApi.Controllers
                 .Include(e => e.PropertyFeatures).ToListAsync();
         }
 
-        // GET: api/Entries/5
+        // GET: Entries/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Entry>> GetEntry(int id)
         {
@@ -51,7 +51,7 @@ namespace IntegrationApi.Controllers
             return entry;
         }
 
-        // PUT: api/Entries/5
+        // PUT: Entries/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutEntry(int id, Entry entry)
         {
@@ -79,7 +79,7 @@ namespace IntegrationApi.Controllers
             return NoContent();
         }
 
-        // POST: api/Entries
+        // POST: Entries
         [HttpPost]
         public async Task<ActionResult<Entry>> PostEntry(Entry entry)
         {
@@ -89,7 +89,7 @@ namespace IntegrationApi.Controllers
             return CreatedAtAction("GetEntry", new { id = entry.Id }, entry);
         }
 
-        // DELETE: api/Entries/5
+        // DELETE: Entries/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<Entry>> DeleteEntry(int id)
         {
