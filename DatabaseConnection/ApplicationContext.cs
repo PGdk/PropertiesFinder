@@ -13,8 +13,9 @@ namespace DatabaseConnection
         public ApplicationDbContext(string connectionString) : base(GetOptions(connectionString)) { }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            : base(options) =>
-            Database.Migrate();
+            : base(options)
+        {
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

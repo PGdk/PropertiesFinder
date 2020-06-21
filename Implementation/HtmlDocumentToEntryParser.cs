@@ -1,94 +1,49 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
-using DatabaseConnection;
 using Extensions;
 using HtmlAgilityPack;
-using Interfaces;
 using Models;
+using Utilities;
 
 namespace Implementation
 {
-    public class Integration : IWebSiteIntegration
+    public class HtmlDocumentToEntryParser : IParser<HtmlDocument, Entry>
     {
         private static readonly Regex UrlRegex = new Regex(@"(?<url>https://[a-zA-Z0-9~_.,/-]+)");
         private static readonly Regex PriceRegex = new Regex(@"Cena: (?<price>[0-9 ]+|inf\. u dewelopera)");
-        private static readonly List<string> OfferTypes = new List<string> { "pokoje", "mieszkania", "domy" };
+        private static readonly List<string> OfferTypes = new List<string> {"pokoje", "mieszkania", "domy"};
 
-        public Integration(IDumpsRepository dumpsRepository,
-            IEqualityComparer<Entry> equalityComparer)
+        public Entry Parse(HtmlDocument source)
         {
-            DumpsRepository = dumpsRepository;
-            EntriesComparer = equalityComparer;
-            WebPage = new WebPage
+            var documentNode = source.DocumentNode;
+            if (IsValidOffer(documentNode))
             {
-                Url = "https://www.oferty.net",
-                Name = "oferty.net",
-                WebPageFeatures = new WebPageFeatures
+                return new Entry
                 {
-                    HomeSale = true,
-                    HomeRental = false,
-                    HouseSale = false,
-                    HouseRental = false
-                }
-            };
-        }
-
-        public Dump GenerateDump()
-        {
-            var web = new HtmlWeb();
-            var entries = new List<Entry>();
-
-
-            foreach (var offerType in OfferTypes)
-            {
-                foreach (var city in Enum.GetNames(typeof(PolishCity)))
-                {
-                    var uri = new Uri($"{WebPage.Url}/{offerType}/szukaj")
-                        .AddParameter("page", "1") // For the sake of testing, only one page from each city
-                        .AddParameter("ps[type]", "1")
-                        .AddParameter("ps[foreign_search]", "0")
-                        .AddParameter("ps[location][type]", "1")
-                        .AddParameter("ps[location][text]", city)
-                        .AddParameter("ps[transaction]", "1");
-
-                    var doc = web.Load(uri);
-
-                    var offerCollection = doc.DocumentNode.SelectNodes("//tr[contains(@class, 'property')]");
-
-                    if (offerCollection != null)
-                    {
-                        foreach (var offer in offerCollection)
-                        {
-                            var offerLink = offer.GetAttributeValue("onclick", String.Empty);
-
-                            if (UrlRegex.IsMatch(offerLink))
-                            {
-                                var url = UrlRegex.Match(offerLink).Groups["url"].Value;
-                                var htmlNode = new HtmlWeb().Load(url).DocumentNode;
-
-                                if (IsValidOffer(htmlNode))
-                                {
-                                    entries.Add(item: new Entry
-                                    {
-                                        PropertyPrice = CreatePropertyPrice(htmlNode),
-                                        PropertyAddress = PropertyAddress(htmlNode, city),
-                                        OfferDetails = CreateOfferDetail(htmlNode),
-                                        PropertyDetails = CreatePropertyDetails(htmlNode),
-                                        PropertyFeatures = CreatePropertyFeatures(htmlNode),
-                                        RawDescription = CreateDescription(htmlNode)
-                                    });
-                                    Console.WriteLine($"[Processing]: {url}");
-                                }
-                            }
-                        }
-                    }
-                }
-                if(entries.Count > 500) break;
+                    PropertyPrice = CreatePropertyPrice(documentNode),
+                    PropertyAddress = PropertyAddress(documentNode),
+                    OfferDetails = CreateOfferDetail(documentNode),
+                    PropertyDetails = CreatePropertyDetails(documentNode),
+                    PropertyFeatures = CreatePropertyFeatures(documentNode),
+                    RawDescription = CreateDescription(documentNode)
+                };
             }
 
-            return new Dump { Entries = entries, WebPage = WebPage, DateTime = DateTime.Now };
+            return null;
+        }
+
+        private PolishCity GetCity(HtmlNode htmlNode)
+        {
+            var url = htmlNode
+                .SelectSingleNode("//link[contains(@rel, 'alternate')]")
+                .GetAttributeValue("href", string.Empty);
+
+            var regex = new Regex(@"ps%5Blocation%5D=(?<city>\w+)&").Match(url).Groups["city"].Value;
+            return Enum.Parse<PolishCity>(regex);
         }
 
         private PropertyFeatures CreatePropertyFeatures(HtmlNode htmlNode)
@@ -109,25 +64,39 @@ namespace Implementation
 
         public bool? IsPrimaryMarket { get; set; }
 
-        private PropertyAddress PropertyAddress(HtmlNode htmlNode, string city)
+        private PropertyAddress PropertyAddress(HtmlNode htmlNode)
         {
             var title = htmlNode
                 .SelectSingleNode("//div[@class='header']/h1")
                 .InnerText;
 
-            var propertyAddress = new PropertyAddress
-            {
-                City = Enum
-                    .Parse<PolishCity>(city),
-                StreetName = title
-                    .Split(',')
-                    .Last()
-                    .RemoveWhitespaces(),
-                District = GetCustomOfferDetailValue(htmlNode, "Województwo :\n")
-                    .RemoveWhitespaces()
-            };
+            var addressElements = title.Split(',')
+                .Select(x => x
+                    .Replace("(gm.)", string.Empty)
+                    .ToUpper(CultureInfo.CurrentCulture)
+                    .RemoveDiacritics()
+                    .Trim()
+                    .Replace("-", "_")
+                    .Replace(" ", "_"));
 
-            return propertyAddress;
+            foreach (var addressElement in addressElements)
+            {
+                if (Enum.IsDefined(typeof(PolishCity), addressElement))
+                {
+                    return new PropertyAddress
+                    {
+                        City = Enum.Parse<PolishCity>(addressElement),
+                        StreetName = title
+                            .Split(',')
+                            .Last()
+                            .RemoveWhitespaces(),
+                        District = GetCustomOfferDetailValue(htmlNode, "Województwo :\n")
+                            .RemoveWhitespaces()
+                    };
+                }
+            }
+
+            return null;
         }
 
         private bool IsValidOffer(HtmlNode htmlNode)
@@ -157,7 +126,7 @@ namespace Implementation
 
             var floorNumberText = GetCustomOfferDetailValue(htmlNode, "Piętro:");
 
-            if (!string.IsNullOrWhiteSpace(floorNumberText))
+            if (!String.IsNullOrWhiteSpace(floorNumberText))
             {
                 propertyDetails.FloorNumber = floorNumberText.Contains("parter") ? 0 : floorNumberText.FindInteger();
             }
@@ -165,7 +134,7 @@ namespace Implementation
             return propertyDetails;
         }
 
-        private string GetCustomOfferDetailValue(HtmlNode htmlNode, string name)
+        private string GetCustomOfferDetailValue2018862318(HtmlNode htmlNode, string name)
         {
             var nameNodes = htmlNode.SelectNodes(@"//*[@id=""propertyLeft""]/div[3]/dl/dt");
             var nameNode = nameNodes.FirstOrDefault(node => node.InnerText == name);
@@ -179,7 +148,7 @@ namespace Implementation
             return valueNode.InnerText;
         }
 
-        private PropertyPrice CreatePropertyPrice(HtmlNode htmlNode)
+        private PropertyPrice CreatePropertyPrice641483937(HtmlNode htmlNode)
         {
             var propertyPrice = new PropertyPrice();
 
@@ -204,7 +173,82 @@ namespace Implementation
         private static string CreateDescription(HtmlNode htmlNode)
         {
             return htmlNode
-                .SelectSingleNode("//div[@id='description']")?.InnerText ?? String.Empty;
+                       .SelectSingleNode("//div[@id='description']")?.InnerText ?? String.Empty;
+        }
+
+        private OfferDetails CreateOfferDetail2130373246(HtmlNode htmlNode)
+        {
+            var sellerName = htmlNode
+                .SelectSingleNode(@"//span[@class='propertyName' or @class='propertyCompanyName']")
+                .InnerText;
+
+            var offerType = htmlNode
+                .SelectSingleNode(@"//div[@class='header']/span")
+                .InnerText;
+
+            OfferKind offerKind;
+
+            if (offerType.Contains("wynajęcia")) offerKind = OfferKind.RENTAL;
+            else offerKind = OfferKind.SALE;
+
+
+            var sellerTelephone = htmlNode
+                .SelectSingleNode("//span[@class='visible-contact']")
+                .InnerText
+                .RemoveWhitespaces();
+
+            var lastUpdateDateTime = htmlNode
+                .SelectNodes("//div[@class='baseParam']/div")
+                .FirstOrDefault(node => node.Element("b")?.InnerText == "Data aktualizacji:")
+                .InnerText
+                .FindDate();
+
+            var creationDateTime = htmlNode
+                                       .SelectNodes("//div[@class='baseParam']/div")
+                                       .FirstOrDefault(node => node.Element("b")?.InnerText == "Data dodania:")
+                                       ?.InnerText.FindDate() ?? lastUpdateDateTime;
+
+
+            var urlShort = htmlNode
+                .SelectNodes("//div[@class='baseParam']/div")
+                .FirstOrDefault(node => node.Element("b")?.InnerText == "Link do oferty:")
+                ?.InnerText;
+
+            return new OfferDetails
+            {
+                CreationDateTime = creationDateTime,
+                LastUpdateDateTime = lastUpdateDateTime,
+                IsStillValid = true,
+                Url = UrlRegex.Match(urlShort).Groups["url"].Value,
+                OfferKind = offerKind,
+                SellerContact = new SellerContact
+                {
+                    Name = sellerName,
+                    Telephone = sellerTelephone
+                }
+            };
+        }
+
+        private PropertyPrice CreatePropertyPrice(HtmlNode htmlNode)
+        {
+            var propertyPrice = new PropertyPrice();
+
+            var priceNode = htmlNode.SelectSingleNode("//div[@class='header']/h3").InnerText;
+            var priceText = PriceRegex.Match(priceNode).Groups["price"].Value;
+
+            if (priceText.Contains("inf. u dewelopera"))
+            {
+                propertyPrice.NegotiablePrice = true;
+            }
+            else
+            {
+                propertyPrice.TotalGrossPrice = priceText.RemoveWhitespaces().FindDecimal();
+            }
+
+            propertyPrice.PricePerMeter = GetCustomOfferDetailValue(htmlNode, "Cena za m&sup2;:").FindDecimal();
+            // propertyPrice.ResidentalRent = GetCustomOfferDetailValue(htmlNode,); // todo
+
+            return propertyPrice;
         }
 
         private OfferDetails CreateOfferDetail(HtmlNode htmlNode)
@@ -260,8 +304,18 @@ namespace Implementation
             };
         }
 
-        public WebPage WebPage { get; }
-        public IDumpsRepository DumpsRepository { get; }
-        public IEqualityComparer<Entry> EntriesComparer { get; }
+        private string GetCustomOfferDetailValue(HtmlNode htmlNode, string name)
+        {
+            var nameNodes = htmlNode.SelectNodes(@"//*[@id=""propertyLeft""]/div[3]/dl/dt");
+            var nameNode = nameNodes.FirstOrDefault(node => node.InnerText == name);
+
+            if (nameNode == null) return null;
+
+            var valueNode = htmlNode
+                .SelectNodes(@"//*[@id=""propertyLeft""]/div[3]/dl/dd")
+                .ElementAt(nameNodes.IndexOf(nameNode));
+
+            return valueNode.InnerText;
+        }
     }
 }

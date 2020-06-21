@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Extensions
@@ -34,11 +35,37 @@ namespace Extensions
 
             if (decimalRegex.IsMatch(value))
                 return decimal.Parse(decimalRegex.Match(value).Value,
-                    new NumberFormatInfo { NumberDecimalSeparator = separator });
+                    new NumberFormatInfo {NumberDecimalSeparator = separator});
 
             return null;
         }
 
+        public static string RemoveDiacritics(this string text)
+        {
+            var normalizedString = text.Normalize(NormalizationForm.FormD);
+            var stringBuilder = new StringBuilder();
+
+            foreach (var c in normalizedString)
+            {
+                switch (c)
+                {
+                    case 'Ł': stringBuilder.Append('L'); break;
+                    case 'ł': stringBuilder.Append('l'); break;
+                    case 'Ą': stringBuilder.Append('A'); break;
+                    case 'ą': stringBuilder.Append('a'); break;
+                    default:
+                    {
+                        var unicodeCategory = CharUnicodeInfo.GetUnicodeCategory(c);
+                        if (unicodeCategory != UnicodeCategory.NonSpacingMark)
+                        {
+                            stringBuilder.Append(c);
+                        }
+                    } break;
+                }
+            }
+
+            return stringBuilder.ToString().Normalize(NormalizationForm.FormC);
+        }
 
         public static decimal FindDecimal(this string value, string separator = ",",
             decimal defaultValue = Decimal.Zero)
@@ -49,7 +76,7 @@ namespace Extensions
 
             if (decimalRegex.IsMatch(value))
                 return decimal.Parse(decimalRegex.Match(value).Value,
-                    new NumberFormatInfo { NumberDecimalSeparator = separator });
+                    new NumberFormatInfo {NumberDecimalSeparator = separator});
 
             return defaultValue;
         }
@@ -81,9 +108,11 @@ namespace Extensions
             if (string.IsNullOrWhiteSpace(value)) return defaultValue;
 
             var dateRegex = new Regex($@"((0[1-9]|[12]\d|3[01]){separator}(0[1-9]|1[0-2]){separator}([12]\d{{3}}))");
-            string[] format = { $"dd{separator}MM{separator}yyyy" };
+            string[] format = {$"dd{separator}MM{separator}yyyy"};
 
-            if (dateRegex.IsMatch(value)) return DateTime.ParseExact(dateRegex.Match(value).Value, format, new CultureInfo("en-US"), DateTimeStyles.None);
+            if (dateRegex.IsMatch(value))
+                return DateTime.ParseExact(dateRegex.Match(value).Value, format, new CultureInfo("en-US"),
+                    DateTimeStyles.None);
 
             return defaultValue;
         }

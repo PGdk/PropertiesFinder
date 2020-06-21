@@ -11,13 +11,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Application\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utilities", "Utilities\Utilities.csproj", "{42A0CDFB-8A68-4C9E-8FDC-34202330BFF3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Implementation", "Implementation\Implementation.csproj", "{4B049B67-EC61-42D5-A89A-13D54A49B50B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Implementation", "Implementation\Implementation.csproj", "{4B049B67-EC61-42D5-A89A-13D54A49B50B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Extensions", "Extensions\Extensions.csproj", "{5E3B42BA-34AA-4EA2-82A6-4ED98E31D4F3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Extensions", "Extensions\Extensions.csproj", "{5E3B42BA-34AA-4EA2-82A6-4ED98E31D4F3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseConnection", "DatabaseConnection\DatabaseConnection.csproj", "{5AC96D3F-2AE5-4F25-BF51-E2C83596DCA3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatabaseConnection", "DatabaseConnection\DatabaseConnection.csproj", "{5AC96D3F-2AE5-4F25-BF51-E2C83596DCA3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationApi", "IntegrationApi\IntegrationApi.csproj", "{F854CF0C-90D2-4425-8331-463BB660D750}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntegrationApi", "IntegrationApi\IntegrationApi.csproj", "{F854CF0C-90D2-4425-8331-463BB660D750}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{2B3A5310-2B55-4916-A37E-5621DE414CB2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +59,10 @@ Global
 		{F854CF0C-90D2-4425-8331-463BB660D750}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F854CF0C-90D2-4425-8331-463BB660D750}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F854CF0C-90D2-4425-8331-463BB660D750}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B3A5310-2B55-4916-A37E-5621DE414CB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B3A5310-2B55-4916-A37E-5621DE414CB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B3A5310-2B55-4916-A37E-5621DE414CB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B3A5310-2B55-4916-A37E-5621DE414CB2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

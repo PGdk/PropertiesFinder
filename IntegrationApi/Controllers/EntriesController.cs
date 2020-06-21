@@ -59,6 +59,28 @@ namespace IntegrationApi.Controllers
             return entry;
         }
 
+        // https://localhost:348/entries/Best/ANNOPOL
+        [HttpGet("Best/{city}")]
+        public async Task<ActionResult<ICollection<Entry>>> GetBestEntry(PolishCity city)
+        {
+            var entry = await _context
+                .Entries
+                .Where(entry1 => entry1.PropertyAddress.City == city && entry1.PropertyPrice.PricePerMeter > 0)
+                .OrderByDescending(entry1 => entry1.PropertyFeatures.HasBalcony)
+                .ThenByDescending(entry1 => entry1.PropertyFeatures.HasElevator)
+                .ThenByDescending(entry1 => entry1.PropertyFeatures.HasBasementArea)
+                .ThenByDescending(entry1 => entry1.PropertyFeatures.ParkingPlaces)
+                .ThenBy(entry1 => entry1.PropertyPrice.PricePerMeter)
+                .Take(5)
+                .ToListAsync();
+
+            if (entry == null)
+            {
+                return NotFound();
+            }
+
+            return entry;
+        }
 
         [HttpPut("{id}")]
         [Authorize(Roles = "Admin")]

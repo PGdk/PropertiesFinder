@@ -41,7 +41,7 @@ namespace IntegrationApi
             services.AddControllers();
             services.AddDbContext<ApplicationDbContext>(builder => builder.UseSqlServer(Configuration.GetConnectionString("ApplicationDbContext")));
             services.Configure<InfoViewModel>(Configuration.GetSection("Student"));
-            services.AddSingleton<IWebSiteIntegration, Integration>();
+            services.AddSingleton<IWebSiteIntegration, OfertyIntegration>();
             services.AddSingleton<IDumpsRepository, DumpFileRepository>();
             services.AddSingleton<IEqualityComparer<Entry>, EntryEqualityComparer>();
 
