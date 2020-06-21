@@ -1,4 +1,7 @@
-﻿class OtodomJsonObjectDetailed
+﻿//Klasa, która zawiera wszystkie dane w postaci obiektu typu JSON, jakie przechowuje w sobie skrypt
+//pobierany z otodom. Dzięki możliwości VS, nie trzeba pisać tej klasy ręcznie. Można skopiować obiekt typu JSON
+//a VS sam stworzy dla nas klasę
+class OtodomJsonObjectDetailed
 { 
     public Initialprops initialProps { get; set; }
     public Appinitialprops appInitialProps { get; set; }

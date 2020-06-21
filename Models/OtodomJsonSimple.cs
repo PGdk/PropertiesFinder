@@ -33,7 +33,6 @@ namespace Models
             public string[] Heating { get; set; }
             public string Build_year { get; set; }
             public string Building_floors_num { get; set; }
-            public string OfferType { get; set; }
         }
 
         public class Data
@@ -45,8 +44,6 @@ namespace Models
             public Characteristic[] characteristics { get; set; }
             public string status { get; set; }
             public string url { get; set; }
-            public string dateCreated { get; set; }
-            public string dateModified { get; set; }
         }
         public class Characteristic
         {

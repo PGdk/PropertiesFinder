@@ -11,9 +11,9 @@ using System.Linq;
 using Newtonsoft.Json;
 namespace Application.Otodom
 {
-        class OtodomIntegration : IWebSiteIntegration
+        public class OtodomIntegration : IWebSiteIntegration
         {
-             int maximumAds = 200; //maksymalna ilosc ofert do pobrania;
+            int maximumAds = 200; //maksymalna ilość ofert
             List<String> linksToAdvertisements;
             public WebPage WebPage { get; }
             public IDumpsRepository DumpsRepository { get; }
@@ -37,19 +37,81 @@ namespace Application.Otodom
                 };
             }
 
-            public Dump GenerateDump()
+        public IEnumerable<Entry> GetOffersByPage(int page)
+        {
+            var entries = new List<Entry>();
+
+            for (int i = 0; i < 25; i++)
+            {
+                entries.Add(
+                    new Entry
+                    {
+                        OfferDetails = new OfferDetails
+                        {
+                            CreationDateTime = new DateTime(),
+                            IsStillValid = true,
+                            LastUpdateDateTime = new DateTime(),
+                            Url = "http://oto.url",
+                            OfferKind = OfferKind.SALE,
+                            SellerContact = new SellerContact
+                            {
+                                Email = "oto@oto.com",
+                                Name = "Oto Dom",
+                                Telephone = "600 500 400"
+                            }
+                        },
+                        PropertyAddress = new PropertyAddress
+                        {
+                            City = PolishCity.GDANSK,
+                            DetailedAddress = String.Format("ul.Prosta {1}/{0}", i, page),
+                            District = "Oto",
+                            StreetName = "Prosta"
+                        },
+                        PropertyDetails = new PropertyDetails
+                        {
+                            FloorNumber = "",
+                            NumberOfRooms = page % 4,
+                            YearOfConstruction = 2020 - page,
+                            Area = 666 / page,
+                        },
+                        PropertyFeatures = new PropertyFeatures
+                        {
+                            Balconies = page % 3,
+                            BasementArea = 0,
+                            GardenArea = 0,
+                            IndoorParkingPlaces = 0,
+                            OutdoorParkingPlaces = 0
+                        },
+                        PropertyPrice = new PropertyPrice
+                        {
+                            PricePerMeter = 765,
+                            ResidentalRent = 0,
+                            TotalGrossPrice = 765 * i + page,
+                        },
+                        RawDescription = String.Format("Description for offer {0} on page {1}", i, page),
+
+                    }
+                );
+            }
+
+            return entries;
+        }
+
+
+        public Dump GenerateDump()
             {
                 linksToAdvertisements = new List<String>();
                 var Entries = new List<Entry>();
                 var htmlWeb = new HtmlWeb();
                 int maxLoopCounter = maximumAds / 72;
-                for (int i = 1; i < maxLoopCounter + 2; i++)
+                for (int i = 1; i < maxLoopCounter + 1; i++)
                 {
                     if (linksToAdvertisements.Count() == maximumAds)
                     {
                         break;
                     }
-                var document = htmlWeb.Load(WebPage.Url + "&page=" + i);
+                 
+                    var document = htmlWeb.Load(WebPage.Url + "&page=" + i);
 
                     var nodes = document.DocumentNode.SelectNodes("//*[@class = 'offer-item-details']");
 
@@ -61,17 +123,15 @@ namespace Application.Otodom
                         }
                     }
                 }
+
+
                 foreach (var link in linksToAdvertisements)
                 {
 
                     var documentWithDetails = htmlWeb.Load(link);
-         
-                    var jsonObject = documentWithDetails.DocumentNode.Descendants().Where(n => n.Name == "script" && n.Id == "server-app-state").FirstOrDefault();
-                    if (jsonObject != null)
-                    {
-                        OtodomJsonParser otodomJsonParser = new OtodomJsonParser();
-                        Entries.Add(otodomJsonParser.GetEntry(jsonObject.InnerText.ToString()));
-                    }
+                    var jsonObject = documentWithDetails.DocumentNode.Descendants().Where(n => n.Name == "script" && n.Id == "server-app-state").First();
+                    OtodomJsonParser otodomJsonParser = new OtodomJsonParser();
+                    Entries.Add(otodomJsonParser.GetEntry(jsonObject.InnerText.ToString()));
                 }
 
                 Dump dump = new Dump();

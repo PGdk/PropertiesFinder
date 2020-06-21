@@ -2,6 +2,7 @@
 {
     public class PropertyDetails
     {
+        public int ID { get; set; }
         public string Url { get; set; }
         /// <summary>
         /// Ilość metrów kwadratowych powierzchni mieszkalnej
@@ -16,7 +17,7 @@
         /// <summary>
         /// Numer piętra. Nie wymagany w przypadku domów
         /// </summary>
-        public int? FloorNumber { get; set; }
+        public string? FloorNumber { get; set; }
 
         /// <summary>
         /// Rok zbudowania budynku.

@@ -11,6 +11,7 @@ public class OtodomComparer : IEqualityComparer<Entry>
     {
         class OfferDetailsComparer
         {
+
             public static bool Equals(OfferDetails x, OfferDetails y)
             {
                 return x.OfferKind.Equals(y.OfferKind)

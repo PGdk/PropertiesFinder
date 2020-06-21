@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 
 namespace Models
@@ -34,9 +33,6 @@ namespace Models
             OfferDetails offerDetails = new OfferDetails();
             offerDetails.IsStillValid = IsAdvertisementActive();
             offerDetails.Url = GetUrl();
-            offerDetails.LastUpdateDateTime = GetLastUpdatedDateTime();
-            offerDetails.CreationDateTime = GetCreationDateTime();
-            offerDetails.OfferKind = GetOfferKind();
 
 
             entry.PropertyDetails = propertyDetails;
@@ -65,7 +61,7 @@ namespace Models
             }
             catch(System.FormatException e)
             {
-                //Sometimes Rooms_num is string like more, which says more than 10
+             
                 return 0;
             }
         }
@@ -81,27 +77,13 @@ namespace Models
         {
             return targetData.Price;
         }
-        int GetFloorNumber()
+        String GetFloorNumber()
         {
             if (characteristicsData.FirstOrDefault(data => data.key == "floor_no") != null)
             {
-                switch(characteristicsData.FirstOrDefault(data => data.key == "floor_no").value_translated)
-                {
-                    case "poddasze":
-                        return -2;
-                    case "suterena":
-                        return -1;
-                    case "parter":
-                        return 0;
-                    default:
-                        {
-                            int floorNo = 0;
-                            int.TryParse(characteristicsData.FirstOrDefault(data => data.key == "floor_no").value_translated, out floorNo);
-                            return floorNo;
-                        }
-                }
+                return characteristicsData.FirstOrDefault(data => data.key == "floor_no").value_translated;
             }
-            return 0;
+            return "";
         }
 
         String GetHeating()
@@ -111,15 +93,6 @@ namespace Models
                 return characteristicsData.FirstOrDefault(data => data.key == "heating").value_translated;
             }
             return "";
-        }
-
-        OfferKind GetOfferKind()
-        {
-            if(targetData.OfferType == "sprzedaz")
-            {
-                return OfferKind.SALE;
-            }
-            return OfferKind.RENTAL;
         }
 
         bool IsAdvertisementActive()
@@ -138,29 +111,6 @@ namespace Models
         {
             return advertData.url;
         }
-        DateTime GetLastUpdatedDateTime()
-        {
-            try
-            {
-                return Convert.ToDateTime(advertData.dateModified);
-            }
-            catch(FormatException)
-            {
-                Console.WriteLine("Nieprawidlowy format daty!");
-                return DateTime.Now;
-            }
-        }
-        DateTime GetCreationDateTime()
-        {
-            try
-            {
-                return Convert.ToDateTime(advertData.dateCreated);
-            }
-            catch (FormatException)
-            {
-                Console.WriteLine("Nieprawidlowy format daty!");
-                return DateTime.Now;
-            }
-        }
+
     }
 }

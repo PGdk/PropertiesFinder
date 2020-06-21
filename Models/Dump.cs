@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Models
 {
@@ -12,5 +13,10 @@ namespace Models
         /// za pomocą parsera.
         /// </summary>
         public IEnumerable<Entry> Entries { get; set; }
+
+        public int Count()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
