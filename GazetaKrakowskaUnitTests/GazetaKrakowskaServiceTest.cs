@@ -9,6 +9,7 @@ using NUnit.Framework;
 
 namespace GazetaKrakowskaUnitTests
 {
+    [TestFixture]
     public class GazetaKrakowskaServiceTest
     {
         private GazetaKrakowskaService gazetaKrakowskaService;

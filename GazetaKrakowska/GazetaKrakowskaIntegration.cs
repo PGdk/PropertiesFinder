@@ -122,7 +122,7 @@ namespace GazetaKrakowska
             return "http://gazetakrakowska.pl/ogloszenia/" + pageNumber + ",28733,8437,fm,pk.html";
         }
 
-        private List<GazetaKrakowskaOffer> GetOffersFromSinglePage(String address)
+        public List<GazetaKrakowskaOffer> GetOffersFromSinglePage(String address)
         {
             HtmlDocument page;
             try
