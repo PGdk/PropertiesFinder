@@ -23,6 +23,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatabaseConnection", "Datab
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntegrationAPI", "IntegrationAPI\IntegrationAPI.csproj", "{A32992A1-752D-4642-9C45-E44CAED8CB2E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PropertiesFinder.Tests", "PropertiesFinder.Tests\PropertiesFinder.Tests.csproj", "{B2F0805C-FF3F-4B1B-ACCA-411ED560C4BC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +59,10 @@ Global
 		{A32992A1-752D-4642-9C45-E44CAED8CB2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A32992A1-752D-4642-9C45-E44CAED8CB2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A32992A1-752D-4642-9C45-E44CAED8CB2E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2F0805C-FF3F-4B1B-ACCA-411ED560C4BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2F0805C-FF3F-4B1B-ACCA-411ED560C4BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2F0805C-FF3F-4B1B-ACCA-411ED560C4BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2F0805C-FF3F-4B1B-ACCA-411ED560C4BC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

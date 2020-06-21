@@ -41,6 +41,34 @@ namespace IntegrationAPI.Controllers
             .Include(entry => entry.PropertyPrice).ToListAsync();
         }
 
+        // Projekt 3 Podpunkt 1
+        // GET: /Entries/Best
+        [HttpGet]
+        [Authorize(Policy = "User")]
+        [Route("Entries/Best")]
+        public async Task<ActionResult<IEnumerable<Entry>>> GetBestEntries()
+        {
+            var entries = await _context.Entries
+                            .Include(entry => entry.OfferDetails)
+                                .ThenInclude(offerDetails => offerDetails.SellerContact)
+                            .Include(entry => entry.PropertyAddress)
+                            .Include(entry => entry.PropertyDetails)
+                            .Include(entry => entry.PropertyFeatures)
+                            .Include(entry => entry.PropertyPrice)
+                            .OrderBy(entry => entry.PropertyPrice.TotalGrossPrice)
+                            .ToListAsync();
+            if (entries == null)
+            {
+                // Dodatkowe - Zwrot 404
+                return NotFound();
+            }
+            else
+            {
+                var bestEntries = Bazos.BestOffersFinder.GetBestOffers(entries);
+                return bestEntries;
+            }
+        }
+
         // DODATKOWE: PageLimit i PageId
         // GET: /Entries/20/2
         [HttpGet("{pageLimit}/{pageId}")]
