@@ -39,6 +39,43 @@ namespace Application.DobryAdres
             };
         }
 
+        public Dump GenerateDumpOfPage(int page)
+        {
+            Dump dump = new Dump
+            {
+                DateTime = DateTime.Now,
+                WebPage = WebPage
+            };
+            dump.Entries = GenerateListOfEntriesOfPage(page);
+            return dump;
+        }
+        public List<Entry> GenerateListOfEntriesOfPage(int page)
+        {
+            List<Entry> entries = new List<Entry>();
+
+            var chromeOptions = new ChromeOptions();
+            chromeOptions.AddArguments("headless");
+            chromeOptions.AddArguments("--log-level=3");
+
+
+            using (driver = new ChromeDriver(chromeOptions))
+            {
+                var offersUrls = GenerateLinksToOffers(page);
+                foreach (var u in offersUrls)
+                {
+                    // Jesli w trakcie generowania oferty okaze sie ze oferta nas nie interesuje 
+                    // (np. ze wzgledu na brak podanego miasta) do zmiennej cancelEntry jest przypisywane true
+                    cancelEntry = false;
+                    Entry entry = GenerateEntry(u);
+                    if (!cancelEntry)
+                        entries.Add(entry);
+                }
+                offersUrls.Clear();
+            }
+            Console.WriteLine($"Liczba ofert: {entries.Count()}");
+            return entries;
+        }
+
         public Dump GenerateDump()
         {
             Dump dump = new Dump

@@ -2,6 +2,7 @@
 {
     public class PropertyDetails
     {
+        public int ID { get; set; }
         /// <summary>
         /// Ilość metrów kwadratowych powierzchni mieszkalnej
         /// </summary>
