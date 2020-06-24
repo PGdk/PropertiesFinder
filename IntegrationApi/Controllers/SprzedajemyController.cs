@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Routing;
 using IntegrationSprzedajemy;
 using Models;
 using Microsoft.AspNetCore.Authentication;
+using IntegrationSprzedajemyService;
 
 namespace IntegrationApi.Controllers
 {
@@ -19,13 +20,15 @@ namespace IntegrationApi.Controllers
         private readonly IDumpsRepository dumpsRepository;
         private readonly IEqualityComparer<Entry> equalityComparer;
         private readonly Integration integraionSprzedajemy;
+        private readonly ISprzedajemyService sprzedajemyService;
 
-        public SprzedajemyController(ISprzedajemyRepository databaseRepository, IDumpsRepository dumpsRepository, IEqualityComparer<Entry> equalityComparer)
+        public SprzedajemyController(ISprzedajemyRepository databaseRepository, IDumpsRepository dumpsRepository, IEqualityComparer<Entry> equalityComparer, ISprzedajemyService sprzedajemyService)
         {
             this.databaseRepository = databaseRepository;
             this.dumpsRepository = dumpsRepository;
             this.equalityComparer = equalityComparer;
             this.integraionSprzedajemy = new Integration(this.dumpsRepository, this.equalityComparer);
+            this.sprzedajemyService = sprzedajemyService;
         }
 
         [HttpGet]
@@ -110,6 +113,19 @@ namespace IntegrationApi.Controllers
             }
 
             return new OkObjectResult(entryUpdated);
+        }
+
+        [HttpGet]
+        [Route("entries/specialOffers")]
+        [Authorize(Policy = "User")]
+        public IActionResult GetSpecialOffers()
+        {
+            var specialOffers = this.sprzedajemyService.GetSpecialOffers();
+
+            if (specialOffers == null)
+                return new NotFoundResult();
+
+            return new OkObjectResult(specialOffers);
         }
     }
 }

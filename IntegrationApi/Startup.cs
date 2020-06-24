@@ -20,6 +20,7 @@ using Utilities;
 using Microsoft.AspNetCore.Http;
 using IntegrationApi.Polices;
 using IntegrationSprzedajemy;
+using IntegrationSprzedajemyService;
 
 namespace IntegrationApi
 {
@@ -37,6 +38,7 @@ namespace IntegrationApi
             services.AddSingleton(typeof(ISprzedajemyRepository), new SprzedajemyRepository());
             services.AddSingleton(typeof(IDumpsRepository), new DumpFileRepository());
             services.AddSingleton(typeof(IEqualityComparer<Entry>), new Comparer());
+            services.AddSingleton(typeof(ISprzedajemyService), new SprzedajemyService(new SprzedajemyRepository()));
 
             services.AddAuthentication(options =>
             {

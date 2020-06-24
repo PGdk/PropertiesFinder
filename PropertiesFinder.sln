@@ -17,6 +17,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseConnection", "Datab
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationApi", "IntegrationApi\IntegrationApi.csproj", "{2016A729-F546-4584-B1F5-4FE8489983ED}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationSprzedajemyService", "IntegrationSprzedajemyService\IntegrationSprzedajemyService.csproj", "{429F1BF8-62DB-432F-9528-36D7DE518CFC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SprzedajemyTests", "SprzedajemyTests\SprzedajemyTests.csproj", "{A5F3C260-71A5-42CA-9DE0-660958C1B265}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +55,14 @@ Global
 		{2016A729-F546-4584-B1F5-4FE8489983ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2016A729-F546-4584-B1F5-4FE8489983ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2016A729-F546-4584-B1F5-4FE8489983ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{429F1BF8-62DB-432F-9528-36D7DE518CFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{429F1BF8-62DB-432F-9528-36D7DE518CFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{429F1BF8-62DB-432F-9528-36D7DE518CFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{429F1BF8-62DB-432F-9528-36D7DE518CFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5F3C260-71A5-42CA-9DE0-660958C1B265}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5F3C260-71A5-42CA-9DE0-660958C1B265}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5F3C260-71A5-42CA-9DE0-660958C1B265}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5F3C260-71A5-42CA-9DE0-660958C1B265}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -13,6 +13,9 @@
     <ProjectReference Include="..\DatabaseConnection\DatabaseConnection.csproj" />
     <ProjectReference Include="..\IntegrationSprzedajemy\IntegrationSprzedajemy.csproj" />
     <ProjectReference Include="..\Models\Models.csproj" />
+    <ProjectReference Include="..\IntegrationSprzedajemyService\IntegrationSprzedajemyService.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
   </ItemGroup>
 
 

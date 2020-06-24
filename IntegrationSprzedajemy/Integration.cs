@@ -17,13 +17,14 @@ namespace IntegrationSprzedajemy
 
         public IEqualityComparer<Entry> EntriesComparer { get; }
 
-        private List<string> offers = new List<string>();
+        public List<string> offers { get; }
 
         public Integration(IDumpsRepository dumpsRepository,
             IEqualityComparer<Entry> equalityComparer)
         {
             DumpsRepository = dumpsRepository;
             EntriesComparer = equalityComparer;
+            offers = new List<string>();
             WebPage = new WebPage
             {
                 Url = "https://sprzedajemy.pl/nieruchomosci/mieszkania",
@@ -67,7 +68,7 @@ namespace IntegrationSprzedajemy
             };
         }
 
-        private void RetrieveOffersByPage(int pageNum)
+        public void RetrieveOffersByPage(int pageNum)
         {
             // Warning : without any filters it is possible to scrap up to (15'000 + offersPerPage) offers
 
@@ -134,7 +135,7 @@ namespace IntegrationSprzedajemy
             }
         }
 
-        private Entry RetriveEntry(string url)
+        public Entry RetriveEntry(string url)
         {
 #if DEBUG && TRACE 
             Console.WriteLine($"Processing {url}");
