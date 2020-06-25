@@ -18,8 +18,8 @@ namespace UnitTests
     {
         private ApplicationDbContext _context;
         private EntriesController _controller;
-        private IFixture _fixture = new Fixture();
-        private Random _random = new Random();
+        private readonly IFixture _fixture = new Fixture();
+        private readonly Random _random = new Random();
 
         [SetUp]
         public void Setup()
@@ -246,16 +246,14 @@ namespace UnitTests
             Assert.That(result.Value, Is.Not.SubsetOf(entriesWithoutFeatures));
         }
 
-        private IPostprocessComposer<Entry> GetEntryBuilder(PolishCity city)
-        {
-            return _fixture
+        private IPostprocessComposer<Entry> GetEntryBuilder(PolishCity city) =>
+            _fixture
                 .Build<Entry>()
                 .Without(entry => entry.Id)
                 .With(entry => entry.PropertyAddress, () => _fixture
                     .Build<PropertyAddress>()
                     .With(address => address.City, city)
                     .Create());
-        }
 
         [TearDown]
         public async Task Teardown()
