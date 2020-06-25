@@ -36,16 +36,6 @@ namespace Implementation
             return null;
         }
 
-        private PolishCity GetCity(HtmlNode htmlNode)
-        {
-            var url = htmlNode
-                .SelectSingleNode("//link[contains(@rel, 'alternate')]")
-                .GetAttributeValue("href", string.Empty);
-
-            var regex = new Regex(@"ps%5Blocation%5D=(?<city>\w+)&").Match(url).Groups["city"].Value;
-            return Enum.Parse<PolishCity>(regex);
-        }
-
         private PropertyFeatures CreatePropertyFeatures(HtmlNode htmlNode)
         {
             var propertyFeatures = new PropertyFeatures
@@ -101,11 +91,13 @@ namespace Implementation
 
         private bool IsValidOffer(HtmlNode htmlNode)
         {
+            if (htmlNode == null) return false;
+
             var hasPrice = htmlNode.SelectSingleNode("//div[@class='header']/h3") != null;
 
             var isForeignOffer = htmlNode
                                      .SelectSingleNode(@"//span[@class='propertyName' or @class='propertyCompanyName']")
-                                     .InnerText?.Equals("Współpraca zagraniczna") ??
+                                     ?.InnerText?.Equals("Współpraca zagraniczna") ??
                                  false;
 
             var hasPhoneNumber = htmlNode.SelectSingleNode("//span[@class='visible-contact']") != null;
@@ -121,7 +113,8 @@ namespace Implementation
                 NumberOfRooms = GetCustomOfferDetailValue(htmlNode, "Liczba pokoi:").FindInteger(),
                 BuldingType = GetCustomOfferDetailValue(htmlNode, "Typ budynku:").RemoveWhitespaces(),
                 NumberOfFloors = GetCustomOfferDetailValue(htmlNode, "Liczba pięter:").FindInteger(1),
-                YearOfConstruction = GetCustomOfferDetailValue(htmlNode, "Rok budowy:").FindIntegerNullable()
+                YearOfConstruction = GetCustomOfferDetailValue(htmlNode, "Rok budowy:").FindIntegerNullable(),
+                // FloorNumber = GetCustomOfferDetailValue(htmlNode, "Piętro:").FindIntegerNullable()
             };
 
             var floorNumberText = GetCustomOfferDetailValue(htmlNode, "Piętro:");
@@ -134,99 +127,10 @@ namespace Implementation
             return propertyDetails;
         }
 
-        private string GetCustomOfferDetailValue2018862318(HtmlNode htmlNode, string name)
-        {
-            var nameNodes = htmlNode.SelectNodes(@"//*[@id=""propertyLeft""]/div[3]/dl/dt");
-            var nameNode = nameNodes.FirstOrDefault(node => node.InnerText == name);
-
-            if (nameNode == null) return null;
-
-            var valueNode = htmlNode
-                .SelectNodes(@"//*[@id=""propertyLeft""]/div[3]/dl/dd")
-                .ElementAt(nameNodes.IndexOf(nameNode));
-
-            return valueNode.InnerText;
-        }
-
-        private PropertyPrice CreatePropertyPrice641483937(HtmlNode htmlNode)
-        {
-            var propertyPrice = new PropertyPrice();
-
-            var priceNode = htmlNode.SelectSingleNode("//div[@class='header']/h3").InnerText;
-            var priceText = PriceRegex.Match(priceNode).Groups["price"].Value;
-
-            if (priceText.Contains("inf. u dewelopera"))
-            {
-                propertyPrice.NegotiablePrice = true;
-            }
-            else
-            {
-                propertyPrice.TotalGrossPrice = priceText.RemoveWhitespaces().FindDecimal();
-            }
-
-            propertyPrice.PricePerMeter = GetCustomOfferDetailValue(htmlNode, "Cena za m&sup2;:").FindDecimal();
-            // propertyPrice.ResidentalRent = GetCustomOfferDetailValue(htmlNode,); // todo
-
-            return propertyPrice;
-        }
-
         private static string CreateDescription(HtmlNode htmlNode)
         {
             return htmlNode
                        .SelectSingleNode("//div[@id='description']")?.InnerText ?? String.Empty;
-        }
-
-        private OfferDetails CreateOfferDetail2130373246(HtmlNode htmlNode)
-        {
-            var sellerName = htmlNode
-                .SelectSingleNode(@"//span[@class='propertyName' or @class='propertyCompanyName']")
-                .InnerText;
-
-            var offerType = htmlNode
-                .SelectSingleNode(@"//div[@class='header']/span")
-                .InnerText;
-
-            OfferKind offerKind;
-
-            if (offerType.Contains("wynajęcia")) offerKind = OfferKind.RENTAL;
-            else offerKind = OfferKind.SALE;
-
-
-            var sellerTelephone = htmlNode
-                .SelectSingleNode("//span[@class='visible-contact']")
-                .InnerText
-                .RemoveWhitespaces();
-
-            var lastUpdateDateTime = htmlNode
-                .SelectNodes("//div[@class='baseParam']/div")
-                .FirstOrDefault(node => node.Element("b")?.InnerText == "Data aktualizacji:")
-                .InnerText
-                .FindDate();
-
-            var creationDateTime = htmlNode
-                                       .SelectNodes("//div[@class='baseParam']/div")
-                                       .FirstOrDefault(node => node.Element("b")?.InnerText == "Data dodania:")
-                                       ?.InnerText.FindDate() ?? lastUpdateDateTime;
-
-
-            var urlShort = htmlNode
-                .SelectNodes("//div[@class='baseParam']/div")
-                .FirstOrDefault(node => node.Element("b")?.InnerText == "Link do oferty:")
-                ?.InnerText;
-
-            return new OfferDetails
-            {
-                CreationDateTime = creationDateTime,
-                LastUpdateDateTime = lastUpdateDateTime,
-                IsStillValid = true,
-                Url = UrlRegex.Match(urlShort).Groups["url"].Value,
-                OfferKind = offerKind,
-                SellerContact = new SellerContact
-                {
-                    Name = sellerName,
-                    Telephone = sellerTelephone
-                }
-            };
         }
 
         private PropertyPrice CreatePropertyPrice(HtmlNode htmlNode)
@@ -245,7 +149,7 @@ namespace Implementation
                 propertyPrice.TotalGrossPrice = priceText.RemoveWhitespaces().FindDecimal();
             }
 
-            propertyPrice.PricePerMeter = GetCustomOfferDetailValue(htmlNode, "Cena za m&sup2;:").FindDecimal();
+            propertyPrice.PricePerMeter = GetCustomOfferDetailValue(htmlNode, "Cena za m").FindDecimal();
             // propertyPrice.ResidentalRent = GetCustomOfferDetailValue(htmlNode,); // todo
 
             return propertyPrice;
@@ -279,9 +183,9 @@ namespace Implementation
                 .FindDate();
 
             var creationDateTime = htmlNode
-                                       .SelectNodes("//div[@class='baseParam']/div")
-                                       .FirstOrDefault(node => node.Element("b")?.InnerText == "Data dodania:")
-                                       ?.InnerText.FindDate() ?? lastUpdateDateTime;
+                .SelectNodes("//div[@class='baseParam']/div")
+                .FirstOrDefault(node => node.Element("b")?.InnerText == "Data dodania:")
+                ?.InnerText.FindDate() ?? lastUpdateDateTime;
 
 
             var urlShort = htmlNode
@@ -307,7 +211,7 @@ namespace Implementation
         private string GetCustomOfferDetailValue(HtmlNode htmlNode, string name)
         {
             var nameNodes = htmlNode.SelectNodes(@"//*[@id=""propertyLeft""]/div[3]/dl/dt");
-            var nameNode = nameNodes.FirstOrDefault(node => node.InnerText == name);
+            var nameNode = nameNodes.FirstOrDefault(node => node.InnerText.StartsWith(name));
 
             if (nameNode == null) return null;
 
