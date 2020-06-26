@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DatabaseConnection.Interfaces;
+using DatabaseConnection.Services;
 using Interfaces;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
@@ -34,6 +36,7 @@ namespace IntegrationApi
             services.AddSingleton<IWebSiteIntegration, ZnajdzToIntegration>();
             services.AddSingleton<IDumpsRepository, DumpFileRepository>();
             services.AddSingleton<IEqualityComparer<Entry>, ZnajdzToComparer>();
+            services.AddSingleton<IDatabaseService, DatabaseService>();
 
             services.AddAuthentication(options =>
             {

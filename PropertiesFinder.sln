@@ -13,9 +13,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utilities", "Utilities\Util
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZnajdzTo", "ZnajdzTo\ZnajdzTo.csproj", "{D7D784BF-FC83-4BC8-B902-6346540D7563}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseConnection", "DatabaseConnection\DatabaseConnection.csproj", "{D10BC540-FC5A-458F-B2A3-968D0957C0BF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatabaseConnection", "DatabaseConnection\DatabaseConnection.csproj", "{D10BC540-FC5A-458F-B2A3-968D0957C0BF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationApi", "IntegrationApi\IntegrationApi.csproj", "{A50BA6E4-A487-4379-8332-A446E628DE94}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntegrationApi", "IntegrationApi\IntegrationApi.csproj", "{A50BA6E4-A487-4379-8332-A446E628DE94}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZnajdzToTests", "ZnajdzToTests\ZnajdzToTests.csproj", "{648B186A-ADB1-4192-B035-8E41BEA7E508}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationApiTests", "IntegrationApiTests\IntegrationApiTests.csproj", "{9F657ACD-25CF-4382-A8E4-9622C831CE5E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +55,14 @@ Global
 		{A50BA6E4-A487-4379-8332-A446E628DE94}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A50BA6E4-A487-4379-8332-A446E628DE94}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A50BA6E4-A487-4379-8332-A446E628DE94}.Release|Any CPU.Build.0 = Release|Any CPU
+		{648B186A-ADB1-4192-B035-8E41BEA7E508}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{648B186A-ADB1-4192-B035-8E41BEA7E508}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{648B186A-ADB1-4192-B035-8E41BEA7E508}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{648B186A-ADB1-4192-B035-8E41BEA7E508}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F657ACD-25CF-4382-A8E4-9622C831CE5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F657ACD-25CF-4382-A8E4-9622C831CE5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F657ACD-25CF-4382-A8E4-9622C831CE5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F657ACD-25CF-4382-A8E4-9622C831CE5E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
