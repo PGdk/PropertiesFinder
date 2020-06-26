@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 
 namespace EchodniaEu
 {
-    abstract class OfferParser<T>
+    public abstract class OfferParser<T>
     {
         public HtmlDocument HtmlDocument { get; set; }
 
@@ -59,7 +59,7 @@ namespace EchodniaEu
 
         protected decimal? ParseToNullableDecimal(string value, string divider = "z")
         {
-            return TryParseStringToDecimal(value, out var result, divider) ? (decimal?) result : null;
+            return TryParseStringToDecimal(value, out var result, divider) ? (decimal?)result : null;
         }
 
         protected bool TryParseStringToDecimal(string value, out decimal result, string divider = "z")

@@ -6,7 +6,7 @@ using System.Data.Common;
 
 namespace DatabaseConnection
 {
-    public class DatabaseContext : DbContext
+    public class DatabaseContext : DbContext, IDatabaseContext
     {
         public static string CONNECTION_STRING = new SqlConnectionStringBuilder()
         {

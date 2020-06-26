@@ -7,7 +7,7 @@ using System.Text;
 
 namespace EchodniaEu
 {
-    class PropertyPriceParser : OfferParser<PropertyPrice>
+    public class PropertyPriceParser : OfferParser<PropertyPrice>
     {
         private decimal TotalGrossPrice
         {

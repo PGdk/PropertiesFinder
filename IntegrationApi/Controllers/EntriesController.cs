@@ -16,9 +16,9 @@ namespace IntegrationApi.Controllers
     [ApiController]
     public class EntriesController : ControllerBase
     {
-        private DatabaseContext DatabaseContext { get; set; }
+        private IDatabaseContext DatabaseContext { get; set; }
 
-        public EntriesController(DatabaseContext databaseContext)
+        public EntriesController(IDatabaseContext databaseContext)
         {
             DatabaseContext = databaseContext;
         }
@@ -81,6 +81,31 @@ namespace IntegrationApi.Controllers
             DatabaseContext.SaveChanges();
 
             return Ok();
+        }
+
+        /**
+         * Returns an offers that are at least 25% cheaper than the average price per meter in the given city.
+         */
+        [HttpGet("/Deal")]
+        [Authorize(Policy = "User")]
+        public List<Entry> GetDeal(PolishCity city)
+        {
+            var entries = DatabaseContext.Entries
+                .Where(e => e.PropertyAddress.City == city)
+                .ToList();
+
+            if (entries.Count == 0)
+            {
+                return new List<Entry>();
+            }
+
+            var maxPricePerMeter = 0.75m * entries.Average(e => e.PropertyPrice.PricePerMeter);
+
+            var deals = entries
+                .Where(e => e.PropertyPrice.PricePerMeter < maxPricePerMeter)
+                .ToList();
+
+            return deals;
         }
     }
 }

@@ -7,7 +7,7 @@ using System.Text;
 
 namespace EchodniaEu
 {
-    class PropertyFeaturesParser : OfferParser<PropertyFeatures>
+    public class PropertyFeaturesParser : OfferParser<PropertyFeatures>
     {
         private static string NoParkingPlacePattern = "brak miejsca parkingowego";
         private static string IndoorParingPlacePattern = "w garażu";
@@ -116,7 +116,7 @@ namespace EchodniaEu
             }
 
             var areaString = MatchRegex("[0-9.,]+", match);
-            
+
             if (areaString == null)
             {
                 return null;

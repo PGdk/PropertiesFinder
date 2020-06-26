@@ -4,7 +4,7 @@ using System.Text;
 
 namespace EchodniaEu
 {
-    class OfferPropertyLabel
+    public class OfferPropertyLabel
     {
         public static string ResidentalRent = "Opłaty (czynsz administracyjny, media)";
         public static string Area = "Powierzchnia w m2";
