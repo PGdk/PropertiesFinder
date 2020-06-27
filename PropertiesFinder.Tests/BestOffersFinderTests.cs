@@ -5,13 +5,14 @@ using Bazos;
 
 namespace PropertiesFinder.Tests
 {
+    [TestFixture]
     public class BestOffersFinderTests
     {
         List<Entry> lessThan5EntriesList;
         List<Entry> moreThan5EntriesList;
         List<Entry> badEntriesList;
 
-    [SetUp]
+        [SetUp]
         public void Setup()
         {
             lessThan5EntriesList = Bazos.MockEntriesLists.MakeASmallList();

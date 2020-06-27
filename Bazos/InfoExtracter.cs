@@ -7,17 +7,25 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Bazos
 {
-    class InfoExtracter
+    public class InfoExtracter
     {
-        public static void ExtractInfoFromPropertyPage(Dictionary<string, string> info, HtmlDocument doc)
+        public IPolishStringParser polishStringParser  {get; set;}
+
+        public InfoExtracter(IPolishStringParser parser)
         {
+            polishStringParser = parser;
+        }
+
+        public void ExtractInfoFromPropertyPage(Dictionary<string, string> info, HtmlDocument doc)
+        {
+            
             //Zbieramy info z poszczególnych elementów strony
             ExtractTopBar(info, doc);
             ExtractLeftColumn(info, doc);
             ExtractDescription(info, doc);
         }
 
-        private static void ExtractDescription(Dictionary<string, string> info, HtmlDocument doc)
+        private void ExtractDescription(Dictionary<string, string> info, HtmlDocument doc)
         {
             //Zbieram wszystkie wyrazy z opisu i konwertuje je na listę
             var dataInfo = doc.DocumentNode.SelectNodes("//div[@class=\"popis\"]");
@@ -50,7 +58,7 @@ namespace Bazos
             ExtractInfoFromDescription(info, descList);
         }
 
-        private static void ExtractInfoFromDescription(Dictionary<string, string> info, List<string> descList)
+        private void ExtractInfoFromDescription(Dictionary<string, string> info, List<string> descList)
         {
             int rent = 0;
             bool roomInfo = false, areaInfo = false;
@@ -58,7 +66,7 @@ namespace Bazos
             //Dla każego wyrazu sprawdzamy czy nie wpisuje się w daną informację
             for (int i = 0; i < descList.Count; i++)
             {
-                var currentString = ChangePolishCharacters(descList[i]);
+                var currentString = polishStringParser.ChangePolishCharacters(descList[i]);
                 //GardenArea
                 if (currentString.Contains("OGROD"))
                 {
@@ -87,14 +95,14 @@ namespace Bazos
                 {
                     string parkingPlace = "a";
                     int descListElement = i;
-                    if (ChangePolishCharacters(descList[i - 1]).Contains("PODZIEMNY"))
+                    if (polishStringParser.ChangePolishCharacters(descList[i - 1]).Contains("PODZIEMNY"))
                     {
                         info["IndoorParkingPlaces"] = "1";
                         descListElement = i - 1;
                         parkingPlace = "IndoorParkingPlaces";
                         NumberOfParkingPlaces(info, descList, descListElement, parkingPlace); //Sprawdzam kilka wyrazów wstecz o ilość miejsc parkingowych
                     }
-                    else if (ChangePolishCharacters(descList[i + 1]).Contains("PODZIEMNY"))
+                    else if (polishStringParser.ChangePolishCharacters(descList[i + 1]).Contains("PODZIEMNY"))
                     {
                         info["IndoorParkingPlaces"] = "1";
                         parkingPlace = "IndoorParkingPlaces";
@@ -121,7 +129,7 @@ namespace Bazos
                     if(i+2<descList.Count-1)
                     {
                         if (descList[i + 2].Any(Char.IsDigit))
-                            info["DetailedAddress"] =ChangePolishCharacters(descList[i + 2]) + ", " + info["DetailedAddress"];
+                            info["DetailedAddress"] =polishStringParser.ChangePolishCharacters(descList[i + 2]) + ", " + info["DetailedAddress"];
                     }
                 }
                 //Area
@@ -204,7 +212,7 @@ namespace Bazos
                 }
                 else if (currentString.Contains("@"))
                 {
-                    info["Email"] = currentString + "." + ChangePolishCharacters(descList[i + 1]);
+                    info["Email"] = currentString + "." + polishStringParser.ChangePolishCharacters(descList[i + 1]);
                 }
                 else if (currentString.Contains("MIEJSCOWOSC"))
                 {
@@ -216,7 +224,7 @@ namespace Bazos
                 info["ResidentalRent"] = rent.ToString();
         }
 
-        private static void ExtractTopBar(Dictionary<string, string> info, HtmlDocument doc)
+        private void ExtractTopBar(Dictionary<string, string> info, HtmlDocument doc)
         {
             //Creation Date Time
             var dataInfo = doc.DocumentNode.SelectNodes("//span[@class=\"velikost10\"]");
@@ -274,7 +282,7 @@ namespace Bazos
             }
         }
 
-        private static void ExtractLeftColumn(Dictionary<string, string> info, HtmlDocument doc)
+        private void ExtractLeftColumn(Dictionary<string, string> info, HtmlDocument doc)
         {
             //Name, telephone, Detailed Address, City, TotalGrossPrice
             var contactInfo = doc.DocumentNode.SelectNodes("//td[@class=\"listadvlevo\"]");
@@ -299,7 +307,7 @@ namespace Bazos
                 info["Telephone"] = listInfo[1];
                 var split = listInfo[2].Split(" ");
                 info["DetailedAddress"] = split[0];
-                info["City"] = ChangePolishCharacters(split[1]);
+                info["City"] = polishStringParser.ChangePolishCharacters(split[1]);
 
                 char[] separators = { ' ', 'z', 'l', 'ł' };
                 string totalGrossPrice = listInfo[4].Trim(separators);
@@ -311,22 +319,7 @@ namespace Bazos
             }
         }
 
-        private static string ChangePolishCharacters(string s) //Usuwanie polskich znaków z nazwy miasta
-        {
-            s = s.ToUpper();
-            string[,] exchangeableChar = 
-            {
-                { "Ą", "A" }, { "Ć", "C" }, { "Ę", "E" }, { "Ł", "L" }, { "Ń", "N" }, { "Ó", "O" }, { "Ś", "S" }, { "Ź", "Z" }, { "Ż", "Z" }
-            };
-            for (int i = 0; i < exchangeableChar.GetLength(0); i++)
-            {
-                s = s.Replace(exchangeableChar[i, 0], exchangeableChar[i, 1]);
-            }
-
-            return s;
-        }
-
-        public static void ExtractInnerText(HtmlNodeCollection nodeCol, List<string> info)
+        public void ExtractInnerText(HtmlNodeCollection nodeCol, List<string> info)
         {
             foreach (HtmlNode node in nodeCol)
             {
@@ -343,39 +336,64 @@ namespace Bazos
             }
         }
 
-        private static void NumberOfParkingPlaces(Dictionary<string, string> info, List<string> descList, int descListElement, string parkingPlace)
+        public void NumberOfParkingPlaces(Dictionary<string, string> info, List<string> descList, int descListElement, string parkingPlace)
         {
-            for (int j = 0; j < 2; j++)
+            try
             {
-                descListElement = descListElement - 1;
-                if (ChangePolishCharacters(descList[descListElement]).Contains("MIEJSC"))
+                for (int j = 0; j < 2; j++)
                 {
-                    if (descList[descListElement - 1].All(char.IsDigit))
+                    descListElement = descListElement - 1;
+                    var currentString = polishStringParser.ChangePolishCharacters(descList[descListElement]);
+                    if (currentString.Contains("MIEJSC"))
                     {
-                        info[parkingPlace] = descList[descListElement - 1];
+                        if (descList[descListElement - 1].All(char.IsDigit))
+                        {
+                            info[parkingPlace] = descList[descListElement - 1];
+                        }
                     }
                 }
             }
+            catch(System.ArgumentOutOfRangeException aor)
+            {
+                Console.WriteLine($"Out Of Range! {aor}");
+                throw;
+            }
+            catch(System.Exception e)
+            {
+                Console.WriteLine($"Exception! {e}");
+            }
         }
 
-        private static void CheckArea(Dictionary<string, string> info, List<string> descList, string dictName, int descListElement) //Sprawdzam czy znajde wielkosc pomieszczenia wokol slowa klucza
+        public void CheckArea(Dictionary<string, string> info, List<string> descList, string dictName, int descListElement) //Sprawdzam czy znajde wielkosc pomieszczenia wokol slowa klucza
         {
             descListElement = descListElement + 1;
-            for (int j = 0; j <= 3; j++)
+            try
             {
-                string stringFromDesc = ChangePolishCharacters(descList[descListElement]);
-                if (stringFromDesc == "M")
+                for (int j = 0; j <= 3; j++)
                 {
-                    if (descList[descListElement - 1].All(char.IsDigit))
-                        info[dictName] = descList[descListElement - 1];
+                    string stringFromDesc = polishStringParser.ChangePolishCharacters(descList[descListElement]);
+                    if (stringFromDesc == "M")
+                    {
+                        if (descList[descListElement - 1].All(char.IsDigit))
+                            info[dictName] = descList[descListElement - 1];
+                    }
+                    else if (stringFromDesc.EndsWith("M"))
+                    {
+                        var substring = stringFromDesc.Substring(0, stringFromDesc.Length - 1);
+                        if (substring.All(char.IsDigit))
+                            info[dictName] = substring;
+                    }
+                    descListElement--;
                 }
-                else if (stringFromDesc.EndsWith("M"))
-                {
-                    var substring = stringFromDesc.Substring(0, stringFromDesc.Length - 1);
-                    if (substring.All(char.IsDigit))
-                        info[dictName] = substring;
-                }
-                descListElement--;
+            }
+            catch(System.ArgumentOutOfRangeException aor)
+            {
+                Console.WriteLine($"Out Of Range! {aor}");
+                throw;
+            }
+            catch(System.Exception e)
+            {
+                Console.WriteLine($"Exception! {e}");
             }
         }
     }
