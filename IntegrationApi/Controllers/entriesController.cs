@@ -26,6 +26,14 @@ namespace IntegrationApi.Controllers
         };
 
         [HttpGet]
+        [Route("Download")]
+        public void DownloadEntries()
+        {
+            BezposrednieIntegrationRepo repo = new BezposrednieIntegrationRepo();
+            repo.AddEntry(repo.DownloadAllEntries());
+        }
+
+        [HttpGet]
         [Route("info")]
         public IActionResult GetInfo()
         {
@@ -37,6 +45,36 @@ namespace IntegrationApi.Controllers
                 }
             }
             return Ok(info);
+        }
+
+        [HttpGet]
+        [Route("Pricest")]
+        public IActionResult GetPricest()
+        {
+            if (Request.Headers.ContainsKey("X-Request-ID"))
+            {
+                if (Request.Headers["X-Request-ID"].ToString().Trim() != "")
+                {
+                    repo.AddLog(Request.Headers["X-Request-ID"]);
+                }
+            }
+            BestOffers offers = new BestOffers();
+            return Ok(offers.BestOfPricest());
+        }
+
+        [HttpGet]
+        [Route("GdanskChances")]
+        public IActionResult GetGdanskChances()
+        {
+            if (Request.Headers.ContainsKey("X-Request-ID"))
+            {
+                if (Request.Headers["X-Request-ID"].ToString().Trim() != "")
+                {
+                    repo.AddLog(Request.Headers["X-Request-ID"]);
+                }
+            }
+            BestOffers offers = new BestOffers();
+            return Ok(offers.CheapestInGdansk());
         }
 
         [HttpGet("{id}")]
@@ -56,7 +94,7 @@ namespace IntegrationApi.Controllers
             if (matchedObject != null && matchedObject.Any())
             {
                 return Ok(matchedObject);
-                
+
             }
             else return BadRequest();
         }

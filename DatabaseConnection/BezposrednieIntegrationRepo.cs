@@ -17,6 +17,13 @@ namespace DatabaseConnection
 
         public BezposrednieIntegrationRepo() { }
 
+        public IEnumerable<Entry> DownloadAllEntries()
+        {
+            bezposredniaWebSiteIntegration = new BezposrednieIntegration(new DumpFileRepository(), new BezposrednieComparer());
+            dump = this.bezposredniaWebSiteIntegration.GenerateDump();
+            return dump.Entries.ToList();
+        }
+
         public IEnumerable<Entry> Split(int page)
         {
             bezposredniaWebSiteIntegration = new BezposrednieIntegration(new DumpFileRepository(), new BezposrednieComparer());
@@ -50,7 +57,7 @@ namespace DatabaseConnection
                     Header = Header,
                     Time = DateTime.Now
                 });
-                Context.SaveChanges();
+                Context.SaveChangesAsync();
             }
         }
 
