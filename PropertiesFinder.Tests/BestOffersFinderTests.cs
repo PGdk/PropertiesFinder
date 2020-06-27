@@ -5,6 +5,7 @@ using Bazos;
 
 namespace PropertiesFinder.Tests
 {
+    // Projekt 3 Podpunkt 2
     [TestFixture]
     public class BestOffersFinderTests
     {

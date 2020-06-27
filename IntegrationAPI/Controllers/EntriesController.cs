@@ -57,9 +57,9 @@ namespace IntegrationAPI.Controllers
                             .Include(entry => entry.PropertyPrice)
                             .OrderBy(entry => entry.PropertyPrice.TotalGrossPrice)
                             .ToListAsync();
+
             if (entries == null)
             {
-                // Dodatkowe - Zwrot 404
                 return NotFound();
             }
             else
@@ -163,18 +163,6 @@ namespace IntegrationAPI.Controllers
             return NoContent();
         }
 
-        //// POST: /Entry/2
-        //[HttpPost]
-        //[Authorize(Policy = "User")]
-        //[Route("Entry")]
-        //public async Task<ActionResult<Entry>> PostEntry(Entry entry)
-        //{
-        //    _context.Entries.Add(entry);
-        //    await _context.SaveChangesAsync();
-
-        //    return CreatedAtAction("GetEntry", new { id = entry.Id }, entry);
-        //}
-
         // POST: Page/id
         [HttpPost("{id}")]
         [Authorize(Policy = "User")]
@@ -203,6 +191,29 @@ namespace IntegrationAPI.Controllers
             if (entries.Count == 0)
             {
                 // Dodatkowe - Zwrot 400
+                return BadRequest();
+            }
+            _context.Entries.AddRange(entries);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+
+        // POST: Pages
+        [HttpPost("{number}")]
+        [Authorize(Policy = "User")]
+        [Route("Pages/{number}")]
+        public async Task<ActionResult<Entry>> PostPages(int number)
+        {
+            //Pobierz daną stronę z aplikacji
+            var entries = Bazos.BazosIntegration.GenerateDump(0);
+            for (int i = 1; i < number; i++)
+            {
+                entries.AddRange(Bazos.BazosIntegration.GenerateDump(i));
+            }
+            if (entries.Count == 0)
+            {
                 return BadRequest();
             }
             _context.Entries.AddRange(entries);

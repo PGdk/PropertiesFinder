@@ -5,8 +5,10 @@ using System.Text;
 
 namespace Bazos
 {
-    // Szukam ofert wynajmu, które posiadają jednocześnie parking i balkon.
-    // Wyświetlane jest 5 najtańszych ofert (oferty są już przekazywane do tej metody posortowane po cenie)
+    // - Szukam ofert wynajmu, które posiadają jednocześnie parking i balkon.
+    // - Wyświetlane jest 5 najtańszych ofert (oferty są już przekazywane do tej metody posortowane po cenie)
+    // - Zbieram oferty wśród Ofert z bazy danych, więc w celu przetestowania dodałem nowy
+    //   endpoint /pages/{liczbaStron}, dzieki ktoremu w można od razu zparsować dużą ilość ogłoszeń
     public class BestOffersFinder
     {
         public static List<Entry> GetBestOffers(List<Entry> entries)

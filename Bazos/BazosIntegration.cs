@@ -159,7 +159,7 @@ namespace Bazos
             var node = doc.DocumentNode.SelectSingleNode("//table[@class=\"listainzerat\"]");
             var children = node.ChildNodes;
             List<string> pageNumberInfo = new List<string>();
-            InfoExtracter infoExtracter = new InfoExtracter(new PolishStringParser());
+            InfoExtracter infoExtracter = new InfoExtracter(new PolishStringParser(), new DocumentChecker());
             infoExtracter.ExtractInnerText(children, pageNumberInfo);
             string tempPageNumber = pageNumberInfo[1].Replace(" Wyświetlono 1-20 ogłoszeń z ", string.Empty);
             tempPageNumber = tempPageNumber.Replace(" ", string.Empty);
@@ -192,10 +192,13 @@ namespace Bazos
             foreach (var page in pages)
             {
                 Dictionary<string, string> info = CreateDictionary();
-
+                
                 doc = web.Load(page);
-                InfoExtracter infoExtracter = new InfoExtracter(new PolishStringParser());
-                infoExtracter.ExtractInfoFromPropertyPage(info, doc);
+                InfoExtracter infoExtracter = new InfoExtracter(new PolishStringParser(), new DocumentChecker());
+                if(!infoExtracter.ExtractInfoFromPropertyPage(info, doc))
+                {
+                    continue;
+                }
                 decimal ppm;
                 PolishCity city;
 

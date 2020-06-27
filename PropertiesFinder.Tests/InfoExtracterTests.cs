@@ -3,6 +3,7 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using Bazos;
 using Moq;
+using HtmlAgilityPack;
 
 namespace PropertiesFinder.Tests
 {
@@ -11,15 +12,52 @@ namespace PropertiesFinder.Tests
     class InfoExtracterTests
     {
         public Mock<IPolishStringParser> _polishStringParserMock;
-        public IPolishStringParser parser;
+        public Mock<IDocumentChecker> _documentCheckerMock;
         public InfoExtracter infoExtracter;
 
         [SetUp]
         public void SetUp()
         {
             _polishStringParserMock = new Mock<IPolishStringParser>();
-            parser = _polishStringParserMock.Object;
-            infoExtracter = new InfoExtracter(parser);
+            _documentCheckerMock = new Mock<IDocumentChecker>();
+            infoExtracter = new InfoExtracter(_polishStringParserMock.Object, _documentCheckerMock.Object);
+            
+        }
+
+        [Test]
+        public void ExtractInfoFromPropertyPage_DocIsNotNull_ReturnTrue()
+        {
+            //Arrange
+            Dictionary<string, string> info = new Dictionary<string, string>();
+            HtmlDocument doc = It.IsAny<HtmlDocument>();
+
+            _documentCheckerMock
+            .Setup(x => x.IsDocumentNull(doc))
+            .Returns(false);
+
+            //Act
+            var isExtracted = infoExtracter.ExtractInfoFromPropertyPage(info, doc);
+
+            //Assert
+            Assert.IsTrue(isExtracted);
+        }
+
+        [Test]
+        public void ExtractInfoFromPropertyPage_DocIsNull_ReturnFalse()
+        {
+            //Arrange
+            Dictionary<string, string> info = new Dictionary<string, string>();
+            HtmlDocument doc = It.IsAny<HtmlDocument>();
+
+            _documentCheckerMock
+            .Setup(x => x.IsDocumentNull(It.IsAny<HtmlDocument>()))
+            .Returns(true);
+
+            //Act
+            var isExtracted = infoExtracter.ExtractInfoFromPropertyPage(info, doc);
+
+            //Assert
+            Assert.IsTrue(!isExtracted);
         }
 
         [Test]
@@ -108,13 +146,14 @@ namespace PropertiesFinder.Tests
         }
 
         [Test]
-        public void CheckArea_NumberFoundWithoutM_infoAreaIsChanged()
+        public void CheckArea_NumberFoundWithM_infoAreaIsChanged()
         {
             //Arrange
             Dictionary<string, string> info = new Dictionary<string, string>();
             info.Add("GardenArea", "1");
 
             List<string> descList = new List<string>();
+            descList.Add("500");
             descList.Add("400");
             descList.Add("300");
             descList.Add("200");
@@ -132,7 +171,7 @@ namespace PropertiesFinder.Tests
         }
 
         [Test]
-        public void CheckArea_NumberFoundWithM_infoAreaIsChanged()
+        public void CheckArea_NumberFoundWithoutM_infoAreaIsChanged()
         {
             //Arrange
             Dictionary<string, string> info = new Dictionary<string, string>();

@@ -10,19 +10,34 @@ namespace Bazos
     public class InfoExtracter
     {
         public IPolishStringParser polishStringParser  {get; set;}
+        public IDocumentChecker documentChecker { get; set; }
 
-        public InfoExtracter(IPolishStringParser parser)
+        public InfoExtracter(IPolishStringParser parser, IDocumentChecker checker)
         {
             polishStringParser = parser;
+            documentChecker = checker;
         }
 
-        public void ExtractInfoFromPropertyPage(Dictionary<string, string> info, HtmlDocument doc)
+        public bool ExtractInfoFromPropertyPage(Dictionary<string, string> info, HtmlDocument doc)
         {
+            bool isNull = documentChecker.IsDocumentNull(doc);
+            if (isNull)
+            {
+                return false;
+            }
             
             //Zbieramy info z poszczególnych elementów strony
-            ExtractTopBar(info, doc);
-            ExtractLeftColumn(info, doc);
-            ExtractDescription(info, doc);
+            try
+            {
+                ExtractTopBar(info, doc);
+                ExtractLeftColumn(info, doc);
+                ExtractDescription(info, doc);
+            }
+            catch (NullReferenceException nre)
+            {
+                Console.WriteLine("Exception: " + nre);
+            }
+            return true;
         }
 
         private void ExtractDescription(Dictionary<string, string> info, HtmlDocument doc)
