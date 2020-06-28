@@ -14,9 +14,9 @@ namespace IntegrationApi.Controllers
     [ApiController]
     public class EntriesController : ControllerBase
     {
-        private readonly DatabaseContext _context;
+        private readonly IDatabaseContext _context;
 
-        public EntriesController(DatabaseContext context)
+        public EntriesController(IDatabaseContext context)
         {
             _context = context;
         }
@@ -36,7 +36,7 @@ namespace IntegrationApi.Controllers
             if(PageLimit != null && PageId != null)
             {
                 PageId--;
-                var temp = entry.Skip((int)PageId * (int)PageLimit).Take((int)PageLimit).ToList());
+                var temp = entry.Skip((int)PageId * (int)PageLimit).Take((int)PageLimit).ToList();
                 return Ok(temp);
             }
             else
@@ -78,7 +78,7 @@ namespace IntegrationApi.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(entry).State = EntityState.Modified;
+            (_context as DatabaseContext).Entry(entry).State = EntityState.Modified;
 
             _context.Entries.Update(entry);
             _context.SaveChanges();
@@ -122,6 +122,20 @@ namespace IntegrationApi.Controllers
         private bool EntryExists(int id)
         {
             return _context.Entries.Any(e => e.ID == id);
+        }
+
+        //10 cheapest (price per meter) offers in the given city
+        [HttpGet("/Bargain")]
+        public List<Entry> GetBargain(PolishCity city)
+        {
+            var entries = _context.Entries.Where(e => e.PropertyAddress.City == city).ToList();
+
+            if (entries.Count == 0)
+            {
+                return new List<Entry>();
+            }
+
+            return entries.OrderBy(e=>e.PropertyPrice.PricePerMeter).Take(10).ToList();
         }
     }
 }

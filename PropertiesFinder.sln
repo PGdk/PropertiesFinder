@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utilities", "Utilities\Util
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatabaseConnection", "DatabaseConnection\DatabaseConnection.csproj", "{B6F1A24E-613F-4DF6-892F-869EDC4ADD1D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationApi", "IntegrationApi\IntegrationApi.csproj", "{C41C342D-BF3D-4049-9082-00CA53BB18EC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntegrationApi", "IntegrationApi\IntegrationApi.csproj", "{C41C342D-BF3D-4049-9082-00CA53BB18EC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationApi.Tests", "IntegrationApi.Tests\IntegrationApi.Tests.csproj", "{DB5FFA5C-19C2-4398-83F3-E54BA7E7FC25}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{C41C342D-BF3D-4049-9082-00CA53BB18EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C41C342D-BF3D-4049-9082-00CA53BB18EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C41C342D-BF3D-4049-9082-00CA53BB18EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB5FFA5C-19C2-4398-83F3-E54BA7E7FC25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB5FFA5C-19C2-4398-83F3-E54BA7E7FC25}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB5FFA5C-19C2-4398-83F3-E54BA7E7FC25}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB5FFA5C-19C2-4398-83F3-E54BA7E7FC25}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DatabaseConnection.Migrations
 {
-    [DbContext(typeof(DatabaseContext))]
+    [DbContext(typeof(IDatabaseContext))]
     [Migration("20200531152842_JW155223")]
     partial class JW155223
     {
