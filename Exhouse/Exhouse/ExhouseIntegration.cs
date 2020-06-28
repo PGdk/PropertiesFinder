@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using Exhouse.Exhouse.Parsers;
+using Exhouse.Interfaces;
 using HtmlAgilityPack;
-using Interfaces;
 using Models;
 
 namespace Exhouse.Exhouse
 {
-    public class ExhouseIntegration : IWebSiteIntegration
+    public class ExhouseIntegration : IExhouseIntegration
     {
         public WebPage WebPage { get; }
 

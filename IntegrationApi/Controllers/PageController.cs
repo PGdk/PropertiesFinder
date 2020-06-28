@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using DatabaseConnection;
-using Exhouse.Exhouse;
+using Exhouse.Interfaces;
 using IntegrationApi.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,12 +14,13 @@ namespace IntegrationApi.Controllers
     [ApiController]
     public class PageController : ControllerBase
     {
-        private readonly ExhouseIntegration _integration;
+        private readonly IExhouseIntegration _integration;
+
         private readonly DatabaseContext _context;
 
-        public PageController(DatabaseContext context)
+        public PageController(IExhouseIntegration integration, DatabaseContext context)
         {
-            _integration = ExhouseIntegrationFactory.Create();
+            _integration = integration;
             _context = context;
         }
 

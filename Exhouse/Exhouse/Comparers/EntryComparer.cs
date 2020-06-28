@@ -4,7 +4,7 @@ using Models;
 
 namespace Exhouse.Exhouse.Comparers
 {
-    class EntryComparer : IEqualityComparer<Entry>
+    public class EntryComparer : IEqualityComparer<Entry>
     {
         private OfferDetailsComparer OfferDetailsComparer { get; set; }
 

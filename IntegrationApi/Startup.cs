@@ -1,4 +1,8 @@
+using System.Collections.Generic;
 using DatabaseConnection;
+using Exhouse.Exhouse;
+using Exhouse.Exhouse.Comparers;
+using Exhouse.Interfaces;
 using IntegrationApi.Security;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
@@ -9,6 +13,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Models;
+using Utilities;
 
 namespace IntegrationApi
 {
@@ -24,6 +30,10 @@ namespace IntegrationApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<IDumpsRepository, DumpFileRepository>();
+            services.AddSingleton<IEqualityComparer<Entry>, EntryComparer>();
+            services.AddSingleton<IExhouseIntegration, ExhouseIntegration>();
+
             services.AddDbContext<DatabaseContext>();
 
             services.AddControllers();
