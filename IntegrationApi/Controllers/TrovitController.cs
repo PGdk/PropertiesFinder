@@ -21,11 +21,13 @@ namespace IntegrationApi.Controllers
     {
         private ITrovitRepository repository;
         private TrovitIntegration integration;
+        private ITrovitService service;
 
-        public SprzedajemyController(ITrovitRepository repository, IDumpsRepository dump, IEqualityComparer<Entry> compare)
+        public SprzedajemyController(ITrovitRepository repository, ITrovitService service, IDumpsRepository dump, IEqualityComparer<Entry> compare)
         {
             this.repository = repository;
             this.integration = new TrovitIntegration(dump, compare);
+            this.service = service;
         }
 
         [HttpPost]
@@ -86,6 +88,18 @@ namespace IntegrationApi.Controllers
                 return new NotFoundObjectResult("not found");
             }
             return new OkObjectResult(result);
+        }
+
+        [HttpGet]
+        [Route("entries/top")]
+        public IActionResult GetSpecialOffers()
+        {
+            var top = this.service.GetTopOffers();
+
+            if (top == null)
+                return new NotFoundResult();
+
+            return new OkObjectResult(top);
         }
     }
 }

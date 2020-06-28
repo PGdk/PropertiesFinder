@@ -11,9 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Application\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utilities", "Utilities\Utilities.csproj", "{42A0CDFB-8A68-4C9E-8FDC-34202330BFF3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseConnection", "DatabaseConnection\DatabaseConnection.csproj", "{FA3620AF-9851-4760-A60E-398AADF50346}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatabaseConnection", "DatabaseConnection\DatabaseConnection.csproj", "{FA3620AF-9851-4760-A60E-398AADF50346}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationApi", "IntegrationApi\IntegrationApi.csproj", "{9A473D8A-77DA-41C7-B80A-18492496F8F7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntegrationApi", "IntegrationApi\IntegrationApi.csproj", "{9A473D8A-77DA-41C7-B80A-18492496F8F7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrovitTests", "TrovitTests\TrovitTests.csproj", "{B078D47B-A10D-4972-B623-17C4EC545087}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{9A473D8A-77DA-41C7-B80A-18492496F8F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9A473D8A-77DA-41C7-B80A-18492496F8F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9A473D8A-77DA-41C7-B80A-18492496F8F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B078D47B-A10D-4972-B623-17C4EC545087}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B078D47B-A10D-4972-B623-17C4EC545087}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B078D47B-A10D-4972-B623-17C4EC545087}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B078D47B-A10D-4972-B623-17C4EC545087}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
