@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatabaseConnection", "Datab
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntegrationApi", "IntegrationApi\IntegrationApi.csproj", "{3BAE4526-2551-4294-81B7-1A90A241FF09}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DobryAdres.Tests", "DobryAdres.Tests\DobryAdres.Tests.csproj", "{1545F6DB-3067-4738-9635-5D200BFEB3DF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{3BAE4526-2551-4294-81B7-1A90A241FF09}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3BAE4526-2551-4294-81B7-1A90A241FF09}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3BAE4526-2551-4294-81B7-1A90A241FF09}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1545F6DB-3067-4738-9635-5D200BFEB3DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1545F6DB-3067-4738-9635-5D200BFEB3DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1545F6DB-3067-4738-9635-5D200BFEB3DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1545F6DB-3067-4738-9635-5D200BFEB3DF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

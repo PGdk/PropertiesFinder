@@ -42,7 +42,7 @@ namespace IntegrationApi.Controllers
             }
 
             List<Entry> bestEntries = _bestDealsLogic.FindBestDeals(entries, city);
-            if (bestEntries == null || bestEntries.Count() == 0)
+            if (bestEntries == null)
             {
                 return NotFound();
             }

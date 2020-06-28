@@ -16,55 +16,22 @@ namespace DobryAdres
          */
         public List<Entry> FindBestDeals(List<Entry> entries, string city)
         {
-            if(!IsRealCity(city))
-            {
-                return null;
-            }
-
-            var cityEnum = CityToEnum(city);
+           city = city.ToUpper().Trim().Replace(' ', '_');
 
             var bestOffers = entries
-                .Where(entry => entry.PropertyAddress.City == cityEnum && entry.PropertyPrice.PricePerMeter > 0)
+                .Where(entry => entry.PropertyAddress.City.ToString() == city && entry.PropertyPrice.PricePerMeter > 0)
                 .OrderBy(_ => _.PropertyPrice.PricePerMeter)
                 .ToList();
 
-            if(bestOffers.Count()>5)
+            if (bestOffers.Count() == 0)
+            {
+                return null;
+            }
+            if (bestOffers.Count()>5)
             {
                 return bestOffers.Take(5).ToList();
             }
             return bestOffers;
-        }
-
-        private bool IsRealCity(string city)
-        {
-            city = city.ToLower().Trim().Replace(' ', '_');
-            city = TranslateCityToASCII(city).ToUpper();
-            if (!Enum.IsDefined(typeof(PolishCity), city))
-            {
-                return false;
-            }
-            return true;
-        }
-
-        private PolishCity CityToEnum(string city)
-        {
-            city = city.ToLower().Trim().Replace(' ', '_');
-            city = TranslateCityToASCII(city).ToUpper();
-            return (PolishCity)Enum.Parse(typeof(PolishCity), city);
-        }
-
-        public string TranslateCityToASCII(string city)
-        {
-            city = city.Replace('ą', 'a');
-            city = city.Replace('ę', 'e');
-            city = city.Replace('ó', 'o');
-            city = city.Replace('ś', 's');
-            city = city.Replace('ł', 'l');
-            city = city.Replace('ż', 'z');
-            city = city.Replace('ź', 'z');
-            city = city.Replace('ć', 'c');
-            city = city.Replace('ń', 'n');
-            return city;
         }
     }
 }
