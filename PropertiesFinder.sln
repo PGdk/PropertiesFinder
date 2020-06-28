@@ -13,9 +13,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utilities", "Utilities\Util
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SprzedawaczIntegration", "SprzedawaczIntegration\SprzedawaczIntegration.csproj", "{F96BBF5E-C03C-4E54-A81B-81DFBE5AF670}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseConnection", "DatabaseConnection\DatabaseConnection.csproj", "{320CC681-FD21-48B9-8979-F09DBBC8F812}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatabaseConnection", "DatabaseConnection\DatabaseConnection.csproj", "{320CC681-FD21-48B9-8979-F09DBBC8F812}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationApi", "IntegrationApi\IntegrationApi.csproj", "{E09A9775-F8D6-43AF-B345-D9924E29D415}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntegrationApi", "IntegrationApi\IntegrationApi.csproj", "{E09A9775-F8D6-43AF-B345-D9924E29D415}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SzprzedawaczTests", "SzprzedawaczTests\SzprzedawaczTests.csproj", "{18DFF703-6B70-4C2C-AC2C-5AA4B54056F3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{E09A9775-F8D6-43AF-B345-D9924E29D415}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E09A9775-F8D6-43AF-B345-D9924E29D415}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E09A9775-F8D6-43AF-B345-D9924E29D415}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18DFF703-6B70-4C2C-AC2C-5AA4B54056F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18DFF703-6B70-4C2C-AC2C-5AA4B54056F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18DFF703-6B70-4C2C-AC2C-5AA4B54056F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18DFF703-6B70-4C2C-AC2C-5AA4B54056F3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

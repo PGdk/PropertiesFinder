@@ -111,5 +111,24 @@ namespace IntegrationApi.Controllers
 
             return NoContent();
         }
+        /// <summary>
+        /// Zwraca po 5 ofert z każdej kategorii o najniższej cenie na metr, dla miasta podanego w adresie
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("/entries/best/{city}")]
+        public async Task<ActionResult<IEnumerable<Entry>>> GetBestEntries(string city)
+        {
+            List<Entry> entries;
+            PolishCity miasto;
+            if (!Enum.TryParse(city.ToUpper(), out miasto))
+                return new BadRequestResult();
+            entries = _context.Entries.Where(e => e.PropertyAddress.City == miasto)
+                .GroupBy(e => e.OfferDetails.OfferKind)
+                .SelectMany(g => g.OrderBy(a => a.PropertyPrice.PricePerMeter).Take(5))
+                .ToList();
+            if (!entries.Any())
+                return new NotFoundResult();
+            return entries;
+        }
     }
 }
