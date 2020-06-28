@@ -9,6 +9,7 @@ using DatabaseConnection;
 using Models;
 using Application.DobryAdres;
 using System.Text.Json;
+using DobryAdres;
 
 namespace IntegrationApi.Controllers
 {
@@ -17,13 +18,41 @@ namespace IntegrationApi.Controllers
     public class EntriesController : ControllerBase
     {
         private readonly DatabaseContext _context;
+        private readonly BestDealsLogic _bestDealsLogic;
 
         public EntriesController(DatabaseContext context)
         {
             _context = context;
+            _bestDealsLogic = new BestDealsLogic();
         }
 
-        // GET: api/Entries
+
+        //============================== Etap 3 ======================================
+        // GET: /Entries/best/szczecin
+        [HttpGet("best/{city}")]
+        public ActionResult<IEnumerable<Entry>> GetBestDeals(string city)
+        {
+            var entries = _context.Entries.Include(x => x.PropertyPrice)
+                 .Include(x => x.PropertyDetails).Include(x => x.PropertyAddress).Include(x => x.PropertyFeatures)
+                 .Include(x => x.OfferDetails).ThenInclude(x => x.SellerContact).ToList();
+
+            if (entries.Count() == 0)
+            {
+                return NotFound();
+            }
+
+            List<Entry> bestEntries = _bestDealsLogic.FindBestDeals(entries, city);
+            if (bestEntries == null || bestEntries.Count() == 0)
+            {
+                return NotFound();
+            }
+
+            return Ok(bestEntries);
+        }
+        //============================== Etap 3 ======================================
+
+
+        // GET: /Entries
         [HttpGet]
         public ActionResult<IEnumerable<Entry>> GetEntries()
         {
@@ -38,7 +67,7 @@ namespace IntegrationApi.Controllers
             //return await _context.Entries.ToListAsync();
         }
 
-        // GET: api/Entries/5
+        // GET: /Entries/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Entry>> GetEntry(int id)
         {
@@ -55,7 +84,7 @@ namespace IntegrationApi.Controllers
             return Ok(entries);
         }
 
-        // PUT: api/Entries/5
+        // PUT: /Entries/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
@@ -87,7 +116,7 @@ namespace IntegrationApi.Controllers
             return NoContent();
         }
 
-        // POST: api/Entries
+        // POST: /Entries
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost("page")]
@@ -116,7 +145,7 @@ namespace IntegrationApi.Controllers
             return CreatedAtAction("GetEntry", new { id = entry.ID }, entry);*/
         }
 
-        // DELETE: api/Entries/5
+        // DELETE: /Entries/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<Entry>> DeleteEntry(int id)
         {
