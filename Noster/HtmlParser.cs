@@ -8,7 +8,7 @@ using System.Net;
 
 namespace Application
 {
-    static class HtmlParser
+    public static class HtmlParser
     {
         public static OfferKind GetOfferKind(HtmlDocument htmlDocument)
         {

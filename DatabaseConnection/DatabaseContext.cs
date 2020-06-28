@@ -12,7 +12,8 @@ namespace DatabaseConnection
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Data Source=.\SQLEXPRESS; Initial Catalog=mdejewski; Integrated Security=True");
+            //optionsBuilder.UseSqlServer(@"Data Source=.\SQLEXPRESS; Initial Catalog=mdejewski; Integrated Security=True");
+            optionsBuilder.UseSqlServer(@"Data Source=.\SQLEXPRESS; Initial Catalog=Projekt5; Integrated Security=True");
         }
 
     }

@@ -10,7 +10,7 @@ using Models;
 
 namespace IntegrationApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class EntriesController : ControllerBase
     {
@@ -25,5 +25,47 @@ namespace IntegrationApi.Controllers
 
             return Ok(entries);
         }
+
+
+        // Przykładowe zapytanie:
+        // https://localhost:44362/api/entries/BestEntries/?city=warszawa&offerkind=rental&maximumprice=3000
+        [HttpGet]
+        public IActionResult BestEntries(string city, string offerKind, int maximumPrice)
+        {
+            var _city = ParseToPolishCity(city);
+            var _offerKind = ParseToOfferKind(offerKind);
+
+            if (_city == null
+                || _offerKind == null
+                || maximumPrice < 0)
+            {
+                return BadRequest();
+            }
+
+            var entries = DatabaseManager.GetAllEntries();
+            var bestEntryPicker = new BestEntryPicker(entries, _city.Value, _offerKind.Value, maximumPrice);
+            var bestEntries = bestEntryPicker.GetBestFiveEntries();
+
+            return Ok(bestEntries);
+        }
+
+        private PolishCity? ParseToPolishCity(string phrase)
+        {
+            if (Enum.IsDefined(typeof(PolishCity), phrase.ToUpper()))
+            {
+                return (PolishCity)Enum.Parse(typeof(PolishCity), phrase.ToUpper());
+            }
+            return null;
+        }
+
+        private OfferKind? ParseToOfferKind(string phrase)
+        {
+            if (Enum.IsDefined(typeof(OfferKind), phrase.ToUpper()))
+            {
+                return (OfferKind)Enum.Parse(typeof(OfferKind), phrase.ToUpper());
+            }
+            return null;
+        }
+
     }
 }
