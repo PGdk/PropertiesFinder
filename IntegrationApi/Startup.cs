@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using DatabaseConnection;
+using DatabaseConnection.Interfaces;
+using DatabaseConnection.Repositories;
 using Exhouse.Exhouse;
 using Exhouse.Exhouse.Comparers;
 using Exhouse.Interfaces;
@@ -33,6 +35,8 @@ namespace IntegrationApi
             services.AddSingleton<IDumpsRepository, DumpFileRepository>();
             services.AddSingleton<IEqualityComparer<Entry>, EntryComparer>();
             services.AddSingleton<IExhouseIntegration, ExhouseIntegration>();
+
+            services.AddScoped<IEntriesRepository, EntriesRepository>();
 
             services.AddDbContext<DatabaseContext>();
 

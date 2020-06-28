@@ -2,10 +2,9 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using DatabaseConnection;
 using Models;
-using System.Linq;
 using Microsoft.AspNetCore.Authorization;
+using DatabaseConnection.Interfaces;
 
 namespace IntegrationApi.Controllers
 {
@@ -15,14 +14,14 @@ namespace IntegrationApi.Controllers
         private static readonly string PageLimitQueryParameterName = "pageLimit";
         private static readonly string PageIdQueryParameterName = "pageId";
 
-        private readonly DatabaseContext _context;
+        private readonly IEntriesRepository _repository;
 
-        public EntriesController(DatabaseContext context)
+        public EntriesController(IEntriesRepository repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
-        // GET: /entries || /entries/10/2
+        // GET: /entries || /entries?pageLimit=8&pageId=2
         [Route("entries")]
         [Authorize(Policy = "User")]
         [HttpGet]
@@ -45,21 +44,12 @@ namespace IntegrationApi.Controllers
                 return BadRequest();
             }
 
-            if (null != pageId && (pageId < 1 || (_context.Entries.Count() / pageLimit) < (pageId - 1)))
+            if (null != pageId && (pageId < 1 || (await _repository.CountAll() / pageLimit) < (pageId - 1)))
             {
                 return NotFound();
             }
 
-            return await _context.Entries
-                .Skip((pageLimit * (pageId - 1)) ?? 0)
-                .Take(pageLimit ?? _context.Entries.Count())
-                .Include(e => e.OfferDetails)
-                .ThenInclude(of => of.SellerContact)
-                .Include(e => e.PropertyPrice)
-                .Include(e => e.PropertyDetails)
-                .Include(e => e.PropertyAddress)
-                .Include(e => e.PropertyFeatures)
-                .ToListAsync();
+            return await _repository.FindAll(pageLimit * (pageId - 1), pageLimit);
         }
 
         // GET: /entry/5
@@ -68,14 +58,7 @@ namespace IntegrationApi.Controllers
         [HttpGet]
         public async Task<ActionResult<Entry>> GetEntry(int id)
         {
-            var entry = await _context.Entries
-                .Include(e => e.OfferDetails)
-                .ThenInclude(of => of.SellerContact)
-                .Include(e => e.PropertyPrice)
-                .Include(e => e.PropertyDetails)
-                .Include(e => e.PropertyAddress)
-                .Include(e => e.PropertyFeatures)
-                .SingleOrDefaultAsync(e => id == e.Id);
+            Entry entry = await _repository.Find(id);
 
             if (null == entry)
             {
@@ -96,15 +79,13 @@ namespace IntegrationApi.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(entry).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                await _repository.Save(entry);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (EntryExists(id))
+                if (_repository.Exists(id))
                 {
                     throw;
                 }
@@ -113,11 +94,6 @@ namespace IntegrationApi.Controllers
             }
 
             return NoContent();
-        }
-
-        private bool EntryExists(int id)
-        {
-            return _context.Entries.Any(e => id == e.Id);
         }
     }
 }
