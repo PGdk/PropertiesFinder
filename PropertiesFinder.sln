@@ -11,11 +11,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Application\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utilities", "Utilities\Utilities.csproj", "{42A0CDFB-8A68-4C9E-8FDC-34202330BFF3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationApi", "IntegrationApi\IntegrationApi.csproj", "{A2FE7D69-786A-4B00-927D-3EB4370EFB7F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntegrationApi", "IntegrationApi\IntegrationApi.csproj", "{A2FE7D69-786A-4B00-927D-3EB4370EFB7F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseConnection", "DatabaseConnection\DatabaseConnection.csproj", "{B57A53C3-9907-493F-8DDD-B96098AFBD79}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatabaseConnection", "DatabaseConnection\DatabaseConnection.csproj", "{B57A53C3-9907-493F-8DDD-B96098AFBD79}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PolskaTimes", "PolskaTimes\PolskaTimes.csproj", "{AD323829-BD64-4FA6-B161-98992FC0652D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PolskaTimes", "PolskaTimes\PolskaTimes.csproj", "{AD323829-BD64-4FA6-B161-98992FC0652D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PolskaTimes.Tests", "PolskaTimes.Tests\PolskaTimes.Tests.csproj", "{B3D8F29E-9150-48CE-B61D-962D3ACE656A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{AD323829-BD64-4FA6-B161-98992FC0652D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD323829-BD64-4FA6-B161-98992FC0652D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AD323829-BD64-4FA6-B161-98992FC0652D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3D8F29E-9150-48CE-B61D-962D3ACE656A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3D8F29E-9150-48CE-B61D-962D3ACE656A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3D8F29E-9150-48CE-B61D-962D3ACE656A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3D8F29E-9150-48CE-B61D-962D3ACE656A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

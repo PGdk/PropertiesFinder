@@ -11,7 +11,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IntegrationApi.Controllers
 {
-    [Route("")]
     [ApiController]
     public class PolskaTimesController : ControllerBase
     {
@@ -21,9 +20,22 @@ namespace IntegrationApi.Controllers
             _context = context;
         }
 
+        // najtańsze ogłoszenie z ceną za metr w danej dzielnicy
+        // GET: /BestEntries/?district=wola
+        [HttpGet("BestEntries")]
+        public async Task<ActionResult<List<Entry>>> GetBestEntries([FromQuery]string district)
+        {
+            var entries = _context.entries.Include(e => e.OfferDetails)
+                                    .ThenInclude(o => o.SellerContact)
+                                    .Include(e => e.PropertyAddress)
+                                    .Include(e => e.PropertyDetails)
+                                    .Include(e => e.PropertyFeatures)
+                                    .Include(e => e.PropertyPrice).Where(e => e.PropertyAddress.District == district && e.PropertyPrice.PricePerMeter > 0);
+            return entries.OrderBy(e => e.PropertyPrice.PricePerMeter).Take(5).ToList();
+        }
+
         // GET: /info
-        [HttpGet]
-        [Route("Info")]
+        [HttpGet("Info")]
         public InfoStatus GetInfo()
         {
             return new InfoStatus()
@@ -36,8 +48,7 @@ namespace IntegrationApi.Controllers
         }
 
         // GET: /entry/5
-        [HttpGet]
-        [Route("Entry/{id}")]
+        [HttpGet("Entry/{id}")]
         public async Task<ActionResult<Entry>> GetEntry(int id)
         {
             if(id < 1)
@@ -57,29 +68,14 @@ namespace IntegrationApi.Controllers
             return NotFound();
         }
 
-        // GET: /entries
-        [HttpGet]
-        [Route("Entries")]
-        public async Task<ActionResult<IEnumerable<Entry>>> GetEntries()
+        // GET: /Entries/?PageLimit=20&PageId=2
+        [HttpGet("Entries")]
+        public async Task<ActionResult<IEnumerable<Entry>>> GetSomeEntries([FromQuery]int PageLimit = 10, [FromQuery] int PageId = 1)
         {
-            var entries = _context.entries.Include(e => e.OfferDetails)
-                                    .ThenInclude(o => o.SellerContact)
-                                    .Include(e => e.PropertyAddress)
-                                    .Include(e => e.PropertyDetails)
-                                    .Include(e => e.PropertyFeatures)
-                                    .Include(e => e.PropertyPrice).ToList();
-            if (entries != null)
+            if(PageLimit < 1 || PageId < 1)
             {
-                return entries;
+                return BadRequest();
             }
-            return NotFound();
-        }
-
-        // GET: /Entries/40/5
-        [HttpGet]
-        [Route("Entries/{PageLimit}/{PageId}")]
-        public async Task<ActionResult<IEnumerable<Entry>>> GetSomeEntries(int PageLimit, int PageId)
-        {
             var start = (PageId - 1) * PageLimit;
 
             var entries = _context.entries.Include(e => e.OfferDetails)
@@ -97,8 +93,7 @@ namespace IntegrationApi.Controllers
         }
 
         // POST: /Entry/2
-        [HttpPost]
-        [Route("Entry")]
+        [HttpPost("Entry")]
         public async Task<ActionResult<Entry>> PostEntry(Entry entry)
         {
             _context.entries.Add(entry);
@@ -108,8 +103,7 @@ namespace IntegrationApi.Controllers
         }
 
         // POST: Page/5
-        [HttpPost]
-        [Route("Page/{id}")]
+        [HttpPost("Page/{id}")]
         public async Task<ActionResult<Entry>> PostPage(int id)
         {
             if(id < 1)
@@ -127,8 +121,7 @@ namespace IntegrationApi.Controllers
             return NoContent();
         }
 
-        [HttpPut]
-        [Route("UpdateEntry/")]
+        [HttpPut("UpdateEntry")]
         public async Task<IActionResult> UpdateEntry(Entry entry)
         {
             if(entry.ID < 1)
