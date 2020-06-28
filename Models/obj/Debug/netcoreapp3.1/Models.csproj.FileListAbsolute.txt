@@ -1,0 +1,45 @@
+E:\Dropbox\Dropbox\studia\Platformy Technologiczne\projekt\Models\bin\Debug\netcoreapp3.1\Models.deps.json
+E:\Dropbox\Dropbox\studia\Platformy Technologiczne\projekt\Models\bin\Debug\netcoreapp3.1\Models.dll
+E:\Dropbox\Dropbox\studia\Platformy Technologiczne\projekt\Models\bin\Debug\netcoreapp3.1\Models.pdb
+E:\Dropbox\Dropbox\studia\Platformy Technologiczne\projekt\Models\obj\Debug\netcoreapp3.1\Models.csprojAssemblyReference.cache
+E:\Dropbox\Dropbox\studia\Platformy Technologiczne\projekt\Models\obj\Debug\netcoreapp3.1\Models.csproj.CoreCompileInputs.cache
+E:\Dropbox\Dropbox\studia\Platformy Technologiczne\projekt\Models\obj\Debug\netcoreapp3.1\Models.AssemblyInfoInputs.cache
+E:\Dropbox\Dropbox\studia\Platformy Technologiczne\projekt\Models\obj\Debug\netcoreapp3.1\Models.AssemblyInfo.cs
+E:\Dropbox\Dropbox\studia\Platformy Technologiczne\projekt\Models\obj\Debug\netcoreapp3.1\Models.dll
+E:\Dropbox\Dropbox\studia\Platformy Technologiczne\projekt\Models\obj\Debug\netcoreapp3.1\Models.pdb
+C:\Users\Maciej\Dropbox\studia\Platformy Technologiczne\projekt\Models\bin\Debug\netcoreapp3.1\Models.deps.json
+C:\Users\Maciej\Dropbox\studia\Platformy Technologiczne\projekt\Models\bin\Debug\netcoreapp3.1\Models.dll
+C:\Users\Maciej\Dropbox\studia\Platformy Technologiczne\projekt\Models\bin\Debug\netcoreapp3.1\Models.pdb
+C:\Users\Maciej\Dropbox\studia\Platformy Technologiczne\projekt\Models\obj\Debug\netcoreapp3.1\Models.csprojAssemblyReference.cache
+C:\Users\Maciej\Dropbox\studia\Platformy Technologiczne\projekt\Models\obj\Debug\netcoreapp3.1\Models.AssemblyInfoInputs.cache
+C:\Users\Maciej\Dropbox\studia\Platformy Technologiczne\projekt\Models\obj\Debug\netcoreapp3.1\Models.AssemblyInfo.cs
+C:\Users\Maciej\Dropbox\studia\Platformy Technologiczne\projekt\Models\obj\Debug\netcoreapp3.1\Models.csproj.CoreCompileInputs.cache
+C:\Users\Maciej\Dropbox\studia\Platformy Technologiczne\projekt\Models\obj\Debug\netcoreapp3.1\Models.dll
+C:\Users\Maciej\Dropbox\studia\Platformy Technologiczne\projekt\Models\obj\Debug\netcoreapp3.1\Models.pdb
+C:\Users\Maciej\Dropbox\studia\Platformy Technologiczne\projekt - czesc 2\Models\bin\Debug\netcoreapp3.1\Models.deps.json
+C:\Users\Maciej\Dropbox\studia\Platformy Technologiczne\projekt - czesc 2\Models\bin\Debug\netcoreapp3.1\Models.dll
+C:\Users\Maciej\Dropbox\studia\Platformy Technologiczne\projekt - czesc 2\Models\bin\Debug\netcoreapp3.1\Models.pdb
+C:\Users\Maciej\Dropbox\studia\Platformy Technologiczne\projekt - czesc 2\Models\obj\Debug\netcoreapp3.1\Models.csprojAssemblyReference.cache
+C:\Users\Maciej\Dropbox\studia\Platformy Technologiczne\projekt - czesc 2\Models\obj\Debug\netcoreapp3.1\Models.AssemblyInfoInputs.cache
+C:\Users\Maciej\Dropbox\studia\Platformy Technologiczne\projekt - czesc 2\Models\obj\Debug\netcoreapp3.1\Models.AssemblyInfo.cs
+C:\Users\Maciej\Dropbox\studia\Platformy Technologiczne\projekt - czesc 2\Models\obj\Debug\netcoreapp3.1\Models.csproj.CoreCompileInputs.cache
+C:\Users\Maciej\Dropbox\studia\Platformy Technologiczne\projekt - czesc 2\Models\obj\Debug\netcoreapp3.1\Models.dll
+C:\Users\Maciej\Dropbox\studia\Platformy Technologiczne\projekt - czesc 2\Models\obj\Debug\netcoreapp3.1\Models.pdb
+E:\Dropbox\Dropbox\studia\Platformy Technologiczne\projekt - czesc 2\Models\bin\Debug\netcoreapp3.1\Models.deps.json
+E:\Dropbox\Dropbox\studia\Platformy Technologiczne\projekt - czesc 2\Models\bin\Debug\netcoreapp3.1\Models.dll
+E:\Dropbox\Dropbox\studia\Platformy Technologiczne\projekt - czesc 2\Models\bin\Debug\netcoreapp3.1\Models.pdb
+E:\Dropbox\Dropbox\studia\Platformy Technologiczne\projekt - czesc 2\Models\obj\Debug\netcoreapp3.1\Models.csprojAssemblyReference.cache
+E:\Dropbox\Dropbox\studia\Platformy Technologiczne\projekt - czesc 2\Models\obj\Debug\netcoreapp3.1\Models.csproj.CoreCompileInputs.cache
+E:\Dropbox\Dropbox\studia\Platformy Technologiczne\projekt - czesc 2\Models\obj\Debug\netcoreapp3.1\Models.AssemblyInfoInputs.cache
+E:\Dropbox\Dropbox\studia\Platformy Technologiczne\projekt - czesc 2\Models\obj\Debug\netcoreapp3.1\Models.AssemblyInfo.cs
+E:\Dropbox\Dropbox\studia\Platformy Technologiczne\projekt - czesc 2\Models\obj\Debug\netcoreapp3.1\Models.dll
+E:\Dropbox\Dropbox\studia\Platformy Technologiczne\projekt - czesc 2\Models\obj\Debug\netcoreapp3.1\Models.pdb
+C:\Users\Maciej\Dropbox\studia\Platformy Technologiczne\projekt - czesc 3\Models\bin\Debug\netcoreapp3.1\Models.deps.json
+C:\Users\Maciej\Dropbox\studia\Platformy Technologiczne\projekt - czesc 3\Models\bin\Debug\netcoreapp3.1\Models.dll
+C:\Users\Maciej\Dropbox\studia\Platformy Technologiczne\projekt - czesc 3\Models\bin\Debug\netcoreapp3.1\Models.pdb
+C:\Users\Maciej\Dropbox\studia\Platformy Technologiczne\projekt - czesc 3\Models\obj\Debug\netcoreapp3.1\Models.csprojAssemblyReference.cache
+C:\Users\Maciej\Dropbox\studia\Platformy Technologiczne\projekt - czesc 3\Models\obj\Debug\netcoreapp3.1\Models.AssemblyInfoInputs.cache
+C:\Users\Maciej\Dropbox\studia\Platformy Technologiczne\projekt - czesc 3\Models\obj\Debug\netcoreapp3.1\Models.AssemblyInfo.cs
+C:\Users\Maciej\Dropbox\studia\Platformy Technologiczne\projekt - czesc 3\Models\obj\Debug\netcoreapp3.1\Models.csproj.CoreCompileInputs.cache
+C:\Users\Maciej\Dropbox\studia\Platformy Technologiczne\projekt - czesc 3\Models\obj\Debug\netcoreapp3.1\Models.dll
+C:\Users\Maciej\Dropbox\studia\Platformy Technologiczne\projekt - czesc 3\Models\obj\Debug\netcoreapp3.1\Models.pdb

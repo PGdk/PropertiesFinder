@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Models;
+using SampleApp;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -66,7 +67,7 @@ namespace IntegrationApi.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<IEnumerable<Entry>>> GetEntriesWithPagination(int ?pageId, int ?pageLimit)
+        public async Task<ActionResult<IEnumerable<Entry>>> GetEntriesWithPagination(int? pageId, int? pageLimit)
         {
             if (Request.Headers.ContainsKey("X-Request-ID"))
             {
@@ -191,8 +192,42 @@ namespace IntegrationApi.Controllers
             }
 
             var parseOnePage = new SampleApp.ParseOnePage(pageId);
-            var ListToPrint =  parseOnePage.GetListToPrint();
+            var ListToPrint = parseOnePage.GetListToPrint();
             return Ok(ListToPrint);
+        }
+
+
+        // GET: entries/occasions/{district}
+        [HttpGet]
+        [Route("entries/occasions/{district}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<IEnumerable<Entry>>> GetOccasions(string district)
+        {
+            var allEntries = await myDatabase.Entries
+                            .Include(e => e.OfferDetails)
+                                .ThenInclude(offerDetails => offerDetails.SellerContact)
+                            .Include(e => e.PropertyPrice)
+                            .Include(e => e.PropertyDetails)
+                            .Include(e => e.PropertyAddress)
+                            .Include(e => e.PropertyFeatures)
+                            .ToListAsync();
+
+            var myOccasions = new Occasions(allEntries, district);
+
+            if (myOccasions.GetOccasions().Count == 0)
+            {
+                return NotFound($"There are no Occasions.");
+            }
+
+            else if (myOccasions.GetOccasions() != null) { 
+                return Ok(myOccasions.GetOccasions());
+            }
+            else
+            {
+                return NotFound($"There are no Occasions.");
+            }
+
         }
     }
 }

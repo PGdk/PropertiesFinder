@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "BeMKjCCf2NisXVJCzZnC/2kTPpxtLfRZ2GoQAx3QRh9+EkRAXyTl8il5tfJmhML4A96Ow5eV90tC6DG0MMGcQw==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Maciej\\Dropbox\\studia\\Platformy Technologiczne\\projekt - czesc 3\\Models\\Models.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Maciej\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\3.1.2\\microsoft.aspnetcore.app.ref.3.1.2.nupkg.sha512"
+  ],
+  "logs": []
+}
