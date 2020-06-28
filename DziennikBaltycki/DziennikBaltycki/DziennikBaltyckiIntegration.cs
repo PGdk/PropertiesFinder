@@ -1,4 +1,5 @@
-﻿using HtmlAgilityPack;
+﻿using DziennikBaltycki.Interfaces;
+using HtmlAgilityPack;
 using Interfaces;
 using Models;
 using System;
@@ -14,11 +15,13 @@ using System.Threading.Tasks;
 namespace DziennikBaltycki.DziennikBaltycki
 {
 
-    public class DziennikBaltyckiIntegration : IWebSiteIntegration
+    public class DziennikBaltyckiIntegration : IWebSiteIntegration, IDziennikBaltyckiIntegration
     {
         private static WebClient klient { get; set; }
         private static HtmlDocument dokument { get; set; }
         private static HtmlAttribute atrybut { get; set; }
+
+        private IDziennikBaltyckiIntegration _dziennikBaltyckiIntegration;
         static DziennikBaltyckiIntegration()
         {
             dokument = new HtmlDocument();
@@ -27,7 +30,7 @@ namespace DziennikBaltycki.DziennikBaltycki
         public IDumpsRepository DumpsRepository { get; }
         public IEqualityComparer<Entry> EntriesComparer { get; }
         public DziennikBaltyckiIntegration(IDumpsRepository dumpsRepository,
-            IEqualityComparer<Entry> equalityComparer)
+            IEqualityComparer<Entry> equalityComparer, IDziennikBaltyckiIntegration dziennikBaltyckiIntegration)
         {
             DumpsRepository = dumpsRepository;
             EntriesComparer = equalityComparer;
@@ -43,8 +46,9 @@ namespace DziennikBaltycki.DziennikBaltycki
                     HouseRental = true
                 }
             };
+            _dziennikBaltyckiIntegration = dziennikBaltyckiIntegration;
         }
-        private HtmlNode PobierzDokument(string url)
+        public HtmlNode PobierzDokument(string url)
         {
             using (klient = new WebClient())
             {
@@ -53,7 +57,7 @@ namespace DziennikBaltycki.DziennikBaltycki
             }
             return dokument.DocumentNode.SelectSingleNode("//body");
         }
-        private int ZwrocLiczbeStron(HtmlNode htmlbody)
+        public int ZwrocLiczbeStron(HtmlNode htmlbody)
         {
             var iloscStron = htmlbody.SelectSingleNode("//a[@class=\"strzalka ostatniaStrz\"]");
             var wzorzec = new Regex(@"(.)(\w+)(.)(\d+)(.)(\d+)(.)(\d+),n,fm,pk.html");
@@ -62,7 +66,7 @@ namespace DziennikBaltycki.DziennikBaltycki
 
             return Convert.ToInt32(ZwroconeDopasowanie.Groups[4].Value);
         }
-        private string? ZwrocPojedynczeOgloszenieMieszkaniowe(HtmlNode linkA)
+        public string? ZwrocPojedynczeOgloszenieMieszkaniowe(HtmlNode linkA)
         {
             atrybut = linkA.Attributes["href"];
 
@@ -89,9 +93,9 @@ namespace DziennikBaltycki.DziennikBaltycki
             }
             return null;
         }
-        private List<string> PobiezLinkiDoStron()
+        public List<string> PobiezLinkiDoStron()
         {
-            HtmlNode htmlBody = PobierzDokument("https://dziennikbaltycki.pl/ogloszenia/12261,8433,fm,pk.html");
+            HtmlNode htmlBody = _dziennikBaltyckiIntegration.PobierzDokument("https://dziennikbaltycki.pl/ogloszenia/12261,8433,fm,pk.html");
             var section = htmlBody.SelectSingleNode("//section[@id='ogloszenia-miasta']");
             List<string> linkiDoStron = new List<string>();
             linkiDoStron.Add(@"12261,8433,n,fm,pk.html");
@@ -111,7 +115,7 @@ namespace DziennikBaltycki.DziennikBaltycki
         }
 
         //Odwiedzam 3 strony w każdym z 10 miast i wyciągam po 5 ofert, jeśli pasują do kryteriów. Spowodowane jest to ogromną ilością ofert 
-        private List<string> PobierzLinkiDoMieszkan(List<string> linkiDoStron)
+        public List<string> PobierzLinkiDoMieszkan(List<string> linkiDoStron)
         {
             string url2 = @"https://dziennikbaltycki.pl/ogloszenia/";
             int ileMiast = 0;
@@ -121,24 +125,24 @@ namespace DziennikBaltycki.DziennikBaltycki
             foreach (var link in linkiDoStron)
             {
                 int ileStronWDanymMiescie = 1;
-                int ileStron = ZwrocLiczbeStron(PobierzDokument($"{url2}{link}"));
+                int ileStron = _dziennikBaltyckiIntegration.ZwrocLiczbeStron(PobierzDokument($"{url2}{link}"));
 
                 for (int i = 1; i <= ileStron; i++)
                 {
-                    HtmlNode htmlbody = PobierzDokument($"{url2}{i},{link}");
+                    HtmlNode htmlbody = _dziennikBaltyckiIntegration.PobierzDokument($"{url2}{i},{link}");
                     var sekcja = htmlbody.SelectSingleNode("//section[@id='lista-ogloszen']/ul");
                     int ileLinkow = 1;
 
                     foreach (var linkA in sekcja.Descendants("a"))
                     {
-                        string mieszkanie = ZwrocPojedynczeOgloszenieMieszkaniowe(linkA);
+                        string mieszkanie = _dziennikBaltyckiIntegration.ZwrocPojedynczeOgloszenieMieszkaniowe(linkA);
                         if (mieszkanie != null)
                             linkiDoMieszkan.Add(atrybut.Value);
                         if (ileLinkow == 5)
                         {
                             break;
                         }
-                        ileLinkow++; 
+                        ileLinkow++;
                     }
                     if (ileStronWDanymMiescie == 3)
                     {
@@ -154,11 +158,11 @@ namespace DziennikBaltycki.DziennikBaltycki
             }
             return linkiDoMieszkan;
         }
-        private PolishCity ZwrocNazweMiasta(string miastoPoKonversji)
+        public PolishCity ZwrocNazweMiasta(string miastoPoKonversji)
         {
             return (PolishCity)Enum.Parse(typeof(PolishCity), miastoPoKonversji);
         }
-        private PropertyAddress ZwrocAdres(Dictionary<string, string> zbiorDanych)
+        public PropertyAddress ZwrocAdres(Dictionary<string, string> zbiorDanych)
         {
             string normalizacja = zbiorDanych["miasto"].Normalize(NormalizationForm.FormD);
             string miastoPoKonversji = new string(normalizacja.Where(c => c < 128).ToArray());
@@ -167,7 +171,7 @@ namespace DziennikBaltycki.DziennikBaltycki
             {
                 return new PropertyAddress
                 {
-                    City = ZwrocNazweMiasta(miastoPoKonversji),
+                    City = _dziennikBaltyckiIntegration.ZwrocNazweMiasta(miastoPoKonversji),
                     District = zbiorDanych["dzielnica"].Trim(),
                     StreetName = zbiorDanych["nazwaUlicy"].Trim(),
                     //Brak danych na stronie
@@ -186,10 +190,10 @@ namespace DziennikBaltycki.DziennikBaltycki
             }
 
         }
-        private int? SprawdzIleMetrow(string czegoSzukamy, ref string opis)
+        public int? SprawdzIleMetrow(string czegoSzukamy, ref string opis)
         {
             int pozycjaStartowa = opis.LastIndexOf(czegoSzukamy) + czegoSzukamy.Length + 1;
-            string obszarSprawdzania = opis.Substring(pozycjaStartowa, 10);
+            string obszarSprawdzania = opis.Substring(pozycjaStartowa, opis.Length - pozycjaStartowa > 10 ? 10 : opis.Length - pozycjaStartowa);
 
             if (obszarSprawdzania.Any(x => char.IsDigit(x)))
             {
@@ -214,7 +218,7 @@ namespace DziennikBaltycki.DziennikBaltycki
                 return null;
             }
         }
-        private OfferDetails ZwrocSzczegolyOferty(HtmlNode htmlbody, string url)
+        public OfferDetails ZwrocSzczegolyOferty(HtmlNode htmlbody, string url)
         {
             var tel = htmlbody.SelectSingleNode("//a[@class='phoneButton__button']");
             var sprzedawca = htmlbody.SelectSingleNode("//div[@class='offerOwner__details']/h3[@class='offerOwner__person ']");
@@ -237,7 +241,7 @@ namespace DziennikBaltycki.DziennikBaltycki
                 IsStillValid = true
             };
         }
-        private PropertyPrice ZwrocDaneOWartosci(HtmlNode htmlbody, Dictionary<string, string> zbiorDanych)
+        public PropertyPrice ZwrocDaneOWartosci(HtmlNode htmlbody, Dictionary<string, string> zbiorDanych)
         {
             var jakaCena = htmlbody.SelectSingleNode("//span[@class='priceInfo__value']");
             var jakaCenaZaMetr = htmlbody.SelectSingleNode("//span[@class='priceInfo__additional']");
@@ -249,41 +253,41 @@ namespace DziennikBaltycki.DziennikBaltycki
                 ResidentalRent = zbiorDanych.ContainsKey("oplaty") ? Convert.ToDecimal(zbiorDanych["oplaty"]) : 0
             };
         }
-        private PropertyDetails ZwrocSzczegolyWlasnosci(Dictionary<string, string> zbiorDanych)
+        public PropertyDetails ZwrocSzczegolyWlasnosci(Dictionary<string, string> zbiorDanych)
         {
             return new PropertyDetails
             {
                 Area = zbiorDanych.ContainsKey("powierzchnia") ? zbiorDanych["powierzchnia"] != null ? Convert.ToDecimal(zbiorDanych["powierzchnia"], new CultureInfo("en-US")) : 0 : 0,
                 NumberOfRooms = zbiorDanych.ContainsKey("liczbaPokoi") ? zbiorDanych["liczbaPokoi"].All(x => char.IsDigit(x)) ? Convert.ToInt32(zbiorDanych["liczbaPokoi"]) :
-                zbiorDanych["liczbaPokoi"].Any(x => char.IsDigit(x)) ? Convert.ToInt32(zbiorDanych["liczbaPokoi"].FirstOrDefault(x => char.IsDigit(x))) : 0 : 0,
+                zbiorDanych["liczbaPokoi"].Any(x => char.IsDigit(x)) ? Convert.ToInt32(zbiorDanych["liczbaPokoi"].FirstOrDefault(x => char.IsDigit(x)).ToString()) : 0 : 0,
                 FloorNumber = zbiorDanych.ContainsKey("pietro") && zbiorDanych["pietro"].All(x => char.IsDigit(x)) ? Convert.ToInt32(zbiorDanych["pietro"]) : 0,
                 YearOfConstruction = zbiorDanych.ContainsKey("rokBudowy") ? Convert.ToInt32(zbiorDanych["rokBudowy"]) : 0,
             };
         }
-        private int? ZwrocParkingZewnetrzny(Dictionary<string, string> zbiorDanych)
+        public int? ZwrocParkingZewnetrzny(Dictionary<string, string> zbiorDanych)
         {
             return zbiorDanych.ContainsKey("miejsceParkingowe") ? !zbiorDanych["miejsceParkingowe"].Contains("podziemn") && !zbiorDanych["miejsceParkingowe"].Contains("garaż") && !zbiorDanych["miejsceParkingowe"].Contains("brak") ?
                 zbiorDanych.ContainsKey("liczbaMiejscParkingowych") ? Convert.ToInt32(zbiorDanych["liczbaMiejscParkingowych"]) : 1 : 0 : 0;
         }
-        private int? ZwrocParkingWewnetrzny(Dictionary<string, string> zbiorDanych, string opis)
+        public int? ZwrocParkingWewnetrzny(Dictionary<string, string> zbiorDanych, string opis)
         {
             return zbiorDanych.ContainsKey("miejsceParkingowe") ? zbiorDanych["miejsceParkingowe"].Contains("podziemn") || zbiorDanych["miejsceParkingowe"].Contains("garaż") ?
                 zbiorDanych.ContainsKey("liczbaMiejscParkingowych") ? Convert.ToInt32(zbiorDanych["liczbaMiejscParkingowych"]) : 1 : 0 : opis.ToLower().Contains("podziemn") || opis.ToLower().Contains("garaż") ? 1 : 0;
         }
-        private PropertyFeatures ZwrocCechy(HtmlNode htmlbody, Dictionary<string, string> zbiorDanych)
+        public PropertyFeatures ZwrocCechy(HtmlNode htmlbody, Dictionary<string, string> zbiorDanych)
         {
-            var opis = ZwrocOpis(htmlbody);
+            var opis = _dziennikBaltyckiIntegration.ZwrocOpis(htmlbody);
 
             return new PropertyFeatures
             {
-                GardenArea = opis.Contains("ogród") ? SprawdzIleMetrow("ogród", ref opis) : null,
+                GardenArea = opis.Contains("ogród") ? _dziennikBaltyckiIntegration.SprawdzIleMetrow("ogród", ref opis) : null,
                 Balconies = opis.Contains("balkon") ? 1 : 0,
-                BasementArea = opis.Contains("piwnica") ? SprawdzIleMetrow("piwnica", ref opis) : opis.Contains("Komórka lokatorska") ? SprawdzIleMetrow("piwnica", ref opis) : null,
-                OutdoorParkingPlaces = ZwrocParkingZewnetrzny(zbiorDanych),
-                IndoorParkingPlaces = ZwrocParkingWewnetrzny(zbiorDanych, opis)
+                BasementArea = opis.Contains("piwnica") ? _dziennikBaltyckiIntegration.SprawdzIleMetrow("piwnica", ref opis) : opis.Contains("Komórka lokatorska") ? _dziennikBaltyckiIntegration.SprawdzIleMetrow("piwnica", ref opis) : null,
+                OutdoorParkingPlaces = _dziennikBaltyckiIntegration.ZwrocParkingZewnetrzny(zbiorDanych),
+                IndoorParkingPlaces = _dziennikBaltyckiIntegration.ZwrocParkingWewnetrzny(zbiorDanych, opis)
             };
         }
-        private Dictionary<string, string> ZwrocZbiorDanych(HtmlNode htmlbody)
+        public Dictionary<string, string> ZwrocZbiorDanych(HtmlNode htmlbody)
         {
             var listaParametrow = htmlbody.SelectSingleNode("//ul[@class='parameters__rolled']");
             var Adres = htmlbody.SelectSingleNode("//h1[@class='sticker__title']");
@@ -339,30 +343,36 @@ namespace DziennikBaltycki.DziennikBaltycki
 
             return zbiorDanych;
         }
-        private string ZwrocOpis(HtmlNode htmlbody)
+        public string ZwrocOpis(HtmlNode htmlbody)
         {
             var Opis = htmlbody.SelectSingleNode("//div[@class='description__rolled ql-container']");
             return Opis != null ? Opis.InnerText.Trim() : null;
         }
         public Dump GenerateDump()
         {
-            List<string> linkiDoStron = PobiezLinkiDoStron();
-            List<string> linkiDoMieszkan = PobierzLinkiDoMieszkan(linkiDoStron);
+            List<string> linkiDoStron = _dziennikBaltyckiIntegration.PobiezLinkiDoStron();
+            List<string> linkiDoMieszkan = _dziennikBaltyckiIntegration.PobierzLinkiDoMieszkan(linkiDoStron);
             List<Entry> mieszkania = new List<Entry>();
 
             foreach (var url in linkiDoMieszkan)
             {
-                HtmlNode htmlbody = PobierzDokument(url);
-                Dictionary<string, string> zbiorDanych = ZwrocZbiorDanych(htmlbody);
+                HtmlNode htmlbody = _dziennikBaltyckiIntegration.PobierzDokument(url);
+
+                if (htmlbody == null)
+                {
+                    continue;
+                }
+
+                Dictionary<string, string> zbiorDanych = _dziennikBaltyckiIntegration.ZwrocZbiorDanych(htmlbody);
 
                 mieszkania.Add(new Entry
                 {
-                    OfferDetails = ZwrocSzczegolyOferty(htmlbody, url),
-                    PropertyPrice = ZwrocDaneOWartosci(htmlbody, zbiorDanych),
-                    PropertyDetails = ZwrocSzczegolyWlasnosci(zbiorDanych),
-                    PropertyAddress = ZwrocAdres(zbiorDanych),
-                    PropertyFeatures = ZwrocCechy(htmlbody, zbiorDanych),
-                    RawDescription = ZwrocOpis(htmlbody),
+                    OfferDetails = _dziennikBaltyckiIntegration.ZwrocSzczegolyOferty(htmlbody, url),
+                    PropertyPrice = _dziennikBaltyckiIntegration.ZwrocDaneOWartosci(htmlbody, zbiorDanych),
+                    PropertyDetails = _dziennikBaltyckiIntegration.ZwrocSzczegolyWlasnosci(zbiorDanych),
+                    PropertyAddress = _dziennikBaltyckiIntegration.ZwrocAdres(zbiorDanych),
+                    PropertyFeatures = _dziennikBaltyckiIntegration.ZwrocCechy(htmlbody, zbiorDanych),
+                    RawDescription = _dziennikBaltyckiIntegration.ZwrocOpis(htmlbody),
                 });
             }
             return new Dump

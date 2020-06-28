@@ -15,7 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DziennikBaltycki", "Dzienni
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatabaseConnection", "DatabaseConnection\DatabaseConnection.csproj", "{954FB5AB-E84A-4B0C-9359-7E4C9EFC1CD2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationApi", "IntegrationApi\IntegrationApi.csproj", "{26682219-659B-4362-BEF6-914E4B5C651F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntegrationApi", "IntegrationApi\IntegrationApi.csproj", "{26682219-659B-4362-BEF6-914E4B5C651F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PropertiesFinderTests", "TestOkazji\PropertiesFinderTests.csproj", "{12CA4777-08F9-4005-B949-855FF1BCFCC5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{26682219-659B-4362-BEF6-914E4B5C651F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{26682219-659B-4362-BEF6-914E4B5C651F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{26682219-659B-4362-BEF6-914E4B5C651F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12CA4777-08F9-4005-B949-855FF1BCFCC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12CA4777-08F9-4005-B949-855FF1BCFCC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12CA4777-08F9-4005-B949-855FF1BCFCC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12CA4777-08F9-4005-B949-855FF1BCFCC5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
