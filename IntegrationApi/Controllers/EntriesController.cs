@@ -10,7 +10,6 @@ using Utilities;
 using System.Net;
 using System;
 using System.Text.Json;
-using Newtonsoft.Json.Linq;
 using Microsoft.AspNetCore.Authorization;
 
 namespace IntegrationApi.Controllers
@@ -147,7 +146,6 @@ namespace IntegrationApi.Controllers
             return _context.Entries.Any(e => e.ID == id);
         }
 
-
         // GET: entries/info
         [HttpGet]
         [Route("Info")]
@@ -160,6 +158,33 @@ namespace IntegrationApi.Controllers
             output.Add("studentIndex", "165459");
 
             return new JsonResult(output);
+        }
+
+        // GET: entries/occasions
+        [HttpGet]
+        [Route("occasions")]
+        public async Task<ActionResult<IEnumerable<Entry>>> GetOccasions() {
+
+
+            // List of 10 biggst cities in Poland 
+            List<string> cities = new List<string>() { "Warszawa", "Krakow", "Lodz", "Wroclaw", "Poznan", "Gdansk", "Szczecin", "Bydgoszcz", "Lublin", "Bialystok" };
+
+            var entries = await _context.Entries
+               .Include(entry => entry.OfferDetails)
+                   .ThenInclude(offerDetails => offerDetails.SellerContact)
+               .Include(entry => entry.PropertyAddress)
+               .Include(entry => entry.PropertyDetails)
+               .Include(entry => entry.PropertyFeatures)
+               .Include(entry => entry.PropertyPrice)
+               .ToListAsync();
+
+            OccasionsFinder occasion = new OccasionsFinder(cities);
+            List<Entry> occasions = occasion.FindOccasions(entries);
+
+            if ( occasions.Count() == 0 )
+                return NoContent();
+
+            return occasions;
         }
 
     }

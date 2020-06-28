@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text.RegularExpressions;
 
 namespace Morizon {
@@ -96,8 +97,8 @@ namespace Morizon {
         }
 
         public OfferDetails CreateOfferDetails(HtmlNode property, string propertyUrl) {
-            string creationDate = property.SelectSingleNode("//*[text()[contains(., 'Opublikowano: ')]]").ParentNode.SelectSingleNode("td").InnerText;
-            string updateDate = property.SelectSingleNode("//*[text()[contains(., 'Zaktualizowano: ')]]").ParentNode.SelectSingleNode("td").InnerText;
+            string updateDate = property.SelectSingleNode("//tr[contains(th, 'Zaktualizowano')]").SelectSingleNode("td").InnerText;
+            string creationDate = property.SelectSingleNode("//tr[contains(th, 'Opublikowano')]").SelectSingleNode("td").InnerText;
 
             string name = property.SelectSingleNode("//div[@class='companyName']")?.InnerText;
             if ( name == null ) {
@@ -105,6 +106,7 @@ namespace Morizon {
                 name = data != null ? data : "";
                 name = name + "(osoba prywatna)";
             }
+
 
             SellerContact sellerContact;
             string telephone = property.SelectSingleNode("//span[@class='phone hidden']")?.InnerText;
@@ -139,7 +141,7 @@ namespace Morizon {
             if ( dataPrice != null ) {
                 dataPrice = dataPrice.Split("&")[0];
                 if ( !dataPrice.Contains(",") )
-                    dataPrice = dataPrice +",00";
+                    dataPrice = dataPrice + ",00";
             }
 
             if ( !decimal.TryParse(dataPrice, NumberStyles.Any, new CultureInfo("pl-PL"), out price) ) {
@@ -152,7 +154,7 @@ namespace Morizon {
             if ( dataPricePerMeter != null ) {
                 dataPricePerMeter = dataPricePerMeter.Split("&")[0];
                 if ( !dataPricePerMeter.Contains(",") )
-                    dataPricePerMeter = dataPricePerMeter + ",00";;
+                    dataPricePerMeter = dataPricePerMeter + ",00"; ;
             }
 
             if ( dataPricePerMeter == null || !decimal.TryParse(dataPricePerMeter, NumberStyles.Any, new CultureInfo("pl-PL"), out pricePerMeter) ) {
@@ -374,38 +376,36 @@ namespace Morizon {
             return propertyFeatures;
         }
 
-        public List<Entry> GetEntries(string url, string urlPath, List<Entry> entries) {
-            var web = new HtmlWeb();
-            var doc = web.Load(url + urlPath);
+        public List<Entry> GetEntries(IMorizonParser MorizonParser, string url, string urlPath, List<Entry> entries) {
+            var doc = MorizonParser.GetDocument(url + urlPath);
 
-            string nextUrl = doc.DocumentNode.SelectSingleNode(".//*[contains(@title,'następna strona')]")?.Attributes["href"]?.Value;
+            if ( doc == null )
+                return entries;
 
-            List<string> propertiesUrls = new List<string>();
+            string nextUrl = MorizonParser.GetNextUrl(doc);
 
-            foreach ( HtmlAgilityPack.HtmlNode node in doc.DocumentNode.SelectNodes("//a[@class='property_link property-url']") ) {
-                propertiesUrls.Add(node.Attributes["href"].Value);
-            }
+            List<string> propertiesUrls = MorizonParser.GetPropertiesUrls(doc);
 
-            foreach ( string propertyUrl in propertiesUrls ) {
-                var property = web.Load(propertyUrl).DocumentNode;
+            if ( propertiesUrls != null )
+                foreach ( string propertyUrl in propertiesUrls ) {
+                    var property = MorizonParser.GetProperty(propertyUrl);
 
-                var description = property.SelectSingleNode("//div[@class='description']")?.InnerText;
-                description = description != null ? description : "";
+                    var description = MorizonParser.GetDescription(property);
 
-                Entry propertyOffer = new Entry {
-                    OfferDetails = CreateOfferDetails(property, propertyUrl),
-                    PropertyPrice = CreatePropertyPrice(property),
-                    PropertyDetails = CreatePropertyDetails(property),
-                    PropertyAddress = CreatePropertyAddress(property),
-                    PropertyFeatures = CreatePropertyFeatures(property, description),
-                    RawDescription = description
-                };
+                    Entry propertyOffer = new Entry {
+                        OfferDetails = CreateOfferDetails(property, propertyUrl),
+                        PropertyPrice = CreatePropertyPrice(property),
+                        PropertyDetails = CreatePropertyDetails(property),
+                        PropertyAddress = CreatePropertyAddress(property),
+                        PropertyFeatures = CreatePropertyFeatures(property, description),
+                        RawDescription = description
+                    };
 
-                entries.Add(propertyOffer);
-            }
+                    entries.Add(propertyOffer);
+                }
 
             if ( nextUrl != null )
-                return GetEntries(url, nextUrl, entries);
+                return GetEntries(MorizonParser, url, nextUrl, entries);
 
             return entries;
         }
@@ -444,14 +444,16 @@ namespace Morizon {
 
 
         public Dump GenerateDump() {
-            
+
             List<Entry> entries = new List<Entry>();
             var url = "https://www.morizon.pl";
 
-            entries = GetEntries(url, "/mieszkania", entries);
+            MorizonParser MorizonParser = new MorizonParser();
+
+            entries = GetEntries(MorizonParser, url, "/mieszkania", entries);
 
             List<Entry> uniqueEntries = entries.Distinct(new MorizonComparer()).ToList();
-            
+
             return new Dump {
                 DateTime = DateTime.Now,
                 WebPage = WebPage,
