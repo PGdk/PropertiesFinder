@@ -5,7 +5,9 @@ using DatabaseConnection.Repositories;
 using Exhouse.Exhouse;
 using Exhouse.Exhouse.Comparers;
 using Exhouse.Interfaces;
+using IntegrationApi.Interfaces;
 using IntegrationApi.Security;
+using IntegrationApi.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authorization;
@@ -37,6 +39,10 @@ namespace IntegrationApi
             services.AddSingleton<IExhouseIntegration, ExhouseIntegration>();
 
             services.AddScoped<IEntriesRepository, EntriesRepository>();
+
+            services.AddScoped<IEntriesAveragePricePerMeterCalculator, EntriesAveragePricePerMeterCalculator>();
+            services.AddScoped<IEntryPointsCalculator, EntryPointsCalculator>();
+            services.AddScoped<IOccasionalEntriesProvider, OccasionalEntriesProvider>();
 
             services.AddDbContext<DatabaseContext>();
 

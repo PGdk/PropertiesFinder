@@ -9,6 +9,8 @@ namespace DatabaseConnection.Interfaces
     {
         public Task<List<Entry>> FindAll(Nullable<int> offset, Nullable<int> limit);
 
+        public Task<List<Entry>> FindByCityForSale(PolishCity city);
+
         public Task<Entry> Find(int id);
 
         public Task<int> Save(Entry entry);

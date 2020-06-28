@@ -25,6 +25,16 @@ namespace DatabaseConnection.Repositories
                 .ToListAsync();
         }
 
+        public async Task<List<Entry>> FindByCityForSale(PolishCity city)
+        {
+            return await GetFullyIncludedEntries()
+                .Where(e => city == e.PropertyAddress.City
+                    && OfferKind.SALE == e.OfferDetails.OfferKind
+                    && e.PropertyDetails.NumberOfRooms > 0
+                )
+                .ToListAsync();
+        }
+
         public async Task<Entry> Find(int id)
         {
             return await GetFullyIncludedEntries()

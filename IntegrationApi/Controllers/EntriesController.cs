@@ -5,20 +5,35 @@ using Microsoft.EntityFrameworkCore;
 using Models;
 using Microsoft.AspNetCore.Authorization;
 using DatabaseConnection.Interfaces;
+using IntegrationApi.Interfaces;
 
 namespace IntegrationApi.Controllers
 {
     [ApiController]
     public class EntriesController : ControllerBase
     {
+        private static readonly int OccasionalEntriesLimit = 5;
+
         private static readonly string PageLimitQueryParameterName = "pageLimit";
         private static readonly string PageIdQueryParameterName = "pageId";
 
         private readonly IEntriesRepository _repository;
 
-        public EntriesController(IEntriesRepository repository)
+        private readonly IOccasionalEntriesProvider _provider;
+
+        public EntriesController(IEntriesRepository repository, IOccasionalEntriesProvider provider)
         {
             _repository = repository;
+            _provider = provider;
+        }
+
+        // GET: /entries/occasional?city=TOURN
+        [Route("entries/occasional")]
+        [Authorize(Policy = "User")]
+        [HttpGet]
+        public async Task<ActionResult<List<Entry>>> GetOccasionalEntries(PolishCity city)
+        {
+            return await _provider.GetByCity(city, OccasionalEntriesLimit);
         }
 
         // GET: /entries || /entries?pageLimit=8&pageId=2
