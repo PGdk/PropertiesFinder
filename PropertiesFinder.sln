@@ -13,9 +13,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utilities", "Utilities\Util
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Exhouse", "Exhouse\Exhouse.csproj", "{8937AFFD-E8D0-433F-8429-92EE48365E4D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseConnection", "DatabaseConnection\DatabaseConnection.csproj", "{E9DE55FC-3EA3-4934-A010-6C4EAF8991A3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatabaseConnection", "DatabaseConnection\DatabaseConnection.csproj", "{E9DE55FC-3EA3-4934-A010-6C4EAF8991A3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationApi", "IntegrationApi\IntegrationApi.csproj", "{61938A57-FBF7-4EEF-951D-996A05FABA7A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntegrationApi", "IntegrationApi\IntegrationApi.csproj", "{61938A57-FBF7-4EEF-951D-996A05FABA7A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationApi.Tests", "IntegrationApi.Tests\IntegrationApi.Tests.csproj", "{A7EADAE6-51BD-4726-ACD8-6A042BCE5AB1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Exhouse.Tests", "Exhouse.Tests\Exhouse.Tests.csproj", "{73FCEBF4-842D-4757-A554-C9D81DC3FA20}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +55,14 @@ Global
 		{61938A57-FBF7-4EEF-951D-996A05FABA7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{61938A57-FBF7-4EEF-951D-996A05FABA7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{61938A57-FBF7-4EEF-951D-996A05FABA7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7EADAE6-51BD-4726-ACD8-6A042BCE5AB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7EADAE6-51BD-4726-ACD8-6A042BCE5AB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7EADAE6-51BD-4726-ACD8-6A042BCE5AB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7EADAE6-51BD-4726-ACD8-6A042BCE5AB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73FCEBF4-842D-4757-A554-C9D81DC3FA20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73FCEBF4-842D-4757-A554-C9D81DC3FA20}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73FCEBF4-842D-4757-A554-C9D81DC3FA20}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73FCEBF4-842D-4757-A554-C9D81DC3FA20}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

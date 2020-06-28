@@ -15,7 +15,7 @@ namespace Exhouse.Exhouse.Parsers
             OfferDetails offerDetails = new OfferDetails
             {
                 CreationDateTime = DateTime.Now,
-                OfferKind = headerInfoNode.InnerText.Contains("sprzedaż") ? OfferKind.SALE : OfferKind.RENTAL,
+                OfferKind = null != headerInfoNode && headerInfoNode.InnerText.Contains("sprzedaż") ? OfferKind.SALE : OfferKind.RENTAL,
                 SellerContact = new SellerContact(),
                 IsStillValid = true
             };
