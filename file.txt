@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<!--[if IE 8 ]> <html lang="pl" class="ie8"> <![endif]-->
+<!--[if IE 9 ]> <html lang="pl" class="ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html lang="pl"> <!--<![endif]-->
+<head>
+	<title>Unikatowy apartament na sprzedaż 96m2 (4 pokoje) – Bohema - Mieszkanie Sprzedam Praga Północ Warszawa Bezpośrednio</title>
+	<meta charset="utf-8" />
+	<meta name="author" content=""/>
+	<meta name="description" content="Na sprzedaż unikatowe mieszkanie w inwestycji Bohema Praga: I. Mieszkanie z oknami na 3 strony świata: - duży salon z kuchnią –&gt; ładnie nasłoneczniony poprzez ekspozycje na południowy -zachód - 3 sypialnie -&gt; ekspozycja północno –..."/>
+	<meta name="keywords" content="Mieszkanie Sprzedam Praga Północ Warszawa"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" href="/favicon.png?1"/>
+	<link rel="stylesheet" type="text/css" href="/assets/css/styles.css?41"/>
+    <link rel="stylesheet" type="text/css" href="/assets/js/qtip/jquery.qtip.css"/>
+    <link rel="stylesheet" type="text/css" href="/assets/js/jquery/jquery-ui.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/assets/js/magnific-popup/magnific-popup.css"/>
+    <link rel="stylesheet" href="/assets/js/jquery-fileupload/jquery.fileupload.css" />
+    <link rel="stylesheet" type="text/css" href="/assets/js/jquery-autocomplete/jquery.autocomplete.css"/>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<script type="text/javascript" src="/assets/js/jquery/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="/assets/js/jquery/jquery-migrate-1.2.1.min.js"></script>
+	<script type="text/javascript" src="/assets/js/jquery/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="/assets/js/qtip/jquery.qtip.min.js"></script>
+    <script type="text/javascript" src="/assets/js/magnific-popup/jquery.magnific-popup.min.js"></script>
+    <script type="text/javascript" src="/assets/js/jquery-fileupload/vendor/jquery.ui.widget.js"></script>
+    <script type="text/javascript" src="/assets/js/jquery-fileupload/jquery.fileupload.js"></script>
+	<script type="text/javascript" src="/assets/js/sidr/jquery.sidr.min.js"></script>
+    <script type="text/javascript" src="/assets/js/jquery-autocomplete/jquery.autocomplete.min.js"></script>
+	<script type="text/javascript" src="/assets/js/cookies.js?1"></script>
+	<script type="text/javascript" src="/assets/js/functions.js?6"></script>
+	<script type="text/javascript" src="/assets/js/scripts.js?23"></script>
+
+    <meta property="og:title" content="Unikatowy apartament na sprzedaż 96m2 (4 pokoje) – Bohema" />
+<meta property="og:type" content="article">
+<meta property="og:image" content="https://odwlasciciela.pl/assets/userfiles/offers/4/243/24389_2.jpg" />
+<meta property="og:image" content="https://odwlasciciela.pl/assets/userfiles/offers/4/243/24393_2.jpg" />
+<meta property="og:image" content="https://odwlasciciela.pl/assets/userfiles/offers/4/243/24392_2.jpg" />
+<meta property="og:image" content="https://odwlasciciela.pl/assets/userfiles/offers/4/243/24388_2.jpg" />
+<meta property="og:image" content="https://odwlasciciela.pl/assets/userfiles/offers/4/243/24396_2.jpg" />
+<meta property="og:image" content="https://odwlasciciela.pl/assets/userfiles/offers/4/243/24390_2.jpg" />
+<meta property="og:image" content="https://odwlasciciela.pl/assets/userfiles/offers/4/243/24391_2.jpg" />
+<meta property="og:image" content="https://odwlasciciela.pl/assets/userfiles/offers/4/243/24394_2.jpg" />
+<meta property="og:image" content="https://odwlasciciela.pl/assets/userfiles/offers/4/243/24395_2.jpg" />
+<meta property="og:image" content="https://odwlasciciela.pl/assets/userfiles/offers/4/243/24397_2.jpg" />
+<meta property="og:image" content="https://odwlasciciela.pl/assets/userfiles/offers/4/243/24398_2.jpg" />
+    
+            <!-- Google Tag Manager -->
+            <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+            })(window,document,'script','dataLayer','GTM-TRQCV2H');</script>
+        <!-- End Google Tag Manager -->
+
+<!-- Facebook Pixel Code -->
+<script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '2228319920597742');
+  fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=2228319920597742&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Facebook Pixel Code -->
+
+<!-- Facebook Pixel Code -->
+<script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '2631837170436884');
+  fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=2631837170436884&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Facebook Pixel Code -->
+
+        <!-- Facebook Pixel Code -->
+        <script>
+        !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+        n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+        document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '271703620018727'); // Insert your pixel ID here.
+        fbq('track', 'PageView');
+        </script>
+        <noscript><img height="1" width="1" style="display:none"
+        src="https://www.facebook.com/tr?id=271703620018727&ev=PageView&noscript=1"
+        /></noscript>
+        <!-- DO NOT MODIFY -->
+        <!-- End Facebook Pixel Code -->
+    </head>
+<body class="sub">
+    <!-- Google Tag Manager (noscript) -->
+		<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TRQCV2H"
+		height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+	<!-- End Google Tag Manager (noscript) -->
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/pl_PL/all.js#xfbml=1";
+    fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<div class="widget_social">
+    <div>
+        <div class="fb-like-box" data-href="https://www.facebook.com/odwlasciciela/" data-width="292" data-height="468" data-show-faces="true" data-stream="true" data-border-color="#ffffff" data-header="false"></div>
+    </div>
+</div>
+
+                <header class="g-header">
+            <div class="container">
+                <a href="/" class="logo"><img src="/assets/img/logo-main.png" alt="odWłaściciela"/></a>
+                <nav class="navbar" id="nav-wrapper">
+    <span class="icon-close" id="sidr-close"></span>
+    <ul class="navbar-profile cf">
+        		
+            <li ><a href="/profil/loguj.html" class="nav-btn"><span class="icon-profile"></span> Zaloguj się</a></li>
+            <li ><a href="/profil/zarejestruj.html" class="nav-btn"><span class="icon-register"></span> Zarejestruj się</a></li>
+                <li class="navbar-profile-phone"><span class="icon-phone"></span> <a href="tel:881294392">881 294 392</a></li>
+    </ul>
+    <ul>
+        <li ><a href="/cennik.html" title="Dodaj ogłoszenie" class="nav-btn-add">+ Dodaj ogłoszenie</a></li>
+        <li ><a href="/jak-to-dziala.html" title="Jak to działa">Jak to działa</a></li>
+	    <li class="current"><a href="/oferty.html" title="Ogłoszenia">Ogłoszenia</a></li>
+        <li ><a href="/cennik.html#listaPortali" title="Lista portali">Lista portali</a></li>
+        <li ><a href="/cennik.html" title="Cennik">Cennik</a></li>
+        <li ><a href="/artykuly.html" title="Porady">Porady</a></li>
+        <li ><a href="/faq.html" title="Częste pytania">Częste pytania</a></li>
+
+    </ul>
+</nav>
+
+
+<span class="nav-trigger" id="nav-trigger"> Menu</span>
+
+<!-- Global Site Tag (gtag.js) - Google Analytics 
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-97705244-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)};
+  gtag('js', new Date());
+
+  gtag('config', 'UA-97705244-1');
+</script>-->
+
+<!-- Start of Smartsupp Live Chat script -->
+<script type="text/javascript">
+var _smartsupp = _smartsupp || {};
+_smartsupp.key = '1bfffb4847becac3e872f7f4fd94980bbbffb6f0';
+window.smartsupp||(function(d) {
+	var s,c,o=smartsupp=function(){ o._.push(arguments)};o._=[];
+	s=d.getElementsByTagName('script')[0];c=d.createElement('script');
+	c.type='text/javascript';c.charset='utf-8';c.async=true;
+	c.src='//www.smartsuppchat.com/loader.js?';s.parentNode.insertBefore(c,s);
+})(document);
+</script>
+
+<!-- Hotjar Tracking Code for https://odwlasciciela.pl/ -->
+<script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:481409,hjsv:5};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
+</script>
+
+
+<!--Start of LeadFinder widget !-->
+<script type="text/javascript">
+  var _lfuid = '41b356f5cca99c23ad79';
+
+  (function (d) {
+    var w = d.createElement('script'); w.type = 'text/javascript'; w.asynch = true;
+    w.src = '//widget.widget-static.com/widget/widget.js';
+    var s = d.getElementsByTagName('script')[0]; s.parentNode.insertBefore(w, s);
+  })(document);
+</script>
+<!--End of LeadFinder widget !-->
+                            </div>
+        </header>
+            
+<div class="breadcrumb clearfix">
+    <div class="container">
+        <nav>
+             <a href="/">OdWłaściciela.pl</a> <span>&raquo;</span> <a href="/mieszkania.html">Mieszkanie</a> <span>&raquo;</span> <a href="/mieszkania/sprzedaz.html">Sprzedam</a> <span>&raquo;</span> <a href="/mieszkania/sprzedaz/mazowieckie.html">mazowieckie</a> <span>&raquo;</span> <a href="/mieszkania/sprzedaz/mazowieckie,warszawa.html">Warszawa</a> <span>&raquo;</span> <a href="/mieszkania/sprzedaz/mazowieckie,warszawa,praga-polnoc.html">Praga Północ</a>        </nav>
+
+        <h1 class="offers-show-topic" id="offers-show-topic">Unikatowy apartament na sprzedaż 96m2 (4 pokoje) – Bohema</h1>
+    </div>
+</div>
+
+<main class="wrapper offers-show-wrapper">
+    <div class="container">
+
+        <div class="g-row">
+
+            <div class="g-col-m-7">
+                <div class="offers-show-gallery g-row">
+                                            <article class="g-col-12">
+                            <a href="#" class="arrow-left ph"><span class="icon-arrow-left"></span></a>
+                            <a href="/assets/userfiles/offers/4/243/24389_2.jpg" class="" id="photo-big">
+                                <img src="/assets/userfiles/offers/4/243/24389_1.jpg"/>
+                            </a>
+                            <a href="#" class="arrow-right ph"><span class="icon-arrow-right"></span></a>
+
+                                                            <a href="/assets/userfiles/offers/4/243/24389_2.jpg" class="photo-hide" style="display:none;"></a>
+                                                            <a href="/assets/userfiles/offers/4/243/24393_2.jpg" class="photo-hide" style="display:none;"></a>
+                                                            <a href="/assets/userfiles/offers/4/243/24392_2.jpg" class="photo-hide" style="display:none;"></a>
+                                                            <a href="/assets/userfiles/offers/4/243/24388_2.jpg" class="photo-hide" style="display:none;"></a>
+                                                            <a href="/assets/userfiles/offers/4/243/24396_2.jpg" class="photo-hide" style="display:none;"></a>
+                                                            <a href="/assets/userfiles/offers/4/243/24390_2.jpg" class="photo-hide" style="display:none;"></a>
+                                                            <a href="/assets/userfiles/offers/4/243/24391_2.jpg" class="photo-hide" style="display:none;"></a>
+                                                            <a href="/assets/userfiles/offers/4/243/24394_2.jpg" class="photo-hide" style="display:none;"></a>
+                                                            <a href="/assets/userfiles/offers/4/243/24395_2.jpg" class="photo-hide" style="display:none;"></a>
+                                                            <a href="/assets/userfiles/offers/4/243/24397_2.jpg" class="photo-hide" style="display:none;"></a>
+                                                            <a href="/assets/userfiles/offers/4/243/24398_2.jpg" class="photo-hide" style="display:none;"></a>
+                                                    </article>
+                                                    <article class="g-col-l-2 g-col-m-3  g-col-s-2  g-col-3">
+                                <a href="/assets/userfiles/offers/4/243/24389_2.jpg" data-index="0" class="photo-small current">
+                                    <img src="/assets/userfiles/offers/4/243/24389_1.jpg"/>
+                                </a>
+                            </article>
+                                                    <article class="g-col-l-2 g-col-m-3  g-col-s-2  g-col-3">
+                                <a href="/assets/userfiles/offers/4/243/24393_2.jpg" data-index="1" class="photo-small ">
+                                    <img src="/assets/userfiles/offers/4/243/24393_1.jpg"/>
+                                </a>
+                            </article>
+                                                    <article class="g-col-l-2 g-col-m-3  g-col-s-2  g-col-3">
+                                <a href="/assets/userfiles/offers/4/243/24392_2.jpg" data-index="2" class="photo-small ">
+                                    <img src="/assets/userfiles/offers/4/243/24392_1.jpg"/>
+                                </a>
+                            </article>
+                                                    <article class="g-col-l-2 g-col-m-3  g-col-s-2  g-col-3">
+                                <a href="/assets/userfiles/offers/4/243/24388_2.jpg" data-index="3" class="photo-small ">
+                                    <img src="/assets/userfiles/offers/4/243/24388_1.jpg"/>
+                                </a>
+                            </article>
+                                                    <article class="g-col-l-2 g-col-m-3  g-col-s-2  g-col-3">
+                                <a href="/assets/userfiles/offers/4/243/24396_2.jpg" data-index="4" class="photo-small ">
+                                    <img src="/assets/userfiles/offers/4/243/24396_1.jpg"/>
+                                </a>
+                            </article>
+                                                    <article class="g-col-l-2 g-col-m-3  g-col-s-2  g-col-3">
+                                <a href="/assets/userfiles/offers/4/243/24390_2.jpg" data-index="5" class="photo-small ">
+                                    <img src="/assets/userfiles/offers/4/243/24390_1.jpg"/>
+                                </a>
+                            </article>
+                                                    <article class="g-col-l-2 g-col-m-3  g-col-s-2  g-col-3">
+                                <a href="/assets/userfiles/offers/4/243/24391_2.jpg" data-index="6" class="photo-small ">
+                                    <img src="/assets/userfiles/offers/4/243/24391_1.jpg"/>
+                                </a>
+                            </article>
+                                                    <article class="g-col-l-2 g-col-m-3  g-col-s-2  g-col-3">
+                                <a href="/assets/userfiles/offers/4/243/24394_2.jpg" data-index="7" class="photo-small ">
+                                    <img src="/assets/userfiles/offers/4/243/24394_1.jpg"/>
+                                </a>
+                            </article>
+                                                    <article class="g-col-l-2 g-col-m-3  g-col-s-2  g-col-3">
+                                <a href="/assets/userfiles/offers/4/243/24395_2.jpg" data-index="8" class="photo-small ">
+                                    <img src="/assets/userfiles/offers/4/243/24395_1.jpg"/>
+                                </a>
+                            </article>
+                                                    <article class="g-col-l-2 g-col-m-3  g-col-s-2  g-col-3">
+                                <a href="/assets/userfiles/offers/4/243/24397_2.jpg" data-index="9" class="photo-small ">
+                                    <img src="/assets/userfiles/offers/4/243/24397_1.jpg"/>
+                                </a>
+                            </article>
+                                                    <article class="g-col-l-2 g-col-m-3  g-col-s-2  g-col-3">
+                                <a href="/assets/userfiles/offers/4/243/24398_2.jpg" data-index="10" class="photo-small ">
+                                    <img src="/assets/userfiles/offers/4/243/24398_1.jpg"/>
+                                </a>
+                            </article>
+                                                            </div>
+            </div>
+
+            <div class="g-col-m-5 offers-info">
+
+                <p class="offers-show-price">
+                    Cena: <strong>1113600 zł</strong>
+                </p>
+                                <p class="offers-show-price-m">
+                    Cena za m<sup>2</sup></sub>: <strong>11600 zł</strong>
+                </p>
+                                <hr/>
+
+                <fieldset class="offers-show-contact">
+
+                    <div class="form-group clearfix">
+                        <label for="0" class="form-label">Zadzwoń do Właściciela</label>
+                        <div class="form-control-info" data-key="60834e9c506a661a91721e433abf06d4">608 ... ... <a href="#" class="show-phone btn btn-xs">pokaż numer</a></div>
+                    </div>
+
+                    <a href="#contact-form" class="btn ">Wyślij wiadomość</a>
+                    <div class="offers-show-social">
+                        <div class="fb-share-button" data-href="https://odwlasciciela.pl/oferty/podglad/4406,mieszkanie-sprzedam.html" data-layout="button" data-size="large"></div>
+                    </div>
+                </fieldset>
+                <hr/>
+
+                <fieldset class="offers-show-actions">
+                    <a href="javascript:void(0);" class="ph" onclick="window.print();"><span class="icon-print"></span><br>Drukuj ogłoszenie</a>
+                    <a href="javascript:void(0);" class="ph" onclick="$('.offers-show-send').slideToggle();"><span class="icon-email2"></span><br>Wyślij na e-maila</a>
+
+                    <p class="offers-show-no">
+                        Oferta nr: <strong>4406</strong>
+                    </p>
+
+                    <div class="offers-show-send" >
+                        <div class="h3">Wyślij ogłoszenie na e-maila</div>
+                        <form method="post" action="/oferty/wyslij/4406,mieszkanie-sprzedam.html" id="form_email">
+                            <input type="hidden" name="send2" id="send2" value="0" />                            <div class="form-group clearfix" ><label for="send_email" class="form-label" >Adres e-mail</label><input type="text" name="send_email" id="send_email" value="" class="form-control" /></div>
+                            <div class="form-group form-offset">
+                                <a href="javascript:void(0);" class="btn" onclick="$('#send2').val(1);$('#form_email').submit();">Wyślij</a>
+                            </div>
+                        </form>
+                    </div>
+
+                                    </fieldset>
+                <hr/>
+
+                <fieldset class="form-info">
+                    <div class="h2">Lokalizacja</div>
+                    <div class="form-group clearfix" ><label for="0" class="form-label" >Województwo</label><div class="form-control-info">mazowieckie</div></div>
+                    <div class="form-group clearfix" ><label for="0" class="form-label" >Powiat</label><div class="form-control-info">Warszawa</div></div>
+                    <div class="form-group clearfix" ><label for="0" class="form-label" >Miasto / Gmina</label><div class="form-control-info">Warszawa</div></div>
+                    <div class="form-group clearfix" ><label for="0" class="form-label" >Kod pocztowy</label><div class="form-control-info">-</div></div>
+                    <div class="form-group clearfix" ><label for="0" class="form-label" >Dzielnica / Wieś</label><div class="form-control-info">Praga Północ</div></div>
+                    <div class="form-group clearfix" ><label for="0" class="form-label" >Ulica</label><div class="form-control-info">Szwedzka</div></div>
+                    <a class="btn" href="#map">Zobacz na mapie</a>
+                </fieldset>
+
+            </div>
+        </div>
+
+
+        <div class="g-row offers-informations">
+            <div class="g-col-m-6 g-col-s-6">
+                <fieldset class="form-info">
+                                            <div class="h2">Budynek</div>
+                        <div class="form-group clearfix" ><label for="0" class="form-label" >Rynek</label><div class="form-control-info">Pierwotny</div></div>
+                        <div class="form-group clearfix" ><label for="0" class="form-label" >Piętro</label><div class="form-control-info">5</div></div>
+                        <div class="form-group clearfix" ><label for="0" class="form-label" >Liczba pięter</label><div class="form-control-info">6</div></div>
+                        <div class="form-group clearfix" ><label for="0" class="form-label" >Rodzaj budynku</label><div class="form-control-info">Apartamentowiec</div></div>
+                        <div class="form-group clearfix" ><label for="0" class="form-label" >Rok budowy budynku</label><div class="form-control-info">2020</div></div>
+
+                        <div class="h2">Informacje</div>
+                        <div class="form-group clearfix" ><label for="0" class="form-label" >Okolica</label><div class="form-control-info">fitness, basen, zabudowa niska, bank/bankomat, komenda policji, apteka, przychodnia/szpital, PKP, PKS, autobus, kolej podmiejska, metro, tramwaj, centrum handlowe, żłobek, przedszkole, plac zabaw, szkoła podstawowa</div></div>
+                                                    <div class="form-group clearfix" ><label for="0" class="form-label" >Wysokość czynszu</label><div class="form-control-info"> zł</div></div>
+                                                                                                                        </fieldset>
+            </div>
+            <div class="g-col-m-6 g-col-s-6">
+                <fieldset class="form-info">
+                                            <div class="h2">Mieszkanie</div>
+                        <div class="form-group clearfix" ><label for="0" class="form-label" >Liczba pokoi</label><div class="form-control-info">4</div></div>
+                        <div class="form-group clearfix" ><label for="0" class="form-label" >Powierzchnia użytkowa</label><div class="form-control-info">96 m<sup>2</sup></div></div>
+                        <div class="form-group clearfix" ><label for="0" class="form-label" >Stan mieszkania</label><div class="form-control-info">do wykończenia</div></div>
+                        <div class="form-group clearfix" ><label for="0" class="form-label" >Okna</label><div class="form-control-info">nowe PCV</div></div>
+                        <div class="form-group clearfix" ><label for="0" class="form-label" >Instalacje</label><div class="form-control-info">wymienione</div></div>
+                        <div class="form-group clearfix" ><label for="0" class="form-label" >Ogrzewanie</label><div class="form-control-info">miejskie</div></div>
+                        <div class="form-group clearfix" ><label for="0" class="form-label" >Media</label><div class="form-control-info">prąd, woda, ciepła woda miejska, telefon, internet, TV kablowa</div></div>
+                        <div class="form-group clearfix" ><label for="0" class="form-label" >Pomieszczenia dodatkowe</label><div class="form-control-info">balkon, komórka, garaż, miejsce parkingowe</div></div>
+                                                                                                </fieldset>
+            </div>
+        </div>
+
+        <div class="h2">Opis</div>
+        <div class="form-control-infotext">
+            Na sprzedaż unikatowe mieszkanie w inwestycji Bohema Praga:<br />
+<br />
+I. Mieszkanie z oknami na 3 strony świata:<br />
+<br />
+- duży salon z kuchnią –&gt; ładnie nasłoneczniony poprzez ekspozycje na południowy -zachód<br />
+<br />
+- 3 sypialnie -&gt; ekspozycja północno – zachodnia<br />
+<br />
+II. Unikalne położenie apartamentu zapewnia prywatność:<br />
+<br />
+- 5 piętro<br />
+<br />
+- okna ze strony północnej, jak i południowej (sypialnie oraz salon z kuchnią) - otwarte na przestrzeń -&gt; nie zaglądamy w okna sąsiadów<br />
+<br />
+- położenie w bezpośrednim sąsiedztwie odrestaurowanej strefy komercyjnej (restauracje, kawiarnie, kluby fitness) <br />
+<br />
+- bezpośredni dostęp do stacji metra ‘Metro Szwedzka’<br />
+<br />
+III. Dodatkowo, w apartamencie :<br />
+<br />
+- dwa balkony 31m2 oraz 9,6m2<br />
+<br />
+- dwie łazienki 6,7m2 oraz 4,08m2<br />
+<br />
+- dwa szersze miejsca postojowe w garażu podziemnym odpowiednie dla samochodów typu SUV (bezpośrednio przy klatce) oraz komórka lokatorka.<br />
+<br />
+Cena: 11 600 m2 (do ceny należy doliczyć koszt komórki lokatorskiej oraz miejsc parkingowych).<br />
+<br />
+Oddanie budynku Maj/Czerwiec 2020 -&gt; Możliwość cesji umowy lub sprzedaży bezpośredniej.<br />
+<br />
+http://www.bohemapraga.pl/site/pl/galeria<br />
+<br />
+Na dołączonych zdjęciach rzut oryginalny mieszkania, oraz skan rzutu po zmianach lokatorskich -&gt; powiększona łazienka główna oraz powiększenie dwóch sypialni kosztem korytarza.        </div>
+
+
+        <div class="offers-show-map-wrapper">
+            <div class="h2">Mapa</div>
+            <div id="map" class="offers-show-map"></div>
+        </div>
+    </div>
+</main>
+
+<div class="offers-contact">
+    <div class="container" id="contact">
+                <form method="post" id="contact-form" action="#contact">
+            <div class="g-row">
+                <div class="g-col-l-4 g-col-m-6">
+                    <input type="hidden" name="send" id="send" value="0" />                    <div class="form-group clearfix" ><label for="email" class="form-label" >Adres E-mail<span class="form-req">*</span></label><input type="text" name="email" id="email" value="" class="form-control" /></div>
+                    <div class="form-group clearfix" ><label for="phone" class="form-label" >Telefon<span class="form-req">*</span></label><input type="text" name="phone" id="phone" value="" class="form-control" /></div>
+                    <p class="txt-right g-show-m">
+                        <a href="#" class="btn contact-send">Wyślij</a>
+                    </p>
+                </div>
+                <div class="g-col-l-5 g-col-m-6 offers-contact-text">
+                    <div class="form-group clearfix" ><label for="text" class="form-label" >Treść wiadomości<span class="form-req">*</span></label><textarea name="text" id="text" class="form-control" ></textarea></div>
+                    <div class="form-group clearfix form-small form-group-checkbox form-offset" ><span class="form-req">*</span><input type="checkbox" name="rules" id="rules" value="1"  class="form-control-checkbox" /><label for="rules">Wyrażam zgodę na przetwarzanie moich danych osobowych, podanych w powyższym formularzu, wyłącznie w celu udzielenia odpowiedzi na wysłana przeze mnie wiadomość. Więcej informacji na temat przetwarzania przez administratora danych osobowych uzyskasz <a href="/cookies.html" class="link-u">tutaj</a></label></div>
+                </div>
+                <div class="g-col-3 g-show-l offers-contact-phone">
+                    tel: <strong>608097211</strong>
+                </div>
+                <div class="g-col-12 g-hide-m txt-right">
+                    <a href="#" class="btn contact-send">Wyślij</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+    <div class="links-wrapper">
+        <div class="container content">
+            <div class="g-row">
+                                    <div class="g-col-m-6">
+                        <div class="h3">Popularne kategorie</div>
+                        <ul>
+                                                            <li><a href="/mieszkania/sprzedaz/mazowieckie,warszawa.html" title="Mieszkania na sprzedaż Warszawa">Mieszkania na sprzedaż Warszawa</a></li>
+                                                            <li><a href="/mieszkania/sprzedaz/malopolskie,krakow.html" title="Mieszkania na sprzedaż Kraków">Mieszkania na sprzedaż Kraków</a></li>
+                                                            <li><a href="/mieszkania/sprzedaz/lodzkie,lodz.html" title="Mieszkania na sprzedaż Łódź">Mieszkania na sprzedaż Łódź</a></li>
+                                                            <li><a href="/mieszkania/sprzedaz/dolnoslaskie,wroclaw.html" title="Mieszkania na sprzedaż Wrocław">Mieszkania na sprzedaż Wrocław</a></li>
+                                                            <li><a href="/mieszkania/sprzedaz/wielkopolskie,poznan.html" title="Mieszkania na sprzedaż Poznań">Mieszkania na sprzedaż Poznań</a></li>
+                                                            <li><a href="/mieszkania/sprzedaz/pomorskie,gdansk.html" title="Mieszkania na sprzedaż Gdańsk">Mieszkania na sprzedaż Gdańsk</a></li>
+                                                            <li><a href="/mieszkania/sprzedaz/zachodniopomorskie,szczecin.html" title="Mieszkania na sprzedaż Szczecin">Mieszkania na sprzedaż Szczecin</a></li>
+                                                            <li><a href="/mieszkania/sprzedaz/kujawsko-pomorskie,bydgoszcz.html" title="Mieszkania na sprzedaż Bydgoszcz">Mieszkania na sprzedaż Bydgoszcz</a></li>
+                                                            <li><a href="/mieszkania/sprzedaz/lubelskie,lublin.html" title="Mieszkania na sprzedaż Lublin">Mieszkania na sprzedaż Lublin</a></li>
+                                                            <li><a href="/mieszkania/sprzedaz/podlaskie,bialystok.html" title="Mieszkania na sprzedaż Białystok">Mieszkania na sprzedaż Białystok</a></li>
+                                                            <li><a href="/mieszkania/sprzedaz/slaskie,katowice.html" title="Mieszkania na sprzedaż Katowice">Mieszkania na sprzedaż Katowice</a></li>
+                                                            <li><a href="/mieszkania/sprzedaz/pomorskie,gdynia.html" title="Mieszkania na sprzedaż Gdynia">Mieszkania na sprzedaż Gdynia</a></li>
+                                                            <li><a href="/mieszkania/sprzedaz/slaskie,czestochowa.html" title="Mieszkania na sprzedaż Częstochowa">Mieszkania na sprzedaż Częstochowa</a></li>
+                                                            <li><a href="/mieszkania/sprzedaz/mazowieckie,radom.html" title="Mieszkania na sprzedaż Radom">Mieszkania na sprzedaż Radom</a></li>
+                                                            <li><a href="/mieszkania/sprzedaz/slaskie,sosnowiec.html" title="Mieszkania na sprzedaż Sosnowiec">Mieszkania na sprzedaż Sosnowiec</a></li>
+                                                    </ul>
+                    </div>
+                                    <div class="g-col-m-6">
+                        <div class="h3">Popularne kategorie</div>
+                        <ul>
+                                                            <li><a href="/mieszkania/sprzedaz/kujawsko-pomorskie,torun.html" title="Mieszkania na sprzedaż Toruń">Mieszkania na sprzedaż Toruń</a></li>
+                                                            <li><a href="/mieszkania/sprzedaz/swietokrzyskie,kielce.html" title="Mieszkania na sprzedaż Kielce">Mieszkania na sprzedaż Kielce</a></li>
+                                                            <li><a href="/mieszkania/sprzedaz/podkarpackie,rzeszow.html" title="Mieszkania na sprzedaż Rzeszów">Mieszkania na sprzedaż Rzeszów</a></li>
+                                                            <li><a href="/mieszkania/sprzedaz/slaskie,gliwice.html" title="Mieszkania na sprzedaż Gliwice">Mieszkania na sprzedaż Gliwice</a></li>
+                                                            <li><a href="/mieszkania/sprzedaz/slaskie,zabrze.html" title="Mieszkania na sprzedaż Zabrze">Mieszkania na sprzedaż Zabrze</a></li>
+                                                            <li><a href="/mieszkania/sprzedaz/warminsko-mazurskie,olsztyn.html" title="Mieszkania na sprzedaż Olsztyn">Mieszkania na sprzedaż Olsztyn</a></li>
+                                                            <li><a href="/mieszkania/sprzedaz/slaskie,bielsko-biala.html" title="Mieszkania na sprzedaż Bielsko-Biała">Mieszkania na sprzedaż Bielsko-Biała</a></li>
+                                                            <li><a href="/mieszkania/sprzedaz/slaskie,bytom.html" title="Mieszkania na sprzedaż Bytom">Mieszkania na sprzedaż Bytom</a></li>
+                                                            <li><a href="/mieszkania/sprzedaz/lubuskie,zielona-gora.html" title="Mieszkania na sprzedaż Zielona Góra">Mieszkania na sprzedaż Zielona Góra</a></li>
+                                                            <li><a href="/mieszkania/sprzedaz/slaskie,rybnik.html" title="Mieszkania na sprzedaż Rybnik">Mieszkania na sprzedaż Rybnik</a></li>
+                                                            <li><a href="/mieszkania/sprzedaz/slaskie,ruda-slaska.html" title="Mieszkania na sprzedaż Ruda Śląska">Mieszkania na sprzedaż Ruda Śląska</a></li>
+                                                            <li><a href="/mieszkania/sprzedaz/opolskie,opole.html" title="Mieszkania na sprzedaż Opole">Mieszkania na sprzedaż Opole</a></li>
+                                                            <li><a href="/mieszkania/sprzedaz/slaskie,tychy.html" title="Mieszkania na sprzedaż Tychy">Mieszkania na sprzedaż Tychy</a></li>
+                                                            <li><a href="/mieszkania/sprzedaz/lubuskie,gorzow-wielkopolski.html" title="Mieszkania na sprzedaż Gorzów Wielkopolski">Mieszkania na sprzedaż Gorzów Wielkopolski</a></li>
+                                                            <li><a href="/mieszkania/sprzedaz/slaskie,dabrowa-gornicza.html" title="Mieszkania na sprzedaż Dąbrowa Górnicza">Mieszkania na sprzedaż Dąbrowa Górnicza</a></li>
+                                                    </ul>
+                    </div>
+                            </div>
+        </div>
+    </div>
+
+<script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyDcwmsF8r_5rrQZ2KUyyWSSmeFyLrf4uNo"></script>
+<script>
+    $('.arrow-left').click(function(e){
+        e.preventDefault();
+        var i = $('.photo-small.current').parent().index();
+        if (i <= 1) i = $('.photo-small').length + 1;
+        $('.photo-small').eq(i-2).trigger('click');
+    });
+    $('.arrow-right').click(function(e){
+        e.preventDefault();
+        var i = $('.photo-small.current').parent().index();
+        if (i >= $('.photo-small').length) i = 0;
+        $('.photo-small').eq(i).trigger('click');
+    });
+    $('.photo-small').click(function(e){
+        e.preventDefault();
+        $('.photo-small.current').removeClass('current');
+        $(this).addClass('current');
+
+        $('#photo-big').attr('href', $(this).attr('href'));
+        $('#photo-big img').attr('src', $('img', this).attr('src'));
+    });
+
+    $('.show-phone').click(function (e) {
+        e.preventDefault();
+
+        $.post('/oferty/showPhone.html', {
+            id: 4406,
+            key: $(this).parent().data('key')
+        }, function (data) {
+            if (data.phone != '') {
+                $('.show-phone').parent().html(data.phone);
+            }
+        }, 'json');
+    });
+
+    $('.contact-send').click(function (e) {
+        e.preventDefault();
+        $('#send').val('1');
+        $('#contact-form').submit();
+    });
+
+
+    $('a.photo-hide').magnificPopup({
+        type:'image',
+        gallery: {
+            enabled: true,
+            tCounter: '<span class="mfp-counter">%curr% z %total%</span>' // markup of counter
+        }
+    });
+    $('#photo-big').click(function (e) {
+        e.preventDefault();
+        $('a.photo-hide').eq($('.photo-small.current').data('index')).trigger('click');
+    });
+
+
+    var map;
+    var marker;
+
+    function initialize() {
+        var latlng = new google.maps.LatLng(52.05249,18.984375);
+        var myOptions = {
+            zoom: 12,
+            center: latlng,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        map = new google.maps.Map(document.getElementById("map"), myOptions);
+
+                var pos = new google.maps.LatLng(52.2640965,21.0427622);
+        map.setCenter(pos);
+        add_marker(pos);
+            }
+    /* zmieniona wersja wcześniejszego add_marker */
+    function add_marker( pos ) {
+        if( marker != null ) {
+            marker.setPosition( pos ) ;
+        } else {
+            marker = new google.maps.Marker( {
+                position: pos,
+                map: map,
+                title: 'Położenie nieruchomości'
+            });
+        }
+    }
+    $(document).ready(function() {
+        setTimeout('initialize()', 100);
+    });
+
+</script>
+    <footer class="g-footer">
+        <div class="container">
+            <a href="http://www.studiomh.pl" rel="nofollow" title="Strony WWW - Rybnik" class="studiomh"></a>
+			<div class="g-row">
+
+                <div class="g-col-l-3 g-col-s-6 g-footer-contact">
+                    <strong>Barn-net</strong><br>
+                    ul. Kmiecie 48A<br>
+                    38-440 Iwonicz<br>
+                    NIP 6842508251<br>
+                </div>
+                <div class="g-col-l-3 g-col-s-6 g-footer-contact">
+                    <p><span class="icon-phone"></span> <a href="tel:881294392">88 129 43 92</a></p>
+                    <p><span class="icon-email"></span> biuro@odwlasciciela.pl</p>
+                </div>
+                <div class="g-col-l-6 g-footer-links">
+                    <ul>
+					<li><a href="/darmowe-ogloszenia-nieruchomosci.html" title="Darmowe ogłoszenia nieruchomosci">Darmowe ogłoszenia nieruchomości</a></li>
+                        <li><a href="/regulamin.html" title="Regulamin">Regulamin</a></li>
+						<li><a href="/cookies.html" title="Polityka prywatności">Polityka prywatności</a></li>
+                        <li><a href="/kontakt.html" title="Kontakt">Kontakt</a></li>
+                    </ul>
+                    <br><img src="/assets/img/pay.png" alt="przelewy24"/>
+                </div>
+                <div class="g-col-l-12 g-footer-copy">
+                    Bezpośrednie ogłoszenia nieruchomości. Copyrights © 2020 odWlasiciela.pl
+                </div>
+            </div>
+
+        </div>
+    </footer>
+    <div class="sidr-overlay" id="sidr-overlay"></div>
+
+</body>
+</html>

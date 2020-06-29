@@ -13,11 +13,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utilities", "Utilities\Util
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatabaseConnection", "DatabaseConnection\DatabaseConnection.csproj", "{E7B00B95-326B-420C-8F34-7C9F9D2861FF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationApi", "IntegrationApi\IntegrationApi.csproj", "{C158EC16-7471-4A74-A9E1-45A4EA9B7DF9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntegrationApi", "IntegrationApi\IntegrationApi.csproj", "{C158EC16-7471-4A74-A9E1-45A4EA9B7DF9}"
 	ProjectSection(ProjectDependencies) = postProject
 		{09595555-EFD6-4203-AB32-7732F2A43AE9} = {09595555-EFD6-4203-AB32-7732F2A43AE9}
 		{E7B00B95-326B-420C-8F34-7C9F9D2861FF} = {E7B00B95-326B-420C-8F34-7C9F9D2861FF}
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProject1", "UnitTestProject1\UnitTestProject1.csproj", "{03E2E28E-C2DC-4DCB-BE16-D3A3D2A4A13D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,6 +51,10 @@ Global
 		{C158EC16-7471-4A74-A9E1-45A4EA9B7DF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C158EC16-7471-4A74-A9E1-45A4EA9B7DF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C158EC16-7471-4A74-A9E1-45A4EA9B7DF9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03E2E28E-C2DC-4DCB-BE16-D3A3D2A4A13D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03E2E28E-C2DC-4DCB-BE16-D3A3D2A4A13D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03E2E28E-C2DC-4DCB-BE16-D3A3D2A4A13D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03E2E28E-C2DC-4DCB-BE16-D3A3D2A4A13D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -51,5 +51,15 @@ namespace IntegrationApi.Controllers
             EntryDB entry = _repository.GetEntry(id);
             return Ok(entry);
         }
+
+        [Route("/bestoffers")]
+        [HttpGet]
+        public ActionResult<IEnumerable<EntryDB>> GetBestOffers(string districtName)
+        {
+           var listBestOffers = _repository.GetBestOffers(districtName);
+            if (listBestOffers != null)
+            return Ok(listBestOffers);
+            return NoContent();
+        }
     }
 }

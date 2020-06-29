@@ -13,176 +13,20 @@ using System.Runtime.Serialization;
 
 namespace Application
 {
-    public class Integration : IWebSiteIntegration
+    public class DownloadDataWWW
     {
-        public WebPage WebPage { get; }
-        public IDumpsRepository DumpsRepository { get; }
-        public IEqualityComparer<Entry> EntriesComparer { get; }
-        public Integration(IDumpsRepository dumpsRepository,
-            IEqualityComparer<Entry> equalityComparer)
+        public string GetOfferString(string strona)
         {
-            DumpsRepository = dumpsRepository;
-            EntriesComparer = equalityComparer;
-            WebPage = new WebPage
-            {
-                Url = "https://odwlasciciela.pl",
-                Name = "Od Właściciela",
-                WebPageFeatures = new WebPageFeatures
-                {
-                    HomeSale = false,
-                    HomeRental = false,
-                    HouseSale = false,
-                    HouseRental = false
-                }
-            };
-        }
-
-        public Dump GenerateDump()
-        {
-            
-            List<Entry> listOfEntrys = new List<Entry>();
-            listOfEntrys = GenerateDumpLogic(listOfEntrys, 1); //pobranie kupno
-            listOfEntrys = GenerateDumpLogic(listOfEntrys, 2); //pobranie sprzedaż
-
-            Dump dataFromPage = new Dump();
-
-            dataFromPage.DateTime = DateTime.Now;
-            dataFromPage.WebPage = WebPage;
-            dataFromPage.Entries = listOfEntrys;
-            
-
-            return dataFromPage;
-        }
-
-        public List<Entry> GenerateDumpLogic(List<Entry> listOfEntrys, int offerType)
-        {
-            //Tutaj w normalnej sytuacji musimy ściągnąć dane z konkretnej strony, przeparsować je i dopiero wtedy zapisać do modelu Dump
-
-            WebClient client = new WebClient();
-
-            bool offers = true;
-            int pageParameter = 0;
-
-            while (offers == true)
-            {
-                string page = "";
-
-                if (offerType == 1)
-                    page = "https://odwlasciciela.pl/mieszkania/sprzedaz.html?offset=";
-                if (offerType == 2)
-                    page = "https://odwlasciciela.pl/mieszkania/wynajem.html?room_to=20&offset=";
-
-                var sourcePageStringTMP = client.DownloadData(page + pageParameter.ToString());
-                string sourcePageString = Encoding.UTF8.GetString(sourcePageStringTMP);
-
-                var neededNodes = new HtmlDocument();
-                neededNodes.LoadHtml(sourcePageString);
-                if (neededNodes.DocumentNode.SelectNodes("//article") != null)
-                {
-                    var article = neededNodes.DocumentNode.SelectNodes("//article");
-                    foreach (var node in article)
-                    {
-                        var nodeFromNeededNodes = new HtmlDocument();
-                        nodeFromNeededNodes.LoadHtml(node.InnerHtml);
-                        var span = nodeFromNeededNodes.DocumentNode.SelectNodes("//a[@href]");
-
-                        Flat f = new Flat();
-
-                        foreach (var s in span)
-                        {
-                            string domain = "https://odwlasciciela.pl";
-                            string hrefValue = s.GetAttributeValue("href", string.Empty);
-                            f = new DownloadDataWWW().GetDataWWW(domain + hrefValue, offerType, new DownloadDataWWW().GetOfferString(domain + hrefValue));
-                                //(domain + hrefValue, offerType);
-
-                            //--------------------------Entry--------------------------------
-                            Entry entry = new Entry();
-
-                            //###############################################
-                            entry.PropertyAddress = new PropertyAddress();
-
-                            f.gmina = rmPLfromstring(f.gmina);
-                            try
-                            {
-                                entry.PropertyAddress.City = (PolishCity)Enum.Parse(typeof(PolishCity), f.gmina, true);
-                            }
-                            catch
-                            {
-                                //Brak miasta w PolishCity
-                            }
-                            entry.PropertyAddress.District = f.dzielnicaWies;
-                            entry.PropertyAddress.StreetName = f.ulica;
-                            entry.PropertyAddress.DetailedAddress = f.ulica;
-
-                            //################################################
-                            entry.PropertyFeatures = new PropertyFeatures();
-                            if (f.pomieszczeniaDodatkowe.Contains("ogródek"))
-                                entry.PropertyFeatures.GardenArea = 10; //w ofertach brak powieżchni ogródka
-                            if (f.pomieszczeniaDodatkowe.Contains("balkon"))
-                                entry.PropertyFeatures.Balconies = 1;
-                            if (f.pomieszczeniaDodatkowe.Contains("komórka") | f.pomieszczeniaDodatkowe.Contains("piwnica"))
-                                entry.PropertyFeatures.BasementArea = 5; //w ofertach brak powieżchni piwnicy komórki
-                            if (f.pomieszczeniaDodatkowe.Contains("miejsce parkingowe"))
-                                entry.PropertyFeatures.OutdoorParkingPlaces = 1;
-                            if (f.pomieszczeniaDodatkowe.Contains("garaże"))
-                                entry.PropertyFeatures.IndoorParkingPlaces = 1;
-                            //################################################
-                            entry.OfferDetails = new OfferDetails();
-
-                            entry.OfferDetails.Url = f.link;
-                            entry.OfferDetails.IsStillValid = true;
-                            if (offerType == 1)
-                                entry.OfferDetails.OfferKind = OfferKind.SALE;
-                            if (offerType == 2)
-                                entry.OfferDetails.OfferKind = OfferKind.RENTAL;
-                            //################################################
-                            entry.PropertyDetails = new PropertyDetails();
-
-                            entry.PropertyDetails.Area = f.powierzchnia;
-                            entry.PropertyDetails.NumberOfRooms = f.liczbaPokoi;
-                            entry.PropertyDetails.FloorNumber = f.pietro;
-                            entry.PropertyDetails.YearOfConstruction = f.rokBudowy;
-                            //################################################
-                            entry.PropertyPrice = new PropertyPrice();
-
-                            entry.PropertyPrice.TotalGrossPrice = f.cena;
-                            entry.PropertyPrice.PricePerMeter = f.cena_m2;
-                            if (offerType == 1)
-                                entry.PropertyPrice.ResidentalRent = f.wysokoscCzynszu;
-                            if (offerType == 2)
-                                entry.PropertyPrice.ResidentalRent = f.cena;
-                            //################################################
-                            entry.OfferDetails.SellerContact = new SellerContact();
-
-                            entry.OfferDetails.SellerContact.Telephone = f.telefon;
-                            //################################################
-                            entry.RawDescription = f.pageData;
-
-                            listOfEntrys.Add(entry);
-                        }
-                    }
-
-                    pageParameter += 20;
-                }
-                else
-                    offers = false;
-            }
-
-            Dump dataFromPage = new Dump();
-
-            dataFromPage.DateTime = DateTime.Now;
-            dataFromPage.WebPage = WebPage;
-            dataFromPage.Entries = listOfEntrys;
-
-            return listOfEntrys;
-        }
-        /*
-        Flat DownloadDataWWW(string strona, int offerType)
-        {
-            Flat f = new Flat();
             WebClient client = new WebClient();
             var sourcePageStringTMP = client.DownloadData(strona);
             string sourcePageString = Encoding.UTF8.GetString(sourcePageStringTMP);
+
+            return sourcePageString;
+        }
+        public Flat GetDataWWW(string strona, int offerType, string sourcePageString)
+        {
+            Flat f = new Flat();
+           
 
             var siteFlat = new HtmlDocument();
             siteFlat.LoadHtml(sourcePageString); //HTML strony
@@ -211,7 +55,7 @@ namespace Application
 
             return f;
         }
-        
+
         int DownloadPrice(HtmlDocument siteFlat)
         {
             int price;
@@ -515,21 +359,6 @@ namespace Application
             }
 
             return f;
-        }
-        */
-        public string rmPLfromstring(string tmp)
-        {
-            tmp = tmp.ToLower();
-            tmp = tmp.Replace("ą", "a");
-            tmp = tmp.Replace("ć", "c");
-            tmp = tmp.Replace("ę", "e");
-            tmp = tmp.Replace("ł", "l");
-            tmp = tmp.Replace("ń", "n");
-            tmp = tmp.Replace("ó", "o");
-            tmp = tmp.Replace("ś", "s");
-            tmp = tmp.Replace("ź", "z");
-            tmp = tmp.Replace("ż", "z");
-            return tmp;
         }
     }
 }

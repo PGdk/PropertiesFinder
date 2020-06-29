@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 using DatabaseConnection;
 using Application;
 using System.Data.Entity;
+using System.Data.SqlClient;
 
 namespace IntegrationApi.DataReposytory
 {
     public class InterfaceImplementation : IRepo
     {
-
         public string GetInfo()
         {
             string ret = "connectionString" + ":" + @"Data Source =.\SQLEXPRESS; Initial Catalog=MikolajP158074; Integrated Security=SSPI" + "," +
@@ -20,7 +20,6 @@ namespace IntegrationApi.DataReposytory
                 ""  + "studentIndex" + ":" + "158074";
             return ret;
         }
-
         public int LoadPage(int pageNumber)
         {
             int loadOK;
@@ -42,30 +41,25 @@ namespace IntegrationApi.DataReposytory
            List<EntryDB> entry = new List<EntryDB>();
             var context = new EntryContexst();
             
-
-            /*
-                foreach (EntryDB ent in context.Entries)
-                {
-                    entry.Add(ent);
-                }
-            */
             if (pageLimit != 0 && pageID != 0)
-                ///entry = entry.GetRange (((pageLimit * pageID) - pageLimit), pageLimit);
                 entry = context.Entries.OrderBy(e => e.ID).Skip(pageLimit * (pageID - 1)).Take(pageLimit).ToList();
             else
                 entry = context.Entries.ToList();
-
             return entry;
         }
-        /*
-        public IEnumerable<EntryDB> GetEntries()
+
+        public IEnumerable<EntryDB> GetBestOffers(string districtName)
         {
-
-
-
-            throw new NotImplementedException();
+            //zwraca 5 najtańszych ofert za m2 w podanej getem dzielnicy (propozycja 1 z polecenia projektowego)
+            //jesli nie można pobrac 5 ofert zwraca null
+            List<EntryDB> entry = new List<EntryDB>();
+            var context = new EntryContexst();
+            entry = context.Entries.Where(e => e.PropertyAddress.District == districtName).OrderBy(e => e.PropertyPrice.PricePerMeter).ToList();
+            if (entry.Count() < 5)
+            {
+                return null;
+            }
+            return entry.GetRange(0,5);
         }
-        */
-
     }
 }

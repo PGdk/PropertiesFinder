@@ -13,5 +13,6 @@ namespace IntegrationApi.DataReposytory
         EntryDB GetEntry(int id);
         int LoadPage(int page);
         IEnumerable<EntryDB> GetEntrys(int pageLimit, int pageID);
+        IEnumerable<EntryDB> GetBestOffers(string districtName);
     }
 }
